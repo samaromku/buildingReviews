@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BuildingReviews</string>
+    <string name="search_text">Введите название компании</string>
+</resources>
