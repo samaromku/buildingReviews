@@ -28,9 +28,10 @@ class SearchAdapter(dataList: MutableList<Company>,
         override fun bind(t: Company, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
             tvTitle.text = t.title
+            tvDescription.text = t.description
 
             Picasso.get().load(t.urlImage)
-                    .transform(CircleTransform())
+//                    .transform(CircleTransform())
                     .into(ivLogo)
         }
     }

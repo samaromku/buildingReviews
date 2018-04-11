@@ -4,12 +4,15 @@ import android.R
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.app.Service
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatSpinner
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
 
@@ -147,5 +150,16 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
         if(!setSelectedNothing) {
             spinner.setSelection(0)
         }
+    }
+
+    fun hideKeyboard(context: Context, editText: EditText) {
+        val imm = context.getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(editText.windowToken, 0)
+    }
+
+    fun showKeyboard(context: Context, editText: EditText) {
+        editText.requestFocus()
+        val keyboard = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        keyboard.showSoftInput(editText, 0)
     }
 }
