@@ -19,7 +19,10 @@ import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.view.CircleTransform
 import android.support.annotation.NonNull
 import android.support.design.widget.BottomNavigationView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
+import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 
 
 class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
@@ -58,6 +61,12 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
         rvCompanies.layoutManager = LinearLayoutManager(this)
         rvCompanies.adapter = adapter
         ivBack.setOnClickListener { backClick() }
+
+//        NetworkHandler.getService().getPosts()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({response -> println("response $response")},
+//                        {t -> t.printStackTrace()})
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
