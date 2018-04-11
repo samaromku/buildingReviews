@@ -1,5 +1,6 @@
 package ru.andrey.savchenko.buildingreviews.activities.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -16,6 +17,10 @@ import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.view.CircleTransform
+import android.support.annotation.NonNull
+import android.support.design.widget.BottomNavigationView
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
+
 
 class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
     val TAG = SearchActivity::class.java.simpleName
@@ -75,7 +80,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
     }
 
     override fun onclick(position: Int) {
-        Log.i(TAG, position.toString())
+        startActivity(Intent(this, OneCompanyActivity::class.java))
     }
 
     private fun backClick() {
