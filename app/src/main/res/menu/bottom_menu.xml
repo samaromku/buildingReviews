@@ -2,27 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_info"
         android:enabled="true"
-        android:icon="@drawable/ic_arrow_back"
-        android:title="Информация"
+        android:icon="@drawable/ic_info"
+        android:title="@string/info"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_schedules"
+        android:id="@+id/action_reviews"
         android:enabled="true"
-        android:icon="@drawable/ic_arrow_back"
-        android:title="Отзывы"
+        android:icon="@drawable/ic_rate_review"
+        android:title="@string/reviews"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_music"
+        android:id="@+id/action_projects"
         android:enabled="true"
-        android:icon="@drawable/ic_arrow_back"
-        android:title="Проекты"
+        android:icon="@drawable/ic_projects"
+        android:title="@string/projects"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/add_new"
+        android:id="@+id/add_review"
         android:enabled="true"
-        android:icon="@drawable/ic_arrow_back"
-        android:title="Добавить отзыв"
+        android:icon="@drawable/ic_review_add"
+        android:title="@string/add_review"
         app:showAsAction="ifRoom" />
 </menu>

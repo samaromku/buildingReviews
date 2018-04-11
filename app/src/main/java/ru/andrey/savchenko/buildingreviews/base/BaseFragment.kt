@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 /**
  * Created by savchenko on 18.02.18.
  */
-class BaseFragment : Fragment(){
+open class BaseFragment : Fragment(){
 
     protected fun setToolbarTitle(title: String) {
         val actionBar = (activity as AppCompatActivity).supportActionBar

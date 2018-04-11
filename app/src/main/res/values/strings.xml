@@ -2,4 +2,8 @@
     <string name="app_name">BuildingReviews</string>
     <string name="search_text">Введите название компании</string>
     <string name="search">Поиск</string>
+    <string name="add_review">Добавить отзыв</string>
+    <string name="projects">Проекты</string>
+    <string name="reviews">Отзывы</string>
+    <string name="info">Информация</string>
 </resources>
