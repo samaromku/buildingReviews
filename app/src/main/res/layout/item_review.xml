@@ -1,11 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
 
     <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:id="@+id/tvPositiveText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/positive"
+        android:textColor="@color/green"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvPositive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:maxLines="2"
+        app:layout_constraintEnd_toStartOf="@+id/tvPeopleLikes"
+        app:layout_constraintTop_toBottomOf="@+id/tvPositiveText"
+        tools:text="asdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdask" />
+
+    <TextView
+        android:id="@+id/tvNegativeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/negative"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/tvPositive" />
+
+    <TextView
+        android:id="@+id/tvNegative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:maxLines="2"
+        app:layout_constraintEnd_toStartOf="@+id/tvPeopleLikes"
+        app:layout_constraintTop_toBottomOf="@+id/tvNegativeText"
+        tools:text="asdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdask" />
+
+
+    <TextView
+        android:id="@+id/tvGeneralEmotionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/general_emotion"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/tvNegative" />
+
+    <TextView
+        android:id="@+id/tvGeneralEmotion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:maxLines="2"
+        app:layout_constraintEnd_toStartOf="@+id/tvPeopleLikes"
+        app:layout_constraintTop_toBottomOf="@+id/tvGeneralEmotionText"
+        tools:text="asdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdask" />
+
+    <ImageView
+        android:id="@+id/ivRatingUp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_arrow_up"
+        app:layout_constraintBottom_toTopOf="@+id/tvPeopleLikes"
+        app:layout_constraintEnd_toEndOf="@+id/tvPeopleLikes" />
+
+    <TextView
+        android:id="@+id/tvPeopleLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="67dp"
+        tools:text="123" />
+
+
+    <ImageView
+        android:id="@+id/ivRatingDown"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_arrow_down"
+        app:layout_constraintEnd_toEndOf="@+id/tvPeopleLikes"
+        app:layout_constraintTop_toBottomOf="@+id/tvPeopleLikes" />
+
+    <TextView
+        android:id="@+id/tvCreatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGeneralEmotion"
+        tools:text="Test alex" />
+
+    <TextView
+        android:id="@+id/tvCreateDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGeneralEmotion"
+        tools:text="2018.12.12" />
+
 
 </android.support.constraint.ConstraintLayout>

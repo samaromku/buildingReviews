@@ -10,4 +10,7 @@
     <string name="address">Адрес:</string>
     <string name="site">Сайт:</string>
     <string name="description">Описание:</string>
+    <string name="positive">Положительные стороны:</string>
+    <string name="general_emotion">Общее впечатление:</string>
+    <string name="negative">Отрицательные стороны:</string>
 </resources>
