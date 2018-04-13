@@ -7,9 +7,9 @@ import java.util.*
  */
 data class Review(
         val id: Int,
-        val title: String,
         val description: String,
         val rating:Int,
+        val peopleLike:Int,
         val creatorId:Int,
         val created:Date
 )
