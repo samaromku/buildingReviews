@@ -30,8 +30,6 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
         supportActionBar?.setDisplayShowHomeEnabled(true);
     }
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setDialogTitleAndText("Загрузка данных", "Ожидайте")

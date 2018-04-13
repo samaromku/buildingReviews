@@ -10,6 +10,7 @@ import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Company
+import ru.andrey.savchenko.buildingreviews.network.NetworkHandler.BASE_HOST_INNER
 
 
 /**
@@ -29,7 +30,7 @@ class SearchAdapter(dataList: MutableList<Company>,
             tvTitle.text = t.title
             tvDescription.text = t.description
 
-            Picasso.get().load(t.imageUrl)
+            Picasso.get().load(BASE_HOST_INNER + "/images/" + t.imageUrl)
 //                    .transform(CircleTransform())
                     .into(ivLogo)
         }

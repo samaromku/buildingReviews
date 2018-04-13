@@ -8,4 +8,5 @@ import ru.andrey.savchenko.buildingreviews.entities.Company
  */
 interface SearchView:BaseView {
     fun setListToAdapter(list:MutableList<Company>)
+    fun startOneCompanyActivity(id:Int)
 }

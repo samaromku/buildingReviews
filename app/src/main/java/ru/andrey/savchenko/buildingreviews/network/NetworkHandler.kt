@@ -15,7 +15,7 @@ import com.google.gson.Gson
  * Created by savchenko on 11.04.18.
  */
 object NetworkHandler {
-    private val BASE_HOST_INNER = "http://10.0.2.2:8666"//mine computer emulator
+    val BASE_HOST_INNER = "http://10.0.2.2:8666"//mine computer emulator
 
     fun getService(): BuildingService {
         val client: OkHttpClient = OkHttpClient

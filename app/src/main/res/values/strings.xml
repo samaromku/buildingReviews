@@ -6,4 +6,8 @@
     <string name="projects">Проекты</string>
     <string name="reviews">Отзывы</string>
     <string name="info">Информация</string>
+    <string name="phone">Телефон:</string>
+    <string name="address">Адрес:</string>
+    <string name="site">Сайт:</string>
+    <string name="description">Описание:</string>
 </resources>

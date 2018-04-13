@@ -14,6 +14,7 @@ import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
+import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
 
 
 class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
@@ -26,7 +27,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
         setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
 
-        presenter.getCompanyList()
+        presenter.corCompanyList()
         ivBack.setOnClickListener { backClick() }
     }
 
@@ -59,7 +60,12 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
     }
 
     override fun onclick(position: Int) {
-        startActivity(Intent(this, OneCompanyActivity::class.java))
+        presenter.clickOnPosition(position)
+    }
+
+    override fun startOneCompanyActivity(id: Int) {
+        startActivity(Intent(this, OneCompanyActivity::class.java)
+                .putExtra(COMPANY_ID, id))
     }
 
     private fun backClick() {

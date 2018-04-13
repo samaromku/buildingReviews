@@ -5,10 +5,10 @@ import kotlinx.android.synthetic.main.activity_one_company.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
-import ru.andrey.savchenko.buildingreviews.fragments.AddReviewFragment
-import ru.andrey.savchenko.buildingreviews.fragments.InfoCompanyFragment
-import ru.andrey.savchenko.buildingreviews.fragments.ProjectsFragment
-import ru.andrey.savchenko.buildingreviews.fragments.ReviewsFragment
+import ru.andrey.savchenko.buildingreviews.fragments.addreview.AddReviewFragment
+import ru.andrey.savchenko.buildingreviews.fragments.info.InfoCompanyFragment
+import ru.andrey.savchenko.buildingreviews.fragments.projects.ProjectsFragment
+import ru.andrey.savchenko.buildingreviews.fragments.reviews.ReviewsFragment
 
 /**
  * Created by savchenko on 11.04.18.
@@ -19,6 +19,7 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
         setContentView(R.layout.activity_one_company)
 
         initBackButton()
+
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
