@@ -1,4 +1,4 @@
-package ru.andrey.savchenko.buildingreviews.activities.search
+package ru.andrey.savchenko.buildingreviews.review
 
 import com.arellomobile.mvp.InjectViewState
 import kotlinx.coroutines.experimental.CommonPool
@@ -7,25 +7,23 @@ import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Response
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
-import ru.andrey.savchenko.buildingreviews.entities.Company
+import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 
 /**
- * Created by savchenko on 10.04.18.
+ * Created by Andrey on 13.04.2018.
  */
 @InjectViewState
-class SearchPresenter : BasePresenter<SearchView>() {
-    val interActor = SearchInterActor()
-    var list: MutableList<Company>? = null
+class ReviewPresenter: BasePresenter<ReviewView>() {
+    var list: MutableList<Review>? = null
 
-
-    fun corCompanyList() {
-        launch(UI) {
+    fun getReviews(companyId:Int){
+        launch(UI){
             viewState.showDialog()
-            var result: Response<List<Company>>? = null
+            var result: Response<List<Review>>? = null
             try {
                 result = async(CommonPool) {
-                    NetworkHandler.getService().corGetCompanies().execute()
+                    NetworkHandler.getService().getReviewsByCompanyId(companyId).execute()
                 }.await()
             } catch (ex: Exception) {
                 ex.printStackTrace()
@@ -37,16 +35,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
             }
             viewState.hideDialog()
         }
-    }
 
-    fun clickOnPosition(position: Int) {
-        list?.get(position)?.id?.let { viewState.startOneCompanyActivity(it) }
-    }
 
-    fun getCompanyList() {
-        interActor.getCompanyList()
-                .compose(DialogTransformer())
-                .subscribe({ list -> viewState.setListToAdapter(list) },
-                        { t -> t.printStackTrace() })
     }
 }

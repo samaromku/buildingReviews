@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.andrey.savchenko.buildingreviews.entities.Company
+import ru.andrey.savchenko.buildingreviews.entities.Review
 
 /**
  * Created by savchenko on 11.04.18.
@@ -19,6 +20,8 @@ interface BuildingService {
     @GET("/mobile/getCompany")
     fun getCompany(@Query("id")id:Int):Call<Company>
 
+    @GET("/mobile/getReviewsByCompanyId")
+    fun getReviewsByCompanyId(@Query("companyId")companyId:Int):Call<List<Review>>
 
 }
 
