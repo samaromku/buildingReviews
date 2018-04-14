@@ -14,6 +14,7 @@ import ru.andrey.savchenko.buildingreviews.entities.Review
  * Created by Andrey on 13.04.2018.
  */
 class ReviewAdapter(list:MutableList<Review>, onItemClickListener: OnItemClickListener) : BaseAdapter<Review>(list, onItemClickListener) {
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<Review> {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_review, parent, false)
         return ReviewViewHolder(view)
@@ -22,7 +23,11 @@ class ReviewAdapter(list:MutableList<Review>, onItemClickListener: OnItemClickLi
     class ReviewViewHolder(itemView: View) : BaseViewHolder<Review>(itemView) {
         override fun bind(t: Review, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
-            tvDescription.text = t.description
+            tvPositive.text = t.positive
+            tvNegative.text = t.negative
+            tvGeneralEmotion.text = t.general
+            tvCreateDate.text = t.created
+            tvPeopleLikes.text = t.peopleLike
         }
     }
 }

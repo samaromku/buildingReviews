@@ -5,7 +5,10 @@ package ru.andrey.savchenko.buildingreviews.entities
  */
 data class Review(
         val id: Int,
-        val description: String,
+        val companyId:Int,
+        val positive:String? = "",
+        val negative:String? = "",
+        val general:String? = "",
         val rating:Int,
         val peopleLike:String,
         val creatorId:Int,
