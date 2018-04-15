@@ -1,4 +1,4 @@
-package ru.andrey.savchenko.buildingreviews.review
+package ru.andrey.savchenko.buildingreviews.fragments.review
 
 import ru.andrey.savchenko.buildingreviews.base.BaseView
 import ru.andrey.savchenko.buildingreviews.entities.Review

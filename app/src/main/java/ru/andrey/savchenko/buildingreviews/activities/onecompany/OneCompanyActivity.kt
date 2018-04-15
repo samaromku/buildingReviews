@@ -5,12 +5,10 @@ import kotlinx.android.synthetic.main.activity_one_company.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
-import ru.andrey.savchenko.buildingreviews.review.ReviewsFragment
-
-//import ru.andrey.savchenko.buildingreviews.fragments.addreview.AddReviewFragment
-//import ru.andrey.savchenko.buildingreviews.fragments.info.InfoCompanyFragment
-//import ru.andrey.savchenko.buildingreviews.fragments.projects.ProjectsFragment
-//import ru.andrey.savchenko.buildingreviews.fragments.reviews.ReviewsFragment
+import ru.andrey.savchenko.buildingreviews.fragments.addreview.AddReviewFragment
+import ru.andrey.savchenko.buildingreviews.fragments.info.InfoCompanyFragment
+import ru.andrey.savchenko.buildingreviews.fragments.projects.ProjectsFragment
+import ru.andrey.savchenko.buildingreviews.fragments.review.ReviewsFragment
 
 /**
  * Created by savchenko on 11.04.18.
@@ -26,16 +24,16 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_info -> {
-//                    replaceFragment(InfoCompanyFragment(), "info")
+                    replaceFragment(InfoCompanyFragment(), "info")
                 }
                 R.id.action_reviews -> {
                     replaceFragment(ReviewsFragment(), "reviews")
                 }
                 R.id.action_projects -> {
-//                    replaceFragment(ProjectsFragment(), "projects")
+                    replaceFragment(ProjectsFragment(), "projects")
                 }
                 R.id.add_review -> {
-//                    replaceFragment(AddReviewFragment(), "add_review")
+                    replaceFragment(AddReviewFragment(), "add_review")
                 }
             }
             true

@@ -1,4 +1,4 @@
-package ru.andrey.savchenko.buildingreviews.review
+package ru.andrey.savchenko.buildingreviews.fragments.review
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
