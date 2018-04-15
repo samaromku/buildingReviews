@@ -23,6 +23,27 @@ class ReviewAdapter(list:MutableList<Review>, onItemClickListener: OnItemClickLi
     class ReviewViewHolder(itemView: View) : BaseViewHolder<Review>(itemView) {
         override fun bind(t: Review, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
+            if(t.positive == null || t.positive.isEmpty()){
+                tvPositiveText.visibility=View.GONE
+                tvPositive.visibility = View.GONE
+            }else {
+                tvPositiveText.visibility=View.VISIBLE
+                tvPositive.visibility=View.VISIBLE
+            }
+            if(t.negative == null || t.negative.isEmpty()){
+                tvNegativeText.visibility=View.GONE
+                tvNegative.visibility=View.GONE
+            }else {
+                tvNegativeText.visibility=View.VISIBLE
+                tvNegative.visibility=View.VISIBLE
+            }
+            if(t.general == null || t.general.isEmpty()){
+                tvGeneralEmotionText.visibility=View.GONE
+                tvGeneralEmotion.visibility=View.GONE
+            }else {
+                tvGeneralEmotionText.visibility=View.VISIBLE
+                tvGeneralEmotion.visibility=View.VISIBLE
+            }
             tvPositive.text = t.positive
             tvNegative.text = t.negative
             tvGeneralEmotion.text = t.general
