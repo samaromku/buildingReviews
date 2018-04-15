@@ -1,11 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/nav_bottom_height"
+    android:orientation="vertical">
+
 
     <TextView
+        android:id="@+id/tvRating"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/add_review"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="5 из 10" />
 
-</android.support.constraint.ConstraintLayout>
+    <RatingBar
+        android:id="@+id/rbRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numStars="5"
+        android:stepSize="0.5" />
+
+    <EditText
+        android:id="@+id/etPositive"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/edit_text_round"
+        android:gravity="top"
+        android:hint="@string/positive"
+        android:inputType="textMultiLine"
+        android:padding="8dp"
+        android:theme="@style/CustomEditTextTheme" />
+
+
+    <EditText
+        android:id="@+id/etNegative"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/edit_text_round"
+        android:gravity="top"
+        android:hint="@string/negative"
+        android:inputType="textMultiLine"
+        android:padding="8dp"
+        android:theme="@style/CustomEditTextTheme" />
+
+
+    <EditText
+        android:id="@+id/etGeneral"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/edit_text_round"
+        android:gravity="top"
+        android:hint="@string/general_emotion"
+        android:inputType="textMultiLine"
+        android:padding="8dp"
+        android:theme="@style/CustomEditTextTheme" />
+
+
+</LinearLayout>
+
+    <!--<android.support.design.widget.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/fab"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_gravity="bottom|end"--><!--android:layout_margin="32dp"--><!--app:srcCompat="@drawable/ic_done_all" />-->
