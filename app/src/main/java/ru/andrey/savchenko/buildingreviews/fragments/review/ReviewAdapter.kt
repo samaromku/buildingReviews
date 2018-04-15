@@ -49,7 +49,7 @@ class ReviewAdapter(list: MutableList<Review>, onItemClickListener: OnItemClickL
             tvNegative.text = t.negative
             tvGeneralEmotion.text = t.general
             tvCreateDate.text = t.created
-            tvPeopleLikes.text = t.peopleLike + t.like.value
+            tvPeopleLikes.text = (t.peopleLike + t.like.value).toInt().toString()
 
             ivRatingUp.setOnClickListener {
                 tvPeopleLikes.text = (tvPeopleLikes.text.toString().toInt()

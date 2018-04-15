@@ -34,6 +34,7 @@ class ReviewPresenter: BasePresenter<ReviewView>() {
                     viewState.setNoReviewsVisible()
                     return@let
                 }
+                it.sortByDescending { it.created }
                 viewState.setListToAdapter(it)
                 list = it
             }

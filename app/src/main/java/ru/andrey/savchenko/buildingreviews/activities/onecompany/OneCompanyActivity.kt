@@ -46,6 +46,10 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
     }
 
     private fun replaceFragment(baseFragment: BaseFragment, tag: String) {
+        val currentFragment = supportFragmentManager.findFragmentByTag(tag)
+        if(currentFragment!=null && currentFragment.isVisible){
+            return
+        }
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction
                 .replace(R.id.container, baseFragment, tag)
