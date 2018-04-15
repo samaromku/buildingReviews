@@ -9,6 +9,7 @@ import retrofit2.Response
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
+import java.util.ArrayList
 
 /**
  * Created by savchenko on 10.04.18.
@@ -16,7 +17,8 @@ import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 @InjectViewState
 class SearchPresenter : BasePresenter<SearchView>() {
     val interActor = SearchInterActor()
-    var list: MutableList<Company>? = null
+    var allCompanies: MutableList<Company>? = null
+    val currentCompanies:MutableList<Company> = mutableListOf()
 
 
     fun corCompanyList() {
@@ -33,14 +35,15 @@ class SearchPresenter : BasePresenter<SearchView>() {
             }
             result?.body()?.toMutableList()?.let {
                 viewState.setListToAdapter(it)
-                list = it
+                allCompanies = it
+                currentCompanies.addAll(it)
             }
             viewState.hideDialog()
         }
     }
 
     fun clickOnPosition(position: Int) {
-        list?.get(position)?.id?.let { viewState.startOneCompanyActivity(it) }
+        currentCompanies.get(position).id.let { viewState.startOneCompanyActivity(it) }
     }
 
     fun getCompanyList() {
@@ -48,5 +51,43 @@ class SearchPresenter : BasePresenter<SearchView>() {
                 .compose(DialogTransformer())
                 .subscribe({ list -> viewState.setListToAdapter(list) },
                         { t -> t.printStackTrace() })
+    }
+
+    fun searchedList(searchString: String) {
+        if (searchString.isEmpty()) {
+            currentCompanies.clear()
+            allCompanies?.let { currentCompanies.addAll(it) }
+            viewState.setListToAdapter(currentCompanies)
+            return
+        } else {
+            val words = searchString.split(" ")
+
+            currentCompanies.clear()
+            allCompanies?.let { currentCompanies.addAll(it) }
+
+            for (word in words) {
+                val tasks = ArrayList<Company>()
+                for (task in currentCompanies) {
+                    val sb = StringBuilder()
+                    if (task.title != null) {
+                        sb.append(task.title.toLowerCase())
+                    }
+                    if (task.address != null) {
+                        sb.append(" ")
+                        sb.append(task.address.toLowerCase())
+                    }
+                    if (task.title != null && task.address != null) {
+                        val bodyAddress = sb.toString()
+                        if (bodyAddress.contains(word.toLowerCase())) {
+                            tasks.add(task)
+                        }
+                    }
+
+                }
+                currentCompanies.clear()
+                currentCompanies.addAll(tasks)
+            }
+            viewState.setListToAdapter(currentCompanies)
+        }
     }
 }

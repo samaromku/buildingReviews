@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BuildingReviews</string>
+    <string name="app_name">Застройщики</string>
     <string name="search_text">Введите название компании</string>
     <string name="search">Поиск</string>
     <string name="add_review">Добавить отзыв</string>

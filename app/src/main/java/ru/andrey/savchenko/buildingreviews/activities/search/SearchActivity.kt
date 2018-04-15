@@ -7,6 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.jakewharton.rxbinding2.widget.RxTextView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.toolbar.*
 import ru.andrey.savchenko.buildingreviews.R
@@ -15,6 +18,8 @@ import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
+import java.util.concurrent.TimeUnit
+import java.util.function.Consumer
 
 
 class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
@@ -27,10 +32,19 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
         setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
 
+        RxTextView.textChanges(etSearch)
+                .debounce(1000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ text -> presenter.searchedList(text.toString()) },
+                        { it.printStackTrace() })
+
         presenter.corCompanyList()
         ivBack.setOnClickListener { backClick() }
+        ivClose.setOnClickListener {
+            etSearch.setText("")
+        }
     }
-
 
 
     override fun setListToAdapter(list: MutableList<Company>) {
@@ -46,8 +60,10 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.action_search -> {openToolbarSearch()}
+        when (item?.itemId) {
+            R.id.action_search -> {
+                openToolbarSearch()
+            }
 
         }
         return super.onOptionsItemSelected(item)
@@ -79,7 +95,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
             toolbar.visibility = View.VISIBLE
             search_toolbar.visibility = View.GONE
             hideKeyboard(this, findViewById(R.id.etSearch))
-        }else {
+        } else {
             super.onBackPressed()
         }
     }
