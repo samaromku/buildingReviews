@@ -1,12 +1,12 @@
-package ru.andrey.savchenko.buildingreviews.entities
+package entities
 
-/**
- * Created by savchenko on 10.04.18.
- */
-data class Building (
-        val id:Int,
-        val title:String,
-        val description:String,
-        val lat:Double,
-        val lng:Double
+data class Building(
+        val id: Int,
+        val imageUrl: String,
+        val title: String,
+        val address: String,
+        val classBuilding: String,
+        val dateBuilding: String,
+        val priceBuilding: String,
+        val companyId:Int
 )

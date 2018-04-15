@@ -28,6 +28,7 @@ class InfoPresenter:BasePresenter<InfoView>() {
                 viewState.showError(ex.message.toString())
             }
             result?.body()?.let {
+                viewState.setToolbarText(it.title)
                 viewState.setSite(it.siteUrl)
                 viewState.setDescription(it.description)
                 viewState.setPhone(it.phone)

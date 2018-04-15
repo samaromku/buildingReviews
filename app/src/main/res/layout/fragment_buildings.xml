@@ -5,18 +5,8 @@
     android:layout_marginBottom="@dimen/nav_bottom_height">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvReviews"
+        android:id="@+id/rvBuildings"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <TextView
-        android:id="@+id/tvNoReviews"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="@string/no_reviews"
-        android:textSize="25sp"
-        android:visibility="gone" />
 
 </android.support.constraint.ConstraintLayout>

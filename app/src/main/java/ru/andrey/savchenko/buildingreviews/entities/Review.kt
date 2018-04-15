@@ -12,5 +12,6 @@ data class Review(
         val rating:Int,
         val peopleLike:String,
         val creatorId:Int,
-        val created:String
+        val created:String,
+        val like:Like = Like(id, 0)
 )

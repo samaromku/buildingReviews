@@ -1,5 +1,6 @@
 package ru.andrey.savchenko.buildingreviews.network
 
+import entities.Building
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
@@ -22,6 +23,9 @@ interface BuildingService {
 
     @GET("/mobile/getReviewsByCompanyId")
     fun getReviewsByCompanyId(@Query("companyId")companyId:Int):Call<List<Review>>
+
+    @GET("/mobile/getBuildingsByCompanyId")
+    fun getBuildingsByCompanyId(@Query("companyId")companyId:Int):Call<List<Building>>
 
 }
 

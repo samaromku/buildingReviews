@@ -13,4 +13,8 @@
     <string name="positive">Положительные стороны:</string>
     <string name="general_emotion">Общее впечатление:</string>
     <string name="negative">Отрицательные стороны:</string>
+    <string name="no_reviews">Отзывов пока нет, вы можете оставить первый</string>
+    <string name="date_done">Сдача</string>
+    <string name="price">Цена</string>
+    <string name="class_building">Класс</string>
 </resources>

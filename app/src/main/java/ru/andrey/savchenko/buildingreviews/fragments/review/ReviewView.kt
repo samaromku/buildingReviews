@@ -8,4 +8,5 @@ import ru.andrey.savchenko.buildingreviews.entities.Review
  */
 interface ReviewView:BaseView {
     fun setListToAdapter(list:MutableList<Review>)
+    fun setNoReviewsVisible()
 }

@@ -29,6 +29,10 @@ class InfoCompanyFragment:BaseFragment(), InfoView{
         presenter.getInfoCompany(activity.intent.getIntExtra(Const.COMPANY_ID, 0))
     }
 
+    override fun setToolbarText(text: String) {
+        setToolbarTitle(text)
+    }
+
     override fun setLogo(text: String) {
         Picasso.get()
                 .load(getImageFullUrl(text))

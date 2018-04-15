@@ -39,4 +39,8 @@ class ReviewsFragment:BaseFragment(), ReviewView {
         rvReviews.layoutManager = LinearLayoutManager(activity)
         rvReviews.adapter = adapter
     }
+
+    override fun setNoReviewsVisible() {
+        tvNoReviews.visibility = View.VISIBLE
+    }
 }

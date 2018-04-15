@@ -7,7 +7,7 @@ import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 import ru.andrey.savchenko.buildingreviews.fragments.addreview.AddReviewFragment
 import ru.andrey.savchenko.buildingreviews.fragments.info.InfoCompanyFragment
-import ru.andrey.savchenko.buildingreviews.fragments.projects.ProjectsFragment
+import ru.andrey.savchenko.buildingreviews.fragments.buildings.BuildingsFragment
 import ru.andrey.savchenko.buildingreviews.fragments.review.ReviewsFragment
 
 /**
@@ -30,7 +30,7 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
                     replaceFragment(ReviewsFragment(), "reviews")
                 }
                 R.id.action_projects -> {
-                    replaceFragment(ProjectsFragment(), "projects")
+                    replaceFragment(BuildingsFragment(), "projects")
                 }
                 R.id.add_review -> {
                     replaceFragment(AddReviewFragment(), "add_review")

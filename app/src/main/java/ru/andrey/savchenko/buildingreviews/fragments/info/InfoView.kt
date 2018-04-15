@@ -11,4 +11,5 @@ interface InfoView:BaseView {
     fun setAddress(text:String)
     fun setSite(text:String)
     fun setDescription(text:String)
+    fun setToolbarText(text:String)
 }

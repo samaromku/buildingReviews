@@ -10,5 +10,9 @@ class Utils {
         fun getImageFullUrl(url:String):String{
             return NetworkHandler.BASE_HOST_INNER + "/images/" + url
         }
+
+        fun getImageBuildingUrl(url:String):String{
+            return NetworkHandler.BASE_HOST_INNER + "/images/buildings/" + url
+        }
     }
 }
