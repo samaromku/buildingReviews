@@ -11,6 +11,7 @@ import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.Like
 import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
+import ru.andrey.savchenko.buildingreviews.storage.Storage
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,7 +36,6 @@ class AddReviewPresenter : BasePresenter<AddReviewView>() {
         } else if (rating==null) {
             viewState.showToast("Выбирите рейтинг")
         } else {
-            //todo change userName on real
             val review = Review(id = 0,
                     companyId = companyId,
                     positive = positive,
@@ -44,8 +44,8 @@ class AddReviewPresenter : BasePresenter<AddReviewView>() {
                     peopleLike = "0",
                     rating = rating,
                     created = SimpleDateFormat("yyyy.MM.dd").format(Date()),
-                    creatorId = 0,
-                    userName = "Admin")
+                    creatorId = Storage.user?.id,
+                    userName = Storage.user?.name)
             launch(UI) {
                 viewState.showDialog()
                 var result: Response<Boolean>? = null

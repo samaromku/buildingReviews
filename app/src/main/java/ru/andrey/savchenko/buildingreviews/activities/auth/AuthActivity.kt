@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.activity_auth.*
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.activities.registry.RegistryActivity
 import ru.andrey.savchenko.buildingreviews.activities.search.SearchActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 
@@ -18,11 +19,13 @@ lateinit var presenter: AuthPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
-        setDialogTitleAndText("wait", "loading")
+        presenter.checkAuthStart()
+        btnRegister.setOnClickListener {  startActivity(Intent(this, RegistryActivity::class.java))}
         btnEnter.setOnClickListener { presenter.auth(etLogin.text.toString(), etPassword.text.toString()) }
     }
 
     override fun startCompaniesActivity() {
         startActivity(Intent(this, SearchActivity::class.java))
+        finish()
     }
 }

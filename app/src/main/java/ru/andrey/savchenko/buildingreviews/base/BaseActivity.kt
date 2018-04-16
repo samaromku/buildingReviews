@@ -8,7 +8,6 @@ import android.app.Service
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatSpinner
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
@@ -35,11 +34,11 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
         setDialogTitleAndText("Загрузка данных", "Ожидайте")
     }
 
-    override fun showprogress() {
+    override fun showProgress() {
 //        progressBar.visibility = View.VISIBLE
     }
 
-    override fun hideprogress() {
+    override fun hideProgress() {
 //        progressBar.visibility = View.GONE
     }
 

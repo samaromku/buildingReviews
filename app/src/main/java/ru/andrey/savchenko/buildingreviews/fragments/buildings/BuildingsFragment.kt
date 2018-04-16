@@ -26,7 +26,6 @@ class BuildingsFragment : BaseFragment(), BuildingView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setDialogTitleAndText("Ждите", "Загрузка")
         presenter.getBuildingsByCompanyId(activity.intent.getIntExtra(Const.COMPANY_ID, 0))
     }
 

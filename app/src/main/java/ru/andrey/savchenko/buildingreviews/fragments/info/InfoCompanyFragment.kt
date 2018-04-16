@@ -25,7 +25,6 @@ class InfoCompanyFragment:BaseFragment(), InfoView{
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setDialogTitleAndText("Ждите", "Загрузка")
         presenter.getInfoCompany(activity.intent.getIntExtra(Const.COMPANY_ID, 0))
     }
 

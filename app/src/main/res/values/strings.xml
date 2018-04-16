@@ -17,4 +17,10 @@
     <string name="date_done">Сдача</string>
     <string name="price">Цена</string>
     <string name="class_building">Класс</string>
+    <string name="registry">Регистрация</string>
+    <string name="enter">Войти</string>
+    <string name="wish_name">Желаемое имя</string>
+    <string name="password">Пароль</string>
+    <string name="login">Логин</string>
+    <string name="exit">выход</string>
 </resources>

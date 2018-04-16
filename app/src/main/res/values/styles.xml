@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="buttonStyle">@style/TmpButton</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -14,6 +15,13 @@
     </style>
     <style name="CustomEditTextTheme">
         <item name="colorControlNormal">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="TmpButton" parent="android:style/Widget.Holo.Button">
+        <!--<item name="android:background">@drawable/ripple_effect</item>-->
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_margin">8dp</item>
     </style>
 
 </resources>

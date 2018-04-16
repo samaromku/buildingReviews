@@ -26,7 +26,6 @@ class ReviewsFragment:BaseFragment(), ReviewView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setDialogTitleAndText("Идет загрузка", "Подождите")
         presenter.getReviews(activity.intent.getIntExtra(Const.COMPANY_ID, 0))
     }
 

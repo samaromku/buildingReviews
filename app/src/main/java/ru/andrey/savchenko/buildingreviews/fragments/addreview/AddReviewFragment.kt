@@ -22,7 +22,6 @@ class AddReviewFragment:BaseFragment(), AddReviewView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        setDialogTitleAndText("wait", "loading")
         rbRating.setOnRatingBarChangeListener { ratingBar, fl, b ->
             tvRating.visibility = View.VISIBLE
             tvRating.text = "${fl.toInt()} из 5" }

@@ -13,11 +13,13 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.toolbar.*
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
+import ru.andrey.savchenko.buildingreviews.storage.Storage
 import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
@@ -62,12 +64,17 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_search -> {
-                openToolbarSearch()
-            }
+            R.id.action_search -> { openToolbarSearch() }
+            R.id.action_exit -> { exit() }
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun exit(){
+        startActivity(Intent(this, AuthActivity::class.java))
+        finish()
+        Storage.user = null
     }
 
     private fun openToolbarSearch() {
@@ -87,7 +94,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
 
     private fun backClick() {
         toolbar.visibility = View.VISIBLE
-        search_toolbar.setVisibility(View.GONE)
+        search_toolbar.visibility = View.GONE
         hideKeyboard(this, etSearch)
     }
 

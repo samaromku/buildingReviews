@@ -19,11 +19,11 @@ open class BasePresenter<T:BaseView>: MvpPresenter<T>() {
     }
 
     fun showProgress() {
-        viewState.showprogress()
+        viewState.showProgress()
     }
 
     fun hideProgress() {
-        viewState.hideprogress()
+        viewState.hideProgress()
     }
 
     inner class DialogTransformer<T> : SingleTransformer<T, T> {

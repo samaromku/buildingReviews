@@ -35,7 +35,11 @@ interface BuildingService {
     fun getBuildingsByCompanyId(@Query("companyId")companyId:Int):Call<List<Building>>
 
     @GET("/mobile/auth")
-    fun auth(@Query("login")login:String,@Query("password")password:String):Call<ApiResponse<User>>
+    fun auth(@Query("login")login:String,
+             @Query("password")password:String):Call<ApiResponse<User>>
+
+    @POST("/mobile/auth")
+    fun register(@Body user: User):Call<ApiResponse<User>>
 
 
 }

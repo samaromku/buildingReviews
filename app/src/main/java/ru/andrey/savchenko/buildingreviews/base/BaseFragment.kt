@@ -2,8 +2,9 @@ package ru.andrey.savchenko.buildingreviews.base
 import android.R
 import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.support.v4.app.Fragment
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 
@@ -42,6 +43,11 @@ open class BaseFragment : MvpAppCompatFragment(),BaseView{
             actionBar.title = title
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setDialogTitleAndText("Загрузка данных", "Ожидайте")
+    }
+
     protected fun setDialogTitleAndText(title: String, message: String) {
         dialog = ProgressDialog(activity)
         dialog.setCancelable(false)
@@ -57,11 +63,11 @@ open class BaseFragment : MvpAppCompatFragment(),BaseView{
         dialog.dismiss()
     }
 
-    override fun showprogress() {
+    override fun showProgress() {
 //        progressBar.visibility = View.VISIBLE
     }
 
-    override fun hideprogress() {
+    override fun hideProgress() {
 //        progressBar.visibility = View.GONE
     }
 

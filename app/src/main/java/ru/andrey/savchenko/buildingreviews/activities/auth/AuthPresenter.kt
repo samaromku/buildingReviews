@@ -46,5 +46,11 @@ class AuthPresenter: BasePresenter<AuthView>() {
         }
     }
 
+    fun checkAuthStart(){
+        if(Storage.user!=null){
+            viewState.startCompaniesActivity()
+        }
+    }
+
 
 }
