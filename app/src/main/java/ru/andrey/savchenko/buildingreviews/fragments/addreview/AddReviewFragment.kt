@@ -25,7 +25,7 @@ class AddReviewFragment:BaseFragment(), AddReviewView {
         setDialogTitleAndText("wait", "loading")
         rbRating.setOnRatingBarChangeListener { ratingBar, fl, b ->
             tvRating.visibility = View.VISIBLE
-            tvRating.text = "$fl из 5" }
+            tvRating.text = "${fl.toInt()} из 5" }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -37,7 +37,7 @@ class AddReviewFragment:BaseFragment(), AddReviewView {
         when(item?.itemId){
             R.id.action_send -> {presenter.addReview(
                     activity.intent.getIntExtra(Const.COMPANY_ID, 0),
-                    rbRating.numStars,
+                    tvRating.text.toString(),
                     etPositive.text.toString(),
                     etNegative.text.toString(),
                     etGeneral.text.toString()

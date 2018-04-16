@@ -24,6 +24,8 @@ class ReviewAdapter(list: MutableList<Review>, onItemClickListener: OnItemClickL
     class ReviewViewHolder(itemView: View) : BaseViewHolder<Review>(itemView) {
         override fun bind(t: Review, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
+            tvRating.text = "${t.rating} из 5"
+            tvCreatorName.text = t.userName
             if (t.positive == null || t.positive.isEmpty()) {
                 tvPositiveText.visibility = View.GONE
                 tvPositive.visibility = View.GONE
