@@ -9,6 +9,8 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.entities.Review
+import ru.andrey.savchenko.buildingreviews.entities.User
+import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 
 /**
  * Created by savchenko on 11.04.18.
@@ -31,6 +33,10 @@ interface BuildingService {
 
     @GET("/mobile/getBuildingsByCompanyId")
     fun getBuildingsByCompanyId(@Query("companyId")companyId:Int):Call<List<Building>>
+
+    @GET("/mobile/auth")
+    fun auth(@Query("login")login:String,@Query("password")password:String):Call<ApiResponse<User>>
+
 
 }
 

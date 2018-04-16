@@ -4,6 +4,7 @@ import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.Single
 import io.reactivex.SingleSource
 import io.reactivex.SingleTransformer
+import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 
 /**
  * Created by savchenko on 10.04.18.
@@ -39,5 +40,14 @@ open class BasePresenter<T:BaseView>: MvpPresenter<T>() {
 
     fun hideDialog() {
         viewState.hideDialog()
+    }
+
+    protected fun checkResponse(response: ApiResponse<Any>, success:() -> Unit){
+        if(response.error!=null){
+            viewState.showError(response.error.message)
+            return
+        }else {
+            success.invoke()
+        }
     }
 }

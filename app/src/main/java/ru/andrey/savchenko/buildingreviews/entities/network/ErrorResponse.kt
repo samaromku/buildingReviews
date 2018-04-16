@@ -1,4 +1,4 @@
-package ru.andrey.savchenko.buildingreviews.entities
+package ru.andrey.savchenko.buildingreviews.entities.network
 
 /**
  * Created by savchenko on 27.03.18.

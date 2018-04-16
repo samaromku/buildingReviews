@@ -31,6 +31,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setSupportActionBar(toolbar)
+        initBackButton()
 
         RxTextView.textChanges(etSearch)
                 .debounce(1000, TimeUnit.MILLISECONDS)
