@@ -19,7 +19,15 @@ import ru.andrey.savchenko.buildingreviews.storage.Storage
 class RegistryPresenter:BasePresenter<RegistryView>() {
     fun registerUser(login:String,
                      password:String,
-                     name:String){
+                     name:String,
+                     email:String){
+        if(login.isEmpty() ||
+                password.isEmpty() ||
+                email.isEmpty() ||
+                name.isEmpty()){
+            viewState.showToast("Заполните все поля")
+            return
+        }
         launch(UI) {
             viewState.showDialog()
             var result: Response<ApiResponse<User>>? = null
@@ -29,7 +37,8 @@ class RegistryPresenter:BasePresenter<RegistryView>() {
                             id = 0,
                             login = login,
                             password = password,
-                            name = name)).execute()
+                            name = name,
+                            email = email)).execute()
                 }.await()
             } catch (ex: Exception) {
                 ex.printStackTrace()

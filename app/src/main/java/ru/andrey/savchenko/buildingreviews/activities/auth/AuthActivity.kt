@@ -19,13 +19,18 @@ lateinit var presenter: AuthPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
+        changeToolbarTitle(getString(R.string.auth))
         presenter.checkAuthStart()
-        btnRegister.setOnClickListener {  startActivity(Intent(this, RegistryActivity::class.java))}
+        btnRegister.setOnClickListener {
+            startActivity(Intent(this, RegistryActivity::class.java))
+            finish()
+        }
         btnEnter.setOnClickListener { presenter.auth(etLogin.text.toString(), etPassword.text.toString()) }
     }
 
     override fun startCompaniesActivity() {
-        startActivity(Intent(this, SearchActivity::class.java))
+        startActivity(Intent(this, SearchActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
         finish()
     }
 }
