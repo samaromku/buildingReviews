@@ -1,15 +1,11 @@
 package ru.andrey.savchenko.buildingreviews.activities.search
 
 import com.arellomobile.mvp.InjectViewState
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
-import retrofit2.Response
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
-import java.util.ArrayList
+import ru.andrey.savchenko.buildingreviews.storage.Coroutiner
+import java.util.*
 
 /**
  * Created by savchenko on 10.04.18.
@@ -18,28 +14,20 @@ import java.util.ArrayList
 class SearchPresenter : BasePresenter<SearchView>() {
     val interActor = SearchInterActor()
     var allCompanies: MutableList<Company>? = null
-    val currentCompanies:MutableList<Company> = mutableListOf()
+    val currentCompanies: MutableList<Company> = mutableListOf()
 
 
     fun corCompanyList() {
-        launch(UI) {
-            viewState.showDialog()
-            var result: Response<List<Company>>? = null
-            try {
-                result = async(CommonPool) {
-                    NetworkHandler.getService().corGetCompanies().execute()
-                }.await()
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-                viewState.showError(ex.message.toString())
-            }
-            result?.body()?.toMutableList()?.let {
-                viewState.setListToAdapter(it)
-                allCompanies = it
-                currentCompanies.addAll(it)
-            }
-            viewState.hideDialog()
-        }
+        Coroutiner<List<Company>>(viewState).corMethod(
+                request = { NetworkHandler.getService().corGetCompanies().execute() },
+                onResult = { it ->
+                    it.toMutableList().let {
+                        viewState.setListToAdapter(it)
+                        allCompanies = it
+                        currentCompanies.addAll(it)
+                    }
+                }
+        )
     }
 
     fun clickOnPosition(position: Int) {
