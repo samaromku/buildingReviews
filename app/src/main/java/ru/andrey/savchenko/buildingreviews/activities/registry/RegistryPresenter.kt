@@ -5,7 +5,6 @@ import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.User
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
-import ru.andrey.savchenko.buildingreviews.storage.Coroutiner
 import ru.andrey.savchenko.buildingreviews.storage.Storage
 
 /**

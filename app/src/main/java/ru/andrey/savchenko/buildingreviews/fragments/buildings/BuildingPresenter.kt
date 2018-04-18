@@ -4,7 +4,6 @@ import com.arellomobile.mvp.InjectViewState
 import entities.Building
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
-import ru.andrey.savchenko.buildingreviews.storage.Coroutiner
 
 /**
  * Created by savchenko on 15.04.18.
