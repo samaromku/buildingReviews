@@ -1,12 +1,12 @@
 package ru.andrey.savchenko.buildingreviews.base
 
-import android.R
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.app.Service
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v7.widget.AppCompatSpinner
 import android.view.inputmethod.InputMethodManager
@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
+import ru.andrey.savchenko.buildingreviews.R
 
 
 /**
@@ -25,6 +26,9 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     lateinit var dialog: ProgressDialog
 
     protected fun initBackButton() {
+        val upArrow = resources.getDrawable(R.drawable.ic_arrow_back)
+        upArrow.setColorFilter(resources.getColor(R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP)
+        supportActionBar!!.setHomeAsUpIndicator(upArrow)
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
     }
@@ -81,8 +85,8 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
                 .setPositiveButton("ОК", { dialog, _ -> dialog.dismiss() })
         errordialog = builder.create()
         errordialog.setOnShowListener {
-            errordialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(resources.getColor(R.color.background_dark))
-            errordialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(resources.getColor(R.color.background_dark))
+            errordialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(resources.getColor(android.R.color.background_dark))
+            errordialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(resources.getColor(android.R.color.background_dark))
         }
         errordialog.show()
     }
@@ -130,8 +134,8 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
                 .setPositiveButton("Да", positiveClick)
                 .setNegativeButton("Нет", negativeClick).create()
         dialog.setOnShowListener {
-            dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(context.resources.getColor(R.color.background_dark))
-            dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE).setTextColor(context.resources.getColor(R.color.background_dark))
+            dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(context.resources.getColor(android.R.color.background_dark))
+            dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE).setTextColor(context.resources.getColor(android.R.color.background_dark))
         }
         dialog.show()
     }
@@ -141,7 +145,7 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
                          spinner: AppCompatSpinner,
                          setSelectedNothing:Boolean=false){
         val adapter = ArrayAdapter<String>(context,
-                R.layout.simple_spinner_item, spinnerList)
+                android.R.layout.simple_spinner_item, spinnerList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
         if(!setSelectedNothing) {

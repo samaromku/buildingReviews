@@ -12,8 +12,8 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Created by savchenko on 11.04.18.
  */
 object NetworkHandler {
-    val BASE_HOST_INNER = "http://ovz1.samaromku.6okmz.vps.myjino.ru:49250" //jino
-//    val BASE_HOST_INNER = "http://10.0.2.2:8666"                          //mine computer emulator
+//    val BASE_HOST_INNER = "http://ovz1.samaromku.6okmz.vps.myjino.ru:49250" //jino
+    val BASE_HOST_INNER = "http://10.0.2.2:8666"                          //mine computer emulator
 
     fun getService(): BuildingService {
         val client: OkHttpClient = OkHttpClient
