@@ -4,7 +4,6 @@ import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
@@ -30,7 +29,7 @@ object NetworkHandler {
                 .baseUrl(BASE_HOST_INNER)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(BuildingService::class.java)
     }

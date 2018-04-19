@@ -14,14 +14,13 @@ import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.toolbar.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Company
-import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
 import ru.andrey.savchenko.buildingreviews.storage.Storage
 import java.util.concurrent.TimeUnit
-import java.util.function.Consumer
 
 
 class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {

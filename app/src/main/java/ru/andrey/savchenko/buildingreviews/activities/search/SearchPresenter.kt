@@ -30,7 +30,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
     }
 
     fun clickOnPosition(position: Int) {
-        currentCompanies.get(position).id.let { viewState.startOneCompanyActivity(it) }
+        currentCompanies[position].id.let { viewState.startOneCompanyActivity(it) }
     }
 
     fun searchedList(searchString: String) {
@@ -49,14 +49,14 @@ class SearchPresenter : BasePresenter<SearchView>() {
                 val tasks = ArrayList<Company>()
                 for (task in currentCompanies) {
                     val sb = StringBuilder()
-                    if (task.title != null) {
+                    if (task.title.isNotEmpty()) {
                         sb.append(task.title.toLowerCase())
                     }
-                    if (task.address != null) {
+                    if (task.address.isNotEmpty()) {
                         sb.append(" ")
                         sb.append(task.address.toLowerCase())
                     }
-                    if (task.title != null && task.address != null) {
+                    if (task.title.isNotEmpty() && task.address.isNotEmpty()) {
                         val bodyAddress = sb.toString()
                         if (bodyAddress.contains(word.toLowerCase())) {
                             tasks.add(task)
