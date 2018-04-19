@@ -12,7 +12,7 @@ import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 @InjectViewState
 class InfoPresenter : BasePresenter<InfoView>() {
     fun getInfoCompany(companyId: Int) {
-        Coroutiner<ApiResponse<Company>>(viewState).corMethod(
+        corMethod<ApiResponse<Company>>(
                 request = { NetworkHandler.getService().getCompany(companyId).execute() },
                 onResult = {
                     it.data?.let {

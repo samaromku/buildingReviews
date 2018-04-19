@@ -14,7 +14,7 @@ class ReviewPresenter : BasePresenter<ReviewView>() {
     var list: MutableList<Review>? = null
 
     fun getReviews(companyId: Int) {
-        Coroutiner<ApiResponse<List<Review>>>(viewState).corMethod(
+        corMethod<ApiResponse<List<Review>>>(
                 request = { NetworkHandler.getService().getReviewsByCompanyId(companyId).execute() },
                 onResult = {
                     it.data?.let {

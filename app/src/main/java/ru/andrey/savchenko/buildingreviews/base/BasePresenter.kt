@@ -5,6 +5,7 @@ import io.reactivex.Single
 import io.reactivex.SingleSource
 import io.reactivex.SingleTransformer
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
@@ -56,39 +57,41 @@ open class BasePresenter<T : BaseView> : MvpPresenter<T>() {
         }
     }
 
-    class Coroutiner<T>(private val viewState: BaseView) {
+    fun<T> corMethod(beforeRequest: () -> Unit = { viewState.showDialog() },
+                     afterRequest: () -> Unit = { viewState.hideDialog() },
+                     request: () -> Response<T>,
+                     onResult: (result: T) -> Unit,
+                     errorShow: (error:String) -> Unit = { t -> viewState.showError(t) }):Job {
+        return launch(UI) {
+            beforeRequest.invoke()
+            var result: Response<T>? = null
+            try {
+                result = async(CommonPool) {
+                    request.invoke()
+                }.await()
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
+                errorShow.invoke(ex.message.toString())
+            }
+            afterRequest.invoke()
 
-        fun corMethod(beforeRequest: () -> Unit = { viewState.showDialog() },
-                      afterRequest: () -> Unit = { viewState.hideDialog() },
-                      request: () -> Response<T>,
-                      onResult: (result: T) -> Unit,
-                      errorShow: (t: Throwable) -> Unit = { t ->
-                          t.printStackTrace()
-                          viewState.showError(t.message.toString())
-                      }) {
-            launch(UI) {
-                beforeRequest.invoke()
-                var result: Response<T>? = null
-                try {
-                    result = async(CommonPool) {
-                        request.invoke()
-                    }.await()
-                } catch (ex: Throwable) {
-                    errorShow.invoke(ex)
-                }
-                afterRequest.invoke()
-
-                result?.body()?.let {
-                    if (it is ApiResponse<*>) {
-                        if (it.error != null) {
-                            viewState.showError("Код: ${it.error.code}\n" +
-                                    "Ошибка: ${it.error.message} ")
-                            return@let
+            if(result!=null){
+                if(result.body()!=null){
+                    val body = result.body()
+                    if (body is ApiResponse<*>) {
+                        if (body.error != null) {
+                            errorShow.invoke("Код: ${body.error.code}\n" +
+                                    "Ошибка: ${body.error.message} ")
+                            return@launch
                         } else {
-                            onResult.invoke(it)
+                            onResult.invoke(body)
                         }
                     }
+                }else {
+                    errorShow.invoke("responseBody = null")
                 }
+            }else {
+                errorShow.invoke("result = null")
             }
         }
     }

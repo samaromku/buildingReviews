@@ -17,7 +17,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
 
 
     fun corCompanyList() {
-        Coroutiner<ApiResponse<List<Company>>>(viewState).corMethod(
+        corMethod<ApiResponse<List<Company>>>(
                 request = { NetworkHandler.getService().corGetCompanies().execute() },
                 onResult = {
                     it.data?.let {

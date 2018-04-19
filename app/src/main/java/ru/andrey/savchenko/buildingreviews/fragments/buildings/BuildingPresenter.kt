@@ -14,7 +14,7 @@ class BuildingPresenter: BasePresenter<BuildingView>() {
     var list: MutableList<Building>? = null
 
     fun getBuildingsByCompanyId(companyId:Int){
-        Coroutiner<ApiResponse<List<Building>>>(viewState).corMethod(
+        corMethod<ApiResponse<List<Building>>>(
                 request = {NetworkHandler.getService().getBuildingsByCompanyId(companyId).execute()},
                 onResult = {it ->
                     it.data?.toMutableList()?.let {

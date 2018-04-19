@@ -41,7 +41,7 @@ class AddReviewPresenter : BasePresenter<AddReviewView>() {
                     creatorId = Storage.user?.id,
                     userName = Storage.user?.name)
 
-            Coroutiner<ApiResponse<Boolean>>(viewState).corMethod(
+            corMethod<ApiResponse<Boolean>>(
                     request = {NetworkHandler.getService().sendReview(review).execute()},
                     onResult = {
                         println(it)

@@ -23,7 +23,7 @@ class RegistryPresenter : BasePresenter<RegistryView>() {
             viewState.showToast("Заполните все поля")
             return
         }
-        Coroutiner<ApiResponse<User>>(viewState).corMethod(
+        corMethod<ApiResponse<User>>(
                 request = {
                     NetworkHandler.getService().register(User(
                             id = 0,
