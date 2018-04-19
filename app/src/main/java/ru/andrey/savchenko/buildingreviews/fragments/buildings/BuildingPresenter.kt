@@ -3,6 +3,7 @@ package ru.andrey.savchenko.buildingreviews.fragments.buildings
 import com.arellomobile.mvp.InjectViewState
 import entities.Building
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
+import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 
 /**
@@ -13,10 +14,10 @@ class BuildingPresenter: BasePresenter<BuildingView>() {
     var list: MutableList<Building>? = null
 
     fun getBuildingsByCompanyId(companyId:Int){
-        Coroutiner<List<Building>>(viewState).corMethod(
+        Coroutiner<ApiResponse<List<Building>>>(viewState).corMethod(
                 request = {NetworkHandler.getService().getBuildingsByCompanyId(companyId).execute()},
                 onResult = {it ->
-                    it.toMutableList().let {
+                    it.data?.toMutableList()?.let {
                         viewState.setListToAdapter(it)
                         list = it
                     }

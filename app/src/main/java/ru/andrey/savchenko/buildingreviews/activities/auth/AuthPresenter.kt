@@ -11,27 +11,25 @@ import ru.andrey.savchenko.buildingreviews.storage.Storage
  * Created by savchenko on 16.04.18.
  */
 @InjectViewState
-class AuthPresenter: BasePresenter<AuthView>() {
-    fun auth(login:String,
-             password:String){
-        if(login.isEmpty() || password.isEmpty()){
+class AuthPresenter : BasePresenter<AuthView>() {
+    fun auth(login: String,
+             password: String) {
+        if (login.isEmpty() || password.isEmpty()) {
             viewState.showToast("Заполните поля")
             return
-        }else {
+        } else {
             Coroutiner<ApiResponse<User>>(viewState).corMethod(
-                    request = {NetworkHandler.getService().auth(login, password).execute()},
+                    request = { NetworkHandler.getService().auth(login, password).execute() },
                     onResult = {
-                        checkResponse(it, {
-                            Storage.user = it.data
-                            viewState.startCompaniesActivity()
-                        })
+                        Storage.user = it.data
+                        viewState.startCompaniesActivity()
                     }
             )
         }
     }
 
-    fun checkAuthStart(){
-        if(Storage.user!=null){
+    fun checkAuthStart() {
+        if (Storage.user != null) {
             viewState.startCompaniesActivity()
         }
     }

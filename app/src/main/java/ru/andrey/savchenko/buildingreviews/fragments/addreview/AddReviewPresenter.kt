@@ -3,6 +3,7 @@ package ru.andrey.savchenko.buildingreviews.fragments.addreview
 import com.arellomobile.mvp.InjectViewState
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.Review
+import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 import ru.andrey.savchenko.buildingreviews.storage.Storage
 import java.text.SimpleDateFormat
@@ -40,7 +41,7 @@ class AddReviewPresenter : BasePresenter<AddReviewView>() {
                     creatorId = Storage.user?.id,
                     userName = Storage.user?.name)
 
-            Coroutiner<Boolean>(viewState).corMethod(
+            Coroutiner<ApiResponse<Boolean>>(viewState).corMethod(
                     request = {NetworkHandler.getService().sendReview(review).execute()},
                     onResult = {
                         println(it)

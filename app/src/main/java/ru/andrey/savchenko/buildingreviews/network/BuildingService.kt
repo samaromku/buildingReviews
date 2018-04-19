@@ -17,22 +17,22 @@ import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
  */
 interface BuildingService {
     @GET("/mobile/getCompanies")
-    fun getCompanies(): Single<List<Company>>
+    fun getCompanies(): Single<ApiResponse<List<Company>>>
 
     @GET("/mobile/getCompanies")
-    fun corGetCompanies():Call<List<Company>>
+    fun corGetCompanies():Call<ApiResponse<List<Company>>>
 
     @GET("/mobile/getCompany")
-    fun getCompany(@Query("id")id:Int):Call<Company>
+    fun getCompany(@Query("id")id:Int):Call<ApiResponse<Company>>
 
     @GET("/mobile/reviews")
-    fun getReviewsByCompanyId(@Query("companyId")companyId:Int):Call<List<Review>>
+    fun getReviewsByCompanyId(@Query("companyId")companyId:Int):Call<ApiResponse<List<Review>>>
 
     @POST("/mobile/reviews")
-    fun sendReview(@Body review: Review):Call<Boolean>
+    fun sendReview(@Body review: Review):Call<ApiResponse<Boolean>>
 
     @GET("/mobile/getBuildingsByCompanyId")
-    fun getBuildingsByCompanyId(@Query("companyId")companyId:Int):Call<List<Building>>
+    fun getBuildingsByCompanyId(@Query("companyId")companyId:Int):Call<ApiResponse<List<Building>>>
 
     @GET("/mobile/auth")
     fun auth(@Query("login")login:String,

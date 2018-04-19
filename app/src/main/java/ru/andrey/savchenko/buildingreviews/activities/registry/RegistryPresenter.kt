@@ -32,10 +32,8 @@ class RegistryPresenter : BasePresenter<RegistryView>() {
                             name = name,
                             email = email)).execute()
                 }, onResult = {
-            checkResponse(it, {
-                Storage.user = it.data
-                viewState.startCompaniesActivity()
-            })
+            Storage.user = it.data
+            viewState.startCompaniesActivity()
         }
         )
     }

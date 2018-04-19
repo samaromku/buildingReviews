@@ -3,6 +3,7 @@ package ru.andrey.savchenko.buildingreviews.activities.search
 import com.arellomobile.mvp.InjectViewState
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.Company
+import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 import java.util.*
 
@@ -11,19 +12,20 @@ import java.util.*
  */
 @InjectViewState
 class SearchPresenter : BasePresenter<SearchView>() {
-    val interActor = SearchInterActor()
     var allCompanies: MutableList<Company>? = null
     val currentCompanies: MutableList<Company> = mutableListOf()
 
 
     fun corCompanyList() {
-        Coroutiner<List<Company>>(viewState).corMethod(
+        Coroutiner<ApiResponse<List<Company>>>(viewState).corMethod(
                 request = { NetworkHandler.getService().corGetCompanies().execute() },
-                onResult = { it ->
-                    it.toMutableList().let {
-                        viewState.setListToAdapter(it)
-                        allCompanies = it
-                        currentCompanies.addAll(it)
+                onResult = {
+                    it.data?.let {
+                        it.toMutableList().let {
+                            viewState.setListToAdapter(it)
+                            allCompanies = it
+                            currentCompanies.addAll(it)
+                        }
                     }
                 }
         )
@@ -31,13 +33,6 @@ class SearchPresenter : BasePresenter<SearchView>() {
 
     fun clickOnPosition(position: Int) {
         currentCompanies.get(position).id.let { viewState.startOneCompanyActivity(it) }
-    }
-
-    fun getCompanyList() {
-        interActor.getCompanyList()
-                .compose(DialogTransformer())
-                .subscribe({ list -> viewState.setListToAdapter(list) },
-                        { t -> t.printStackTrace() })
     }
 
     fun searchedList(searchString: String) {

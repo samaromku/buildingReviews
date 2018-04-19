@@ -14,7 +14,7 @@ import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 /**
  * Created by savchenko on 10.04.18.
  */
-open class BasePresenter<T:BaseView>: MvpPresenter<T>() {
+open class BasePresenter<T : BaseView> : MvpPresenter<T>() {
     inner class ProgressBarTransformer<T> : SingleTransformer<T, T> {
         override fun apply(upstream: Single<T>): Single<T>? {
             return upstream
@@ -47,16 +47,27 @@ open class BasePresenter<T:BaseView>: MvpPresenter<T>() {
         viewState.hideDialog()
     }
 
-    protected fun checkResponse(response: ApiResponse<Any>, success:() -> Unit){
-        if(response.error!=null){
+    protected fun checkResponse(response: ApiResponse<Any>, success: () -> Unit) {
+        if (response.error != null) {
             viewState.showError(response.error.message)
             return
-        }else {
+        } else {
             success.invoke()
         }
     }
 
     class Coroutiner<T>(private val viewState: BaseView) {
+        fun checkResponse(response: T, success: () -> Unit) {
+            if (response is ApiResponse<*>) {
+                if (response.error != null) {
+                    viewState.showError(response.error.message)
+                    return
+                } else {
+                    success.invoke()
+                }
+            }
+        }
+
         fun corMethod(beforeRequest: () -> Unit = { viewState.showDialog() },
                       afterRequest: () -> Unit = { viewState.hideDialog() },
                       request: () -> Response<T>,
@@ -77,7 +88,7 @@ open class BasePresenter<T:BaseView>: MvpPresenter<T>() {
                 }
                 afterRequest.invoke()
                 result?.body()?.let {
-                    onResult.invoke(it)
+                    checkResponse(it, { onResult.invoke(it) })
                 }
             }
         }
