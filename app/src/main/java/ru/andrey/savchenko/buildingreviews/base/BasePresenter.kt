@@ -57,16 +57,6 @@ open class BasePresenter<T : BaseView> : MvpPresenter<T>() {
     }
 
     class Coroutiner<T>(private val viewState: BaseView) {
-        fun checkResponse(response: T, success: () -> Unit) {
-            if (response is ApiResponse<*>) {
-                if (response.error != null) {
-                    viewState.showError(response.error.message)
-                    return
-                } else {
-                    success.invoke()
-                }
-            }
-        }
 
         fun corMethod(beforeRequest: () -> Unit = { viewState.showDialog() },
                       afterRequest: () -> Unit = { viewState.hideDialog() },
@@ -87,8 +77,17 @@ open class BasePresenter<T : BaseView> : MvpPresenter<T>() {
                     errorShow.invoke(ex)
                 }
                 afterRequest.invoke()
+
                 result?.body()?.let {
-                    checkResponse(it, { onResult.invoke(it) })
+                    if (it is ApiResponse<*>) {
+                        if (it.error != null) {
+                            viewState.showError("Код: ${it.error.code}\n" +
+                                    "Ошибка: ${it.error.message} ")
+                            return@let
+                        } else {
+                            onResult.invoke(it)
+                        }
+                    }
                 }
             }
         }
