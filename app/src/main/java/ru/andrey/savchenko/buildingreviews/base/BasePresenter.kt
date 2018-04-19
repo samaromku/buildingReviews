@@ -16,13 +16,6 @@ import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
  * Created by savchenko on 10.04.18.
  */
 open class BasePresenter<T : BaseView> : MvpPresenter<T>() {
-    inner class ProgressBarTransformer<T> : SingleTransformer<T, T> {
-        override fun apply(upstream: Single<T>): Single<T>? {
-            return upstream
-                    .doOnSubscribe { showProgress() }
-                    .doFinally({ hideProgress() })
-        }
-    }
 
     fun showProgress() {
         viewState.showProgress()
@@ -32,13 +25,6 @@ open class BasePresenter<T : BaseView> : MvpPresenter<T>() {
         viewState.hideProgress()
     }
 
-    inner class DialogTransformer<T> : SingleTransformer<T, T> {
-        override fun apply(upstream: Single<T>): SingleSource<T> {
-            return upstream
-                    .doOnSubscribe { showDialog() }
-                    .doFinally({ hideDialog() })
-        }
-    }
 
     fun showDialog() {
         viewState.showDialog()
@@ -48,18 +34,20 @@ open class BasePresenter<T : BaseView> : MvpPresenter<T>() {
         viewState.hideDialog()
     }
 
-    fun <T> corMethod(beforeRequest: () -> Unit = { viewState.showDialog() },
-                      afterRequest: () -> Unit = { viewState.hideDialog() },
+    fun showError(error:String){
+        viewState.showError(error)
+    }
+
+    fun <T> corMethod(beforeRequest: () -> Unit = { showDialog() },
+                      afterRequest: () -> Unit = { hideDialog() },
                       request: () -> Response<ApiResponse<T>>,
                       onResult: (result: T) -> Unit,
-                      errorShow: (error: String) -> Unit = { t -> viewState.showError(t) }): Job {
+                      errorShow: (error: String) -> Unit = { t -> showError(t) }): Job {
         return launch(UI) {
             beforeRequest()
             var result: Response<ApiResponse<T>>? = null
             try {
-                result = async(CommonPool) {
-                    request()
-                }.await()
+                result = async(CommonPool) { request() }.await()
             } catch (ex: Throwable) {
                 ex.printStackTrace()
                 errorShow(ex.message.toString())
