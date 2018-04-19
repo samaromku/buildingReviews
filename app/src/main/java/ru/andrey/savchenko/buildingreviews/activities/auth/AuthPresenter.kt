@@ -18,10 +18,10 @@ class AuthPresenter : BasePresenter<AuthView>() {
             viewState.showToast("Заполните поля")
             return
         } else {
-            corMethod<ApiResponse<User>>(
+            corMethod<User>(
                     request = { NetworkHandler.getService().auth(login, password).execute() },
                     onResult = {
-                        Storage.user = it.data
+                        Storage.user = it
                         viewState.startCompaniesActivity()
                     }
             )

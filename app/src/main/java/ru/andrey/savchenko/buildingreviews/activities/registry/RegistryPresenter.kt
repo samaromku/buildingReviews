@@ -23,7 +23,7 @@ class RegistryPresenter : BasePresenter<RegistryView>() {
             viewState.showToast("Заполните все поля")
             return
         }
-        corMethod<ApiResponse<User>>(
+        corMethod<User>(
                 request = {
                     NetworkHandler.getService().register(User(
                             id = 0,
@@ -32,7 +32,7 @@ class RegistryPresenter : BasePresenter<RegistryView>() {
                             name = name,
                             email = email)).execute()
                 }, onResult = {
-            Storage.user = it.data
+            Storage.user = it
             viewState.startCompaniesActivity()
         }
         )

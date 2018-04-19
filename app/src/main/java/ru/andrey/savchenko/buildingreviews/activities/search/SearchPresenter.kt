@@ -17,15 +17,13 @@ class SearchPresenter : BasePresenter<SearchView>() {
 
 
     fun corCompanyList() {
-        corMethod<ApiResponse<List<Company>>>(
+        corMethod<List<Company>>(
                 request = { NetworkHandler.getService().corGetCompanies().execute() },
                 onResult = {
-                    it.data?.let {
-                        it.toMutableList().let {
-                            viewState.setListToAdapter(it)
-                            allCompanies = it
-                            currentCompanies.addAll(it)
-                        }
+                    it.toMutableList().let {
+                        viewState.setListToAdapter(it)
+                        allCompanies = it
+                        currentCompanies.addAll(it)
                     }
                 }
         )

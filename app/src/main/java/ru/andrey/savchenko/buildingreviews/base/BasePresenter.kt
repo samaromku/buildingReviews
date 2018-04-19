@@ -48,50 +48,41 @@ open class BasePresenter<T : BaseView> : MvpPresenter<T>() {
         viewState.hideDialog()
     }
 
-    protected fun checkResponse(response: ApiResponse<Any>, success: () -> Unit) {
-        if (response.error != null) {
-            viewState.showError(response.error.message)
-            return
-        } else {
-            success.invoke()
-        }
-    }
-
-    fun<T> corMethod(beforeRequest: () -> Unit = { viewState.showDialog() },
-                     afterRequest: () -> Unit = { viewState.hideDialog() },
-                     request: () -> Response<T>,
-                     onResult: (result: T) -> Unit,
-                     errorShow: (error:String) -> Unit = { t -> viewState.showError(t) }):Job {
+    fun <T> corMethod(beforeRequest: () -> Unit = { viewState.showDialog() },
+                      afterRequest: () -> Unit = { viewState.hideDialog() },
+                      request: () -> Response<ApiResponse<T>>,
+                      onResult: (result: T) -> Unit,
+                      errorShow: (error: String) -> Unit = { t -> viewState.showError(t) }): Job {
         return launch(UI) {
-            beforeRequest.invoke()
-            var result: Response<T>? = null
+            beforeRequest()
+            var result: Response<ApiResponse<T>>? = null
             try {
                 result = async(CommonPool) {
-                    request.invoke()
+                    request()
                 }.await()
             } catch (ex: Throwable) {
                 ex.printStackTrace()
-                errorShow.invoke(ex.message.toString())
+                errorShow(ex.message.toString())
             }
-            afterRequest.invoke()
+            afterRequest()
 
-            if(result!=null){
-                if(result.body()!=null){
+            if (result != null) {
+                if (result.body() != null) {
                     val body = result.body()
                     if (body is ApiResponse<*>) {
                         if (body.error != null) {
-                            errorShow.invoke("Код: ${body.error.code}\n" +
+                            errorShow("Код: ${body.error.code}\n" +
                                     "Ошибка: ${body.error.message} ")
                             return@launch
                         } else {
-                            onResult.invoke(body)
+                            body.data?.let { onResult(it) }
                         }
                     }
-                }else {
-                    errorShow.invoke("responseBody = null")
+                } else {
+                    errorShow("responseBody = null")
                 }
-            }else {
-                errorShow.invoke("result = null")
+            } else {
+                errorShow("result = null")
             }
         }
     }

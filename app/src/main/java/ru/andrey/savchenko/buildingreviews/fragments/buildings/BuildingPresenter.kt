@@ -14,10 +14,10 @@ class BuildingPresenter: BasePresenter<BuildingView>() {
     var list: MutableList<Building>? = null
 
     fun getBuildingsByCompanyId(companyId:Int){
-        corMethod<ApiResponse<List<Building>>>(
+        corMethod<List<Building>>(
                 request = {NetworkHandler.getService().getBuildingsByCompanyId(companyId).execute()},
                 onResult = {it ->
-                    it.data?.toMutableList()?.let {
+                    it.toMutableList().let {
                         viewState.setListToAdapter(it)
                         list = it
                     }

@@ -12,17 +12,15 @@ import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 @InjectViewState
 class InfoPresenter : BasePresenter<InfoView>() {
     fun getInfoCompany(companyId: Int) {
-        corMethod<ApiResponse<Company>>(
+        corMethod<Company>(
                 request = { NetworkHandler.getService().getCompany(companyId).execute() },
                 onResult = {
-                    it.data?.let {
-                        viewState.setToolbarText(it.title)
-                        viewState.setSite(it.siteUrl)
-                        viewState.setDescription(it.description)
-                        viewState.setPhone(it.phone)
-                        viewState.setAddress(it.address)
-                        viewState.setLogo(it.imageUrl)
-                    }
+                    viewState.setToolbarText(it.title)
+                    viewState.setSite(it.siteUrl)
+                    viewState.setDescription(it.description)
+                    viewState.setPhone(it.phone)
+                    viewState.setAddress(it.address)
+                    viewState.setLogo(it.imageUrl)
                 }
         )
     }

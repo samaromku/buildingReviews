@@ -14,19 +14,17 @@ class ReviewPresenter : BasePresenter<ReviewView>() {
     var list: MutableList<Review>? = null
 
     fun getReviews(companyId: Int) {
-        corMethod<ApiResponse<List<Review>>>(
+        corMethod<List<Review>>(
                 request = { NetworkHandler.getService().getReviewsByCompanyId(companyId).execute() },
                 onResult = {
-                    it.data?.let {
-                        it.toMutableList().let {
-                            if (it.isEmpty()) {
-                                viewState.setNoReviewsVisible()
-                                return@let
-                            }
-                            it.sortByDescending { it.created }
-                            viewState.setListToAdapter(it)
-                            list = it
+                    it.toMutableList().let {
+                        if (it.isEmpty()) {
+                            viewState.setNoReviewsVisible()
+                            return@let
                         }
+                        it.sortByDescending { it.created }
+                        viewState.setListToAdapter(it)
+                        list = it
                     }
                 }
         )
