@@ -14,5 +14,6 @@ data class Review(
         val creatorId:Int?,
         val created:String,
         val userName:String?,
-        val like:Like = Like(id, 0)
+        val state:String = "",
+        val like:Like? = null
 )

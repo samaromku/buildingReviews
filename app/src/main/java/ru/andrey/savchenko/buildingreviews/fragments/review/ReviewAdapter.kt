@@ -51,7 +51,7 @@ class ReviewAdapter(list: MutableList<Review>, onItemClickListener: OnItemClickL
             tvNegative.text = t.negative
             tvGeneralEmotion.text = t.general
             tvCreateDate.text = t.created
-            tvPeopleLikes.text = (t.peopleLike + t.like.value).toInt().toString()
+            tvPeopleLikes.text = (t.peopleLike + t.like?.state).toInt().toString()
 
             ivRatingUp.setOnClickListener {
                 tvPeopleLikes.text = (tvPeopleLikes.text.toString().toInt()
@@ -66,14 +66,16 @@ class ReviewAdapter(list: MutableList<Review>, onItemClickListener: OnItemClickL
         }
 
 
-        private fun setPeopleLike(value: Int, like: Like): Int {
-            like.value += value
-            if (like.value > 1) {
-                like.value = 1
-                return 0
-            } else if (like.value < -1) {
-                like.value = -1
-                return 0
+        private fun setPeopleLike(value: Int, like: Like?): Int {
+            like?.let {
+                like.state += value
+                if (like.state > 1) {
+                    like.state = 1
+                    return 0
+                } else if (like.state < -1) {
+                    like.state = -1
+                    return 0
+                }
             }
             return value
         }
