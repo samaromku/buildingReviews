@@ -11,6 +11,7 @@ import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Review
+import ru.andrey.savchenko.buildingreviews.fragments.review.adapter.ReviewAdapter
 import ru.andrey.savchenko.buildingreviews.storage.Const
 
 /**
@@ -30,7 +31,7 @@ class ReviewsFragment:BaseFragment(), ReviewView {
     }
 
     override fun setListToAdapter(list: MutableList<Review>) {
-        val adapter = ReviewAdapter(list, object :OnItemClickListener{
+        val adapter = ReviewAdapter(list, object : OnItemClickListener {
             override fun onclick(position: Int) {
                 println(position)
             }

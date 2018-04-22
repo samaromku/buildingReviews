@@ -10,5 +10,6 @@ data class User(
         val name:String,
         val userRole:String = "",
         val phone :String = "",
-        val email:String = ""
+        val email:String = "",
+        var token:Token? = null
 )

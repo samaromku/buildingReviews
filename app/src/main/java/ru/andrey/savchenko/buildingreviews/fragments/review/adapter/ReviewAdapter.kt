@@ -1,4 +1,4 @@
-package ru.andrey.savchenko.buildingreviews.fragments.review
+package ru.andrey.savchenko.buildingreviews.fragments.review.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,18 +10,32 @@ import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Like
 import ru.andrey.savchenko.buildingreviews.entities.Review
+import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 
 /**
  * Created by Andrey on 13.04.2018.
  */
-class ReviewAdapter(list: MutableList<Review>, onItemClickListener: OnItemClickListener) : BaseAdapter<Review>(list, onItemClickListener) {
+class ReviewAdapter(list: MutableList<Review>, onItemClickListener: OnItemClickListener) : BaseAdapter<Review>(list, onItemClickListener), ReviewAdapterView {
+    val presenter = ReviewAdapterPresenter(this)
+
+    override fun showError(error: String) {
+
+    }
+
+    override fun showDialog() {
+
+    }
+
+    override fun hideDialog() {
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<Review> {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_review, parent, false)
-        return ReviewViewHolder(view)
+        return ReviewViewHolder(view, presenter)
     }
 
-    class ReviewViewHolder(itemView: View) : BaseViewHolder<Review>(itemView) {
+    class ReviewViewHolder(itemView: View, val presenter: ReviewAdapterPresenter) : BaseViewHolder<Review>(itemView) {
         override fun bind(t: Review, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
             tvRating.text = "${t.rating} из 5"
@@ -51,16 +65,17 @@ class ReviewAdapter(list: MutableList<Review>, onItemClickListener: OnItemClickL
             tvNegative.text = t.negative
             tvGeneralEmotion.text = t.general
             tvCreateDate.text = t.created
-            tvPeopleLikes.text = (t.peopleLike + t.like?.state).toInt().toString()
+            tvPeopleLikes.text = (t.peopleLike).toInt().toString()
 
             ivRatingUp.setOnClickListener {
-                tvPeopleLikes.text = (tvPeopleLikes.text.toString().toInt()
-                        + setPeopleLike(1, t.like)).toString()
+                presenter.sendLike(t.id)
+//                tvPeopleLikes.text = (tvPeopleLikes.text.toString().toInt()
+//                        + setPeopleLike(1, t.like)).toString()
 
             }
             ivRatingDown.setOnClickListener {
-                tvPeopleLikes.text = (tvPeopleLikes.text.toString().toInt()
-                        + setPeopleLike(-1, t.like)).toString()
+//                tvPeopleLikes.text = (tvPeopleLikes.text.toString().toInt()
+//                        + setPeopleLike(-1, t.like)).toString()
             }
 
         }

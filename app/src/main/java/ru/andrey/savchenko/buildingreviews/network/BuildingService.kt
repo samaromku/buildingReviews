@@ -7,6 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import ru.andrey.savchenko.buildingreviews.entities.Company
+import ru.andrey.savchenko.buildingreviews.entities.Like
 import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.entities.User
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
@@ -37,6 +38,7 @@ interface BuildingService {
     @POST("/mobile/auth")
     fun register(@Body user: User):Call<ApiResponse<User>>
 
-
+    @POST("/mobile/like")
+    fun addLike(@Body like: Like):Call<ApiResponse<Like>>
 }
 

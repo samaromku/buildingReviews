@@ -1,10 +1,12 @@
 package ru.andrey.savchenko.buildingreviews.network
 
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.andrey.savchenko.buildingreviews.storage.Storage
 
 
 /**
@@ -19,6 +21,16 @@ object NetworkHandler {
                 .Builder()
                 .addInterceptor(HttpLoggingInterceptor()
                         .setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(Interceptor { chain ->
+                    var request = chain.request()
+                    val user = Storage.user
+                    if(user?.token != null){
+                        request = request.newBuilder()
+                                .addHeader("token", user.token?.token)
+                                .build()
+                    }
+                    return@Interceptor chain.proceed(request)
+                })
                 .build()
 
         val gson = GsonBuilder()
