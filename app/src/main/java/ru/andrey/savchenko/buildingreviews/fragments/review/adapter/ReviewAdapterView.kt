@@ -9,4 +9,5 @@ interface ReviewAdapterView {
     fun showError(error: String)
     fun showDialog()
     fun hideDialog()
+    fun updateAdapter()
 }

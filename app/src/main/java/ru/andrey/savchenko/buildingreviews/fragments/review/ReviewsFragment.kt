@@ -12,12 +12,13 @@ import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.fragments.review.adapter.ReviewAdapter
+import ru.andrey.savchenko.buildingreviews.interfaces.ShowHideProgress
 import ru.andrey.savchenko.buildingreviews.storage.Const
 
 /**
  * Created by Andrey on 13.04.2018.
  */
-class ReviewsFragment:BaseFragment(), ReviewView {
+class ReviewsFragment:BaseFragment(), ReviewView, ShowHideProgress {
     @InjectPresenter
     lateinit var presenter:ReviewPresenter
 
@@ -35,7 +36,7 @@ class ReviewsFragment:BaseFragment(), ReviewView {
             override fun onclick(position: Int) {
                 println(position)
             }
-        })
+        }, this)
         rvReviews.layoutManager = LinearLayoutManager(activity)
         rvReviews.adapter = adapter
     }

@@ -10,7 +10,7 @@ data class Review(
         val negative:String? = "",
         val general:String? = "",
         val rating:Int,
-        val peopleLike:String,
+        var peopleLike:String,
         val creatorId:Int?,
         val created:String,
         val userName:String?,

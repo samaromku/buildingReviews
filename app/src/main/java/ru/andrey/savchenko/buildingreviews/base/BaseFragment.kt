@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
+import kotlinx.android.synthetic.main.fragment_reviews.*
 
 /**
  * Created by savchenko on 18.02.18.
@@ -64,11 +65,11 @@ open class BaseFragment : MvpAppCompatFragment(),BaseView{
     }
 
     override fun showProgress() {
-//        progressBar.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-//        progressBar.visibility = View.GONE
+        progressBar.visibility = View.GONE
     }
 
     override fun showDialog() {

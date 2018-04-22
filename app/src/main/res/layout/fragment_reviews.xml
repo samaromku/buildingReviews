@@ -4,19 +4,37 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/nav_bottom_height">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvReviews"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvNoReviews"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="@string/no_reviews"
-        android:textSize="25sp"
-        android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:progress="25"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvReviews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tvNoReviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/no_reviews"
+            android:textSize="25sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

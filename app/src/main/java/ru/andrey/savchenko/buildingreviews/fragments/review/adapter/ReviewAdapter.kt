@@ -1,5 +1,6 @@
 package ru.andrey.savchenko.buildingreviews.fragments.review.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,26 +9,28 @@ import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
-import ru.andrey.savchenko.buildingreviews.entities.Like
 import ru.andrey.savchenko.buildingreviews.entities.Review
-import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
+import ru.andrey.savchenko.buildingreviews.interfaces.ShowHideProgress
 
 /**
  * Created by Andrey on 13.04.2018.
  */
-class ReviewAdapter(list: MutableList<Review>, onItemClickListener: OnItemClickListener) : BaseAdapter<Review>(list, onItemClickListener), ReviewAdapterView {
-    val presenter = ReviewAdapterPresenter(this)
+class ReviewAdapter(list: MutableList<Review>,
+                    onItemClickListener: OnItemClickListener,
+                    val showHideProgress: ShowHideProgress) :
+        BaseAdapter<Review>(list, onItemClickListener), ReviewAdapterView {
+    val presenter = ReviewAdapterPresenter(this, list)
 
     override fun showError(error: String) {
-
+        showHideProgress.showError(error)
     }
 
     override fun showDialog() {
-
+        showHideProgress.showProgress()
     }
 
     override fun hideDialog() {
-
+        showHideProgress.hideProgress()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<Review> {
@@ -65,35 +68,24 @@ class ReviewAdapter(list: MutableList<Review>, onItemClickListener: OnItemClickL
             tvNegative.text = t.negative
             tvGeneralEmotion.text = t.general
             tvCreateDate.text = t.created
-            tvPeopleLikes.text = (t.peopleLike).toInt().toString()
+            if (t.peopleLike.isEmpty()) {
+                tvPeopleLikes.text = "0"
+            } else {
+                tvPeopleLikes.text = (t.peopleLike).toInt().toString()
+            }
 
             ivRatingUp.setOnClickListener {
-                presenter.sendLike(t.id)
-//                tvPeopleLikes.text = (tvPeopleLikes.text.toString().toInt()
-//                        + setPeopleLike(1, t.like)).toString()
+                presenter.sendLike(t.id, 1, adapterPosition)
 
             }
             ivRatingDown.setOnClickListener {
-//                tvPeopleLikes.text = (tvPeopleLikes.text.toString().toInt()
-//                        + setPeopleLike(-1, t.like)).toString()
+                presenter.sendLike(t.id, -1, adapterPosition)
             }
 
-        }
-
-
-        private fun setPeopleLike(value: Int, like: Like?): Int {
-            like?.let {
-                like.state += value
-                if (like.state > 1) {
-                    like.state = 1
-                    return 0
-                } else if (like.state < -1) {
-                    like.state = -1
-                    return 0
-                }
-            }
-            return value
         }
     }
 
+    override fun updateAdapter() {
+        notifyDataSetChanged()
+    }
 }
