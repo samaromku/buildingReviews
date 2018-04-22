@@ -79,6 +79,18 @@
                     app:layout_constraintEnd_toStartOf="@+id/tvPeopleLikes"
                     app:layout_constraintTop_toBottomOf="@+id/tvGeneralEmotionText"
                     tools:text="asdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdaskasdklf;jasjffxzklcvj;klasjfdask" />
+
+
+                <TextView
+                    android:id="@+id/tvInProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="end"
+                    android:text="@string/in_progress_text"
+                    android:textStyle="italic"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
 
@@ -91,7 +103,6 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="1 из 5" />
-
 
         </RelativeLayout>
 

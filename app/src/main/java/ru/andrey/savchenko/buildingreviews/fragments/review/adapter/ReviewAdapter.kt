@@ -12,6 +12,7 @@ import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.interfaces.ShowHideProgress
+import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.REVIEW_IN_PROGRESS
 
 /**
  * Created by Andrey on 13.04.2018.
@@ -42,6 +43,11 @@ class ReviewAdapter(list: MutableList<Review>,
     class ReviewViewHolder(itemView: View, val presenter: ReviewAdapterPresenter) : BaseViewHolder<Review>(itemView) {
         override fun bind(t: Review, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
+            if (t.state == REVIEW_IN_PROGRESS) {
+                tvInProgress.visibility = View.VISIBLE
+            } else {
+                tvInProgress.visibility = View.GONE
+            }
             tvRating.text = "${t.rating} из 5"
             tvCreatorName.text = t.userName
             if (t.positive == null || t.positive.isEmpty()) {
@@ -71,14 +77,14 @@ class ReviewAdapter(list: MutableList<Review>,
             tvCreateDate.text = t.created
             tvPeopleLikes.text = t.peopleLike.toString()
 
-            if(t.like!=null){
-                if(t.like.state==1){
+            if (t.like != null) {
+                if (t.like.state == 1) {
                     setAvailable(ivRatingDown, true)
                     setAvailable(ivRatingUp, false)
-                }else if(t.like.state==-1){
+                } else if (t.like.state == -1) {
                     setAvailable(ivRatingUp, true)
                     setAvailable(ivRatingDown, false)
-                }else {
+                } else {
                     setAvailable(ivRatingUp, true)
                     setAvailable(ivRatingDown, true)
                 }
@@ -93,17 +99,16 @@ class ReviewAdapter(list: MutableList<Review>,
             }
         }
 
-        private fun setAvailable(ivView:ImageView, enabled:Boolean){
-            if(enabled){
+        private fun setAvailable(ivView: ImageView, enabled: Boolean) {
+            if (enabled) {
                 ivView.setColorFilter(Color.parseColor("#000000"))
-            }else {
+            } else {
                 ivView.setColorFilter(Color.parseColor("#8e979b"))
             }
             ivView.isEnabled = enabled
 
         }
     }
-
 
 
     override fun updateAdapter() {

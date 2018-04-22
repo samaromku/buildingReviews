@@ -6,6 +6,8 @@ package ru.andrey.savchenko.buildingreviews.storage
 class Const {
     companion object {
         const val COMPANY_ID = "company_id"
-
+        const val REVIEW_ADDED = "added"
+        const val REVIEW_DENIED = "denied"
+        const val REVIEW_IN_PROGRESS = "in_progress"
     }
 }
