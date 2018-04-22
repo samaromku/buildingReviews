@@ -1,9 +1,10 @@
 package ru.andrey.savchenko.buildingreviews.fragments.review.adapter
 
-import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import kotlinx.android.synthetic.main.item_review.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
@@ -68,10 +69,19 @@ class ReviewAdapter(list: MutableList<Review>,
             tvNegative.text = t.negative
             tvGeneralEmotion.text = t.general
             tvCreateDate.text = t.created
-            if (t.peopleLike.isEmpty()) {
-                tvPeopleLikes.text = "0"
-            } else {
-                tvPeopleLikes.text = (t.peopleLike).toInt().toString()
+            tvPeopleLikes.text = t.peopleLike.toString()
+
+            if(t.like!=null){
+                if(t.like.state==1){
+                    setAvailable(ivRatingDown, true)
+                    setAvailable(ivRatingUp, false)
+                }else if(t.like.state==-1){
+                    setAvailable(ivRatingUp, true)
+                    setAvailable(ivRatingDown, false)
+                }else {
+                    setAvailable(ivRatingUp, true)
+                    setAvailable(ivRatingDown, true)
+                }
             }
 
             ivRatingUp.setOnClickListener {
@@ -81,9 +91,20 @@ class ReviewAdapter(list: MutableList<Review>,
             ivRatingDown.setOnClickListener {
                 presenter.sendLike(t.id, -1, adapterPosition)
             }
+        }
+
+        private fun setAvailable(ivView:ImageView, enabled:Boolean){
+            if(enabled){
+                ivView.setColorFilter(Color.parseColor("#000000"))
+            }else {
+                ivView.setColorFilter(Color.parseColor("#8e979b"))
+            }
+            ivView.isEnabled = enabled
 
         }
     }
+
+
 
     override fun updateAdapter() {
         notifyDataSetChanged()

@@ -12,16 +12,16 @@ class ReviewAdapterPresenter(val view: ReviewAdapterView, val list: MutableList<
 
 
     fun sendLike(reviewId: Int, state: Int, position: Int) {
-        corMethod<String>(request = {
+        corMethod<Review>(request = {
             NetworkHandler.getService().addLike(Like(
                     userId = 0,
                     reviewId = reviewId,
                     state = state
             )).execute()
-        }, onResult = { peopleLike ->
-
-            val review = list[position]
-            review.peopleLike = peopleLike
+        }, onResult = { reviewResponse ->
+            list[position] = reviewResponse
+//            val review = list[position]
+//            review.peopleLike = reviewResponse
 //            val peopleLike = review.peopleLike.toInt()
 //            review.peopleLike = (peopleLike + like.state).toString()
             view.updateAdapter()

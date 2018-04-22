@@ -43,5 +43,6 @@ class ReviewsFragment:BaseFragment(), ReviewView, ShowHideProgress {
 
     override fun setNoReviewsVisible() {
         tvNoReviews.visibility = View.VISIBLE
+        rvReviews.visibility = View.GONE
     }
 }

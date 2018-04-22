@@ -35,7 +35,7 @@ class AddReviewPresenter : BasePresenter<AddReviewView>() {
                     positive = positive,
                     negative = negative,
                     general = general,
-                    peopleLike = "0",
+                    peopleLike = 0,
                     rating = rating,
                     created = SimpleDateFormat("yyyy.MM.dd").format(Date()),
                     creatorId = Storage.user?.id,

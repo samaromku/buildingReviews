@@ -39,6 +39,6 @@ interface BuildingService {
     fun register(@Body user: User):Call<ApiResponse<User>>
 
     @POST("/mobile/like")
-    fun addLike(@Body like: Like):Call<ApiResponse<String>>
+    fun addLike(@Body like: Like):Call<ApiResponse<Review>>
 }
 
