@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 26
@@ -14,6 +15,7 @@ android {
         versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -41,6 +43,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile 'com.android.support:multidex:1.0.1'
 
     compile "com.android.support:support-v4:$mySupportVersion"
     compile "com.android.support:design:$mySupportVersion"
@@ -73,6 +76,9 @@ dependencies {
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+        transitive = true;
+    }
     //rating
 //    compile 'me.zhanghai.android.materialratingbar:library:1.2.0'
 }
