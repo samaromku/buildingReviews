@@ -22,22 +22,25 @@ class SearchPresenter : BasePresenter<SearchView>() {
         val start: Int = itemCount
         var end: Int = start + 10
         Storage.getValueConst("itemCount")?.let {
-            if(end >=it.toInt()){
+            if (start >= it.toInt()) {
+                return@let
+            }
+            if (end >= it.toInt()) {
                 end = it.toInt()
             }
-        }
-        corMethod<List<Company>>(
-                beforeRequest = { showProgress() },
-                afterRequest = { hideProgress() },
-                request = { NetworkHandler.getService().corGetCompanies(start, end).execute() },
-                onResult = {
-                    it.toMutableList().let {
-                        viewState.setListToAdapter(it)
-                        allCompanies.addAll(it)
-                        currentCompanies.addAll(it)
+            corMethod<List<Company>>(
+                    beforeRequest = { showProgress() },
+                    afterRequest = { hideProgress() },
+                    request = { NetworkHandler.getService().corGetCompanies(start, end).execute() },
+                    onResult = {
+                        it.toMutableList().let {
+                            viewState.setListToAdapter(it)
+                            allCompanies.addAll(it)
+                            currentCompanies.addAll(it)
+                        }
                     }
-                }
-        )
+            )
+        }
     }
 
     fun onStart() {
@@ -45,6 +48,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
                 request = { NetworkHandler.getService().onStart().execute() },
                 onResult = {
                     Storage.constDictList = it.toMutableList()
+                    corCompanyList(0)
                 }
         )
     }

@@ -44,7 +44,6 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
                         { it.printStackTrace() })
 
         presenter.onStart()
-        presenter.corCompanyList(0)
         ivBack.setOnClickListener { backClick() }
         ivClose.setOnClickListener {
             etSearch.setText("")
