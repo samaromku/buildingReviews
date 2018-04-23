@@ -6,10 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
-import ru.andrey.savchenko.buildingreviews.entities.Company
-import ru.andrey.savchenko.buildingreviews.entities.Like
-import ru.andrey.savchenko.buildingreviews.entities.Review
-import ru.andrey.savchenko.buildingreviews.entities.User
+import ru.andrey.savchenko.buildingreviews.entities.*
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 
 /**
@@ -17,7 +14,8 @@ import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
  */
 interface BuildingService {
     @GET("/mobile/getCompanies")
-    fun corGetCompanies():Call<ApiResponse<List<Company>>>
+    fun corGetCompanies(@Query("start")start:Int,
+                        @Query("end")end:Int):Call<ApiResponse<List<Company>>>
 
     @GET("/mobile/getCompany")
     fun getCompany(@Query("id")id:Int):Call<ApiResponse<Company>>
@@ -40,5 +38,8 @@ interface BuildingService {
 
     @POST("/mobile/like")
     fun addLike(@Body like: Like):Call<ApiResponse<Review>>
+
+    @GET("/mobile/onStart")
+    fun onStart():Call<ApiResponse<List<ConstDict>>>
 }
 

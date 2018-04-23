@@ -16,12 +16,19 @@ import ru.andrey.savchenko.buildingreviews.storage.Utils.Companion.getImageFullU
 /**
  * Created by savchenko on 10.04.18.
  */
-class SearchAdapter(dataList: MutableList<Company>,
+class SearchAdapter(val dataList: MutableList<Company>,
                     onItemClickListener: OnItemClickListener) :
         BaseAdapter<Company>(dataList, onItemClickListener) {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<Company> {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_company, parent, false)
         return CompanyViewHolder(view)
+    }
+
+
+
+    fun addToList(list:MutableList<Company>){
+        dataList.addAll(list)
+        notifyDataSetChanged()
     }
 
     class CompanyViewHolder(itemView: View) : BaseViewHolder<Company>(itemView) {

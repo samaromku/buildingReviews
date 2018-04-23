@@ -3,6 +3,7 @@ package ru.andrey.savchenko.buildingreviews.activities.search
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -27,6 +28,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
     val TAG = SearchActivity::class.java.simpleName
     @InjectPresenter
     lateinit var presenter: SearchPresenter
+    var adapter:SearchAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,19 +43,34 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
                 .subscribe({ text -> presenter.searchedList(text.toString()) },
                         { it.printStackTrace() })
 
-        presenter.corCompanyList()
+        presenter.onStart()
+        presenter.corCompanyList(0)
         ivBack.setOnClickListener { backClick() }
         ivClose.setOnClickListener {
             etSearch.setText("")
         }
+
+        adapter = SearchAdapter(mutableListOf(), this as OnItemClickListener)
+        val layoutManager = LinearLayoutManager(this)
+        rvCompanies.layoutManager = layoutManager
+        rvCompanies.adapter = adapter
+        rvCompanies.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0
+                        && totalItemCount >= rvCompanies.adapter.itemCount) {
+                    presenter.corCompanyList(rvCompanies.adapter.itemCount)
+                }
+            }
+        })
     }
 
-
     override fun setListToAdapter(list: MutableList<Company>) {
-        val adapter = SearchAdapter(list,
-                this as OnItemClickListener)
-        rvCompanies.layoutManager = LinearLayoutManager(this)
-        rvCompanies.adapter = adapter
+        adapter?.addToList(list)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
