@@ -16,7 +16,7 @@ import ru.andrey.savchenko.buildingreviews.storage.Utils.Companion.getImageFullU
 /**
  * Created by savchenko on 10.04.18.
  */
-class SearchAdapter(val dataList: MutableList<Company>,
+class SearchAdapter(dataList: MutableList<Company>,
                     onItemClickListener: OnItemClickListener) :
         BaseAdapter<Company>(dataList, onItemClickListener) {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<Company> {
@@ -27,7 +27,7 @@ class SearchAdapter(val dataList: MutableList<Company>,
 
 
     fun addToList(list:MutableList<Company>){
-        dataList.addAll(list)
+        dataList = list.toMutableList()
         notifyDataSetChanged()
     }
 

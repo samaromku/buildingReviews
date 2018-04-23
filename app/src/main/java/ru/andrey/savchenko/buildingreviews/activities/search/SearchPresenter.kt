@@ -21,22 +21,24 @@ class SearchPresenter : BasePresenter<SearchView>() {
     fun corCompanyList(itemCount: Int) {
         val start: Int = itemCount
         var end: Int = start + 10
-        Storage.getValueConst("itemCount")?.let {
-            if (start >= it.toInt()) {
-                return@let
+        val itemCountStorage = Storage.getValueConst("itemCount")
+        if(itemCountStorage!=null){
+            if (start >= itemCountStorage.toInt()) {
+                return
             }
-            if (end >= it.toInt()) {
-                end = it.toInt()
+            if (end >= itemCountStorage.toInt()) {
+                end = itemCountStorage.toInt()
             }
+            println("start $start end $end")
             corMethod<List<Company>>(
                     beforeRequest = { showProgress() },
                     afterRequest = { hideProgress() },
                     request = { NetworkHandler.getService().corGetCompanies(start, end).execute() },
                     onResult = {
                         it.toMutableList().let {
-                            viewState.setListToAdapter(it)
                             allCompanies.addAll(it)
                             currentCompanies.addAll(it)
+                            viewState.setListToAdapter(currentCompanies)
                         }
                     }
             )

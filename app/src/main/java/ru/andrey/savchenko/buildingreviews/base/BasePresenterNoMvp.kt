@@ -1,12 +1,10 @@
 package ru.andrey.savchenko.buildingreviews.base
 
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 import retrofit2.Response
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by savchenko on 22.04.18.
