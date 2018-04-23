@@ -28,7 +28,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
     val TAG = SearchActivity::class.java.simpleName
     @InjectPresenter
     lateinit var presenter: SearchPresenter
-    var adapter:SearchAdapter? = null
+    var adapter: SearchAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +53,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
         val layoutManager = LinearLayoutManager(this)
         rvCompanies.layoutManager = layoutManager
         rvCompanies.adapter = adapter
-        rvCompanies.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+        rvCompanies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val visibleItemCount = layoutManager.childCount
@@ -62,10 +62,20 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
                 if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= rvCompanies.adapter.itemCount) {
-                    presenter.corCompanyList(rvCompanies.adapter.itemCount)
+                    if (progressBar.visibility == View.GONE) {
+                        presenter.corCompanyList(rvCompanies.adapter.itemCount)
+                    }
                 }
             }
         })
+    }
+
+    override fun showProgress() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        progressBar.visibility = View.GONE
     }
 
     override fun setListToAdapter(list: MutableList<Company>) {
@@ -79,14 +89,18 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_search -> { openToolbarSearch() }
-            R.id.action_exit -> { exit() }
+            R.id.action_search -> {
+                openToolbarSearch()
+            }
+            R.id.action_exit -> {
+                exit()
+            }
 
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun exit(){
+    private fun exit() {
         startActivity(Intent(this, AuthActivity::class.java))
         finish()
         Storage.user = null
