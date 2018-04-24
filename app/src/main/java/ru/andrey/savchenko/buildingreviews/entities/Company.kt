@@ -10,5 +10,6 @@ data class Company(
         val siteUrl: String = "",
         val title: String = "",
         val description: String = "",
-        val address :String= ""
+        val address :String= "",
+        val regions:String? = ""
 )

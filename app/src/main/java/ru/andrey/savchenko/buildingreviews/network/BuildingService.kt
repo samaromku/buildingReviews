@@ -41,5 +41,8 @@ interface BuildingService {
 
     @GET("/mobile/onStart")
     fun onStart():Call<ApiResponse<List<ConstDict>>>
+
+    @GET("/mobile/getRegions")
+    fun getRegions():Call<ApiResponse<MutableList<String>>>
 }
 

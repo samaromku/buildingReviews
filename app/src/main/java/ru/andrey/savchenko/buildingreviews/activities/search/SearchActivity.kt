@@ -1,5 +1,6 @@
 package ru.andrey.savchenko.buildingreviews.activities.search
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActiv
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Company
+import ru.andrey.savchenko.buildingreviews.fragments.choose_region.ChooseRegionFragment
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
 import ru.andrey.savchenko.buildingreviews.storage.Storage
 import java.util.concurrent.TimeUnit
@@ -89,15 +91,18 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_search -> {
-                openToolbarSearch()
-            }
-            R.id.action_exit -> {
-                exit()
-            }
+            R.id.action_search -> { openToolbarSearch() }
+            R.id.action_filter -> { filter()}
+            R.id.action_exit -> { exit() }
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun filter(){
+        val chooseRegion = ChooseRegionFragment()
+        chooseRegion.regionListener = { println(it) }
+        chooseRegion.show(fragmentManager, "choose_region")
     }
 
     private fun exit() {

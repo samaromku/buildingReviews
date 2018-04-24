@@ -78,16 +78,16 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     override fun showError(error: String){
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this, R.style.MyDialogTheme)
         builder.setTitle("Ошибка")
                 .setMessage(error)
                 .setCancelable(false)
                 .setPositiveButton("ОК", { dialog, _ -> dialog.dismiss() })
         errordialog = builder.create()
-        errordialog.setOnShowListener {
-            errordialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(resources.getColor(android.R.color.background_dark))
-            errordialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(resources.getColor(android.R.color.background_dark))
-        }
+//        errordialog.setOnShowListener {
+//            errordialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(resources.getColor(android.R.color.background_dark))
+//            errordialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(resources.getColor(android.R.color.background_dark))
+//        }
         errordialog.show()
     }
 

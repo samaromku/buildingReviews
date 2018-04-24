@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="e45fc1a9945b33b1966678b708582468b8c55a35" />
+        <!--<meta-data-->
+            <!--android:name="io.fabric.ApiKey"-->
+            <!--android:value="e45fc1a9945b33b1966678b708582468b8c55a35" />-->
         <activity android:name=".activities.search.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar">
 

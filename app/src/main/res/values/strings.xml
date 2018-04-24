@@ -26,4 +26,5 @@
     <string name="exit">выход</string>
     <string name="email">Почта</string>
     <string name="in_progress_text">Отзыв находится на рассмотрении модератором и виден только Вам</string>
+    <string name="choose_region">выбор региона</string>
 </resources>

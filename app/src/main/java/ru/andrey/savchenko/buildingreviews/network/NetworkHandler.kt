@@ -13,8 +13,8 @@ import ru.andrey.savchenko.buildingreviews.storage.Storage
  * Created by savchenko on 11.04.18.
  */
 object NetworkHandler {
-    const val BASE_HOST_INNER = "http://ovz1.samaromku.6okmz.vps.myjino.ru:49250" //jino
-//    const val BASE_HOST_INNER = "http://10.0.2.2:8666"                          //mine computer emulator
+//    const val BASE_HOST_INNER = "http://ovz1.samaromku.6okmz.vps.myjino.ru:49250" //jino
+    const val BASE_HOST_INNER = "http://10.0.2.2:8666"                          //mine computer emulator
 
     fun getService(): BuildingService {
         val client: OkHttpClient = OkHttpClient
