@@ -34,7 +34,7 @@ open class BasePresenter<T : BaseView> : MvpPresenter<T>(), BasePresenterNoMvp {
         viewState.hideDialog()
     }
 
-    override fun showError(error:String){
-        viewState.showError(error)
+    override fun showError(error:String, repeat:() -> Unit){
+        viewState.showError(error, repeat)
     }
 }

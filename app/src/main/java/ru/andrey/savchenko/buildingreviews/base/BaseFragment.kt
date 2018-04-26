@@ -23,17 +23,18 @@ open class BaseFragment : MvpAppCompatFragment(),BaseView{
         }
     }
 
-    override fun showError(error: String){
-        val builder = AlertDialog.Builder(activity)
+    override fun showError(error: String, repeat:() -> Unit){
+        val builder = AlertDialog.Builder(activity, ru.andrey.savchenko.buildingreviews.R.style.MyDialogTheme)
         builder.setTitle("Ошибка")
                 .setMessage(error)
                 .setCancelable(false)
                 .setPositiveButton("ОК", { dialog, _ -> dialog.dismiss() })
+                .setNegativeButton("Поторить", { dialog, _ ->
+                    dialog.dismiss()
+                    repeat()
+                })
+                .setNeutralButton("Войти", {dialog, _ -> dialog.dismiss()})
         errordialog = builder.create()
-        errordialog.setOnShowListener {
-            errordialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(resources.getColor(R.color.background_dark))
-            errordialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(resources.getColor(R.color.background_dark))
-        }
         errordialog.show()
     }
 

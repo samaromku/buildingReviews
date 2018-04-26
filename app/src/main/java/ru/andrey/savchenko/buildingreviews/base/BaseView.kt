@@ -4,7 +4,7 @@ import com.arellomobile.mvp.MvpView
 
 
 interface BaseView:MvpView {
-    fun showError(error: String)
+    fun showError(error: String, repeat:() -> Unit)
     /**
      * методо, если ui не надо блочить, к примеру ввод теста в строку и параллельное выполнение запроса
      */

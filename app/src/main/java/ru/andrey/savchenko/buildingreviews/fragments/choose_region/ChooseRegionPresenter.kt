@@ -33,7 +33,7 @@ class ChooseRegionPresenter(val view:ChooseRegionView):BasePresenterNoMvp {
 
     }
 
-    override fun showError(error: String) {
-
+    override fun showError(error: String, repeat: () -> Unit) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

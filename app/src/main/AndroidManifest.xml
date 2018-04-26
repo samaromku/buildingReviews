@@ -16,15 +16,15 @@
             <!--android:value="e45fc1a9945b33b1966678b708582468b8c55a35" />-->
         <activity android:name=".activities.search.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity android:name=".activities.onecompany.OneCompanyActivity"/>
-        <activity android:name=".activities.auth.AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activities.onecompany.OneCompanyActivity"/>
+        <activity android:name=".activities.auth.AuthActivity">
+
         </activity>
         <activity android:name=".activities.registry.RegistryActivity"/>
     </application>

@@ -77,80 +77,19 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
         return super.onSupportNavigateUp()
     }
 
-    override fun showError(error: String){
+    override fun showError(error: String, repeat: () -> Unit) {
         val builder = AlertDialog.Builder(this, R.style.MyDialogTheme)
         builder.setTitle("Ошибка")
                 .setMessage(error)
                 .setCancelable(false)
                 .setPositiveButton("ОК", { dialog, _ -> dialog.dismiss() })
-        errordialog = builder.create()
-//        errordialog.setOnShowListener {
-//            errordialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(resources.getColor(android.R.color.background_dark))
-//            errordialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(resources.getColor(android.R.color.background_dark))
-//        }
-        errordialog.show()
-    }
-
-//    override fun showError(error: String, okEvent: () -> Unit?) {
-//        val builder = AlertDialog.Builder(this)
-//        builder.setTitle("Ошибка")
-//                .setMessage(error)
-//                .setCancelable(false)
-//                .setPositiveButton("ОК", { dialog, _ ->
-//                    okEvent.invoke()
-//                    dialog.dismiss()
-//                })
-//        errordialog = builder.create()
-//        errordialog.setOnShowListener {
-//            errordialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-//            errordialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-//        }
-//        errordialog.show()
-//    }
-
-    fun showConfirmDialog(title: String = "",
-                          message: String = "",
-                          positive: () -> Unit,
-                          negative: (() -> Unit)? = null)  {
-        showNotCancelableDialog(this,
-                title = "Внимание! Удалить документ?",
-                positiveClick = DialogInterface.OnClickListener { dialog, _ ->
-                    positive.invoke()
-                },
-                negativeClick = DialogInterface.OnClickListener { dialog, _ ->
-                    negative?.invoke()
+                .setNegativeButton("Поторить", { dialog, _ ->
+                    dialog.dismiss()
+                    repeat()
                 })
-    }
-
-    fun showNotCancelableDialog(context: Context,
-                                title: String = "",
-                                message: String = "",
-                                positiveClick: DialogInterface.OnClickListener,
-                                negativeClick: DialogInterface.OnClickListener) {
-        val dialog = android.support.v7.app.AlertDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(message)
-                .setCancelable(false)
-                .setPositiveButton("Да", positiveClick)
-                .setNegativeButton("Нет", negativeClick).create()
-        dialog.setOnShowListener {
-            dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(context.resources.getColor(android.R.color.background_dark))
-            dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE).setTextColor(context.resources.getColor(android.R.color.background_dark))
-        }
-        dialog.show()
-    }
-
-    fun addListToSpinner(context: Context,
-                         spinnerList:List<String>,
-                         spinner: AppCompatSpinner,
-                         setSelectedNothing:Boolean=false){
-        val adapter = ArrayAdapter<String>(context,
-                android.R.layout.simple_spinner_item, spinnerList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-        if(!setSelectedNothing) {
-            spinner.setSelection(0)
-        }
+                .setNeutralButton("Войти", {dialog, _ -> dialog.dismiss()})
+        errordialog = builder.create()
+        errordialog.show()
     }
 
     fun hideKeyboard(context: Context, editText: EditText) {

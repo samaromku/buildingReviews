@@ -6,5 +6,5 @@ package ru.andrey.savchenko.buildingreviews.interfaces
 interface ShowHideProgress {
     fun showProgress()
     fun hideProgress()
-    fun showError(error: String)
+    fun showError(error: String, repeat:() -> Unit)
 }

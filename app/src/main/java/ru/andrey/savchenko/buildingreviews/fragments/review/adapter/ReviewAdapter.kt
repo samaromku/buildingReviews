@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.item_review.*
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
@@ -22,9 +25,12 @@ class ReviewAdapter(list: MutableList<Review>,
                     val showHideProgress: ShowHideProgress) :
         BaseAdapter<Review>(list, onItemClickListener), ReviewAdapterView {
     val presenter = ReviewAdapterPresenter(this, list)
+    lateinit var currentJob: () -> Unit
 
     override fun showError(error: String) {
-        showHideProgress.showError(error)
+        showHideProgress.showError(error, {
+            currentJob()
+        })
     }
 
     override fun showDialog() {
@@ -40,7 +46,7 @@ class ReviewAdapter(list: MutableList<Review>,
         return ReviewViewHolder(view, presenter)
     }
 
-    class ReviewViewHolder(itemView: View, val presenter: ReviewAdapterPresenter) : BaseViewHolder<Review>(itemView) {
+    inner class ReviewViewHolder(itemView: View, val presenter: ReviewAdapterPresenter) : BaseViewHolder<Review>(itemView) {
         override fun bind(t: Review, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
             if (t.state == REVIEW_IN_PROGRESS) {
@@ -91,11 +97,13 @@ class ReviewAdapter(list: MutableList<Review>,
             }
 
             ivRatingUp.setOnClickListener {
-                presenter.sendLike(t.id, 1, adapterPosition)
+                currentJob = {presenter.sendLike(t.id, 1, adapterPosition)}
+                currentJob()
 
             }
             ivRatingDown.setOnClickListener {
-                presenter.sendLike(t.id, -1, adapterPosition)
+                currentJob = {presenter.sendLike(t.id, -1, adapterPosition)}
+                currentJob()
             }
         }
 
