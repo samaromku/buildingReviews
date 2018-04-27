@@ -5,21 +5,17 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.app.Service
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.design.widget.BottomSheetDialog
-import android.support.v7.widget.AppCompatSpinner
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.EditText
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
-import kotlinx.android.synthetic.main.bottom_sheet.*
-import kotlinx.android.synthetic.main.icon_buttons.*
+import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.progress_error.*
 import ru.andrey.savchenko.buildingreviews.R
-import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
 
 
 /**
@@ -58,7 +54,13 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     override fun showDialog() {
-        dialog.show()
+        idCenterProgressBar.visibility = View.VISIBLE
+//        dialog.show()
+    }
+
+    override fun hideDialog() {
+        idCenterProgressBar.visibility = View.GONE
+//        dialog.dismiss()
     }
 
     protected fun setDialogTitleAndText(title: String, message: String) {
@@ -72,9 +74,6 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
-    override fun hideDialog() {
-        dialog.dismiss()
-    }
 
     override fun changeToolbarTitle(title: String) {
         val actionBar = supportActionBar
@@ -89,33 +88,44 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     override fun showError(error: String, repeat: () -> Unit) {
-        val sheetView = layoutInflater.inflate(R.layout.bottom_sheet, null)
-        val tvError = sheetView.findViewById<TextView>(R.id.tvErrorBody)
-        tvError.text = error
-
-        sheetView.findViewById<LinearLayout>(R.id.llOk).setOnClickListener {
-            mBottomSheetDialog?.dismiss()
-        }
-        sheetView.findViewById<LinearLayout>(R.id.llRepeat).setOnClickListener {
-            mBottomSheetDialog?.dismiss()
+        llProgressError.visibility = View.VISIBLE
+        tvErrorBody.text = error
+        btnRepeat.setOnClickListener {
+            llProgressError.visibility = View.GONE
             repeat()
         }
-        sheetView.findViewById<LinearLayout>(R.id.llAuth).setOnClickListener {
-            mBottomSheetDialog?.dismiss()
-            startActivity(Intent(this, AuthActivity::class.java))
-        }
 
-        if (error.contains("403")) {
-            llAuth.visibility = View.VISIBLE
-        }
+//        val errorView = layoutInflater.inflate(R.layout.progress_error, container)
+//        container.addView(errorView)
 
-        if (mBottomSheetDialog != null && !mBottomSheetDialog!!.isShowing) {
 
-            mBottomSheetDialog?.setContentView(sheetView)
-
-            mBottomSheetDialog?.show()
-
-        }
+//        val sheetView = layoutInflater.inflate(R.layout.bottom_sheet, null)
+//        val tvError = sheetView.findViewById<TextView>(R.id.tvErrorBody)
+//        tvError.text = error
+//
+//        sheetView.findViewById<LinearLayout>(R.id.llOk).setOnClickListener {
+//            mBottomSheetDialog?.dismiss()
+//        }
+//        sheetView.findViewById<LinearLayout>(R.id.llRepeat).setOnClickListener {
+//            mBottomSheetDialog?.dismiss()
+//            repeat()
+//        }
+//        sheetView.findViewById<LinearLayout>(R.id.llAuth).setOnClickListener {
+//            mBottomSheetDialog?.dismiss()
+//            startActivity(Intent(this, AuthActivity::class.java))
+//        }
+//
+//        if (error.contains("403")) {
+//            llAuth.visibility = View.VISIBLE
+//        }
+//
+//        if (mBottomSheetDialog != null && !mBottomSheetDialog!!.isShowing) {
+//
+//            mBottomSheetDialog?.setContentView(sheetView)
+//
+//            mBottomSheetDialog?.show()
+//
+//        }
 //        val builder = AlertDialog.Builder(this, R.style.MyDialogTheme)
 //        builder.setTitle("Ошибка")
 //                .setMessage(error)

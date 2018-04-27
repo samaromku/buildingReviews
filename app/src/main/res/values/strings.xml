@@ -30,4 +30,5 @@
     <string name="error_text">Ошибка:</string>
     <string name="ok">ОК</string>
     <string name="repeat">Повторить</string>
+    <string name="uups_error">Упс, произошла ошибка</string>
 </resources>
