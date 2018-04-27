@@ -6,15 +6,20 @@ import android.app.ProgressDialog
 import android.app.Service
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.support.design.widget.BottomSheetDialog
 import android.support.v7.widget.AppCompatSpinner
+import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import com.arellomobile.mvp.MvpAppCompatActivity
+import kotlinx.android.synthetic.main.bottom_sheet.*
+import kotlinx.android.synthetic.main.icon_buttons.*
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
 
 
 /**
@@ -24,6 +29,12 @@ import ru.andrey.savchenko.buildingreviews.R
 open class BaseActivity : MvpAppCompatActivity(), BaseView {
     lateinit var errordialog: AlertDialog
     lateinit var dialog: ProgressDialog
+    private var mBottomSheetDialog: BottomSheetDialog? = null
+
+    override fun onStart() {
+        super.onStart()
+        mBottomSheetDialog = BottomSheetDialog(this)
+    }
 
     protected fun initBackButton() {
         val upArrow = resources.getDrawable(R.drawable.ic_arrow_back)
@@ -78,18 +89,45 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     override fun showError(error: String, repeat: () -> Unit) {
-        val builder = AlertDialog.Builder(this, R.style.MyDialogTheme)
-        builder.setTitle("Ошибка")
-                .setMessage(error)
-                .setCancelable(false)
-                .setPositiveButton("ОК", { dialog, _ -> dialog.dismiss() })
-                .setNegativeButton("Поторить", { dialog, _ ->
-                    dialog.dismiss()
-                    repeat()
-                })
-                .setNeutralButton("Войти", {dialog, _ -> dialog.dismiss()})
-        errordialog = builder.create()
-        errordialog.show()
+        val sheetView = layoutInflater.inflate(R.layout.bottom_sheet, null)
+        val tvError = sheetView.findViewById<TextView>(R.id.tvErrorBody)
+        tvError.text = error
+
+        sheetView.findViewById<LinearLayout>(R.id.llOk).setOnClickListener {
+            mBottomSheetDialog?.dismiss()
+        }
+        sheetView.findViewById<LinearLayout>(R.id.llRepeat).setOnClickListener {
+            mBottomSheetDialog?.dismiss()
+            repeat()
+        }
+        sheetView.findViewById<LinearLayout>(R.id.llAuth).setOnClickListener {
+            mBottomSheetDialog?.dismiss()
+            startActivity(Intent(this, AuthActivity::class.java))
+        }
+
+        if (error.contains("403")) {
+            llAuth.visibility = View.VISIBLE
+        }
+
+        if (mBottomSheetDialog != null && !mBottomSheetDialog!!.isShowing) {
+
+            mBottomSheetDialog?.setContentView(sheetView)
+
+            mBottomSheetDialog?.show()
+
+        }
+//        val builder = AlertDialog.Builder(this, R.style.MyDialogTheme)
+//        builder.setTitle("Ошибка")
+//                .setMessage(error)
+//                .setCancelable(false)
+//                .setPositiveButton("ОК", { dialog, _ -> dialog.dismiss() })
+//                .setNegativeButton("Поторить", { dialog, _ ->
+//                    dialog.dismiss()
+//                    repeat()
+//                })
+//                .setNeutralButton("Войти", {dialog, _ -> dialog.dismiss()})
+//        errordialog = builder.create()
+//        errordialog.show()
     }
 
     fun hideKeyboard(context: Context, editText: EditText) {

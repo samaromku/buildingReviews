@@ -27,4 +27,7 @@
     <string name="email">Почта</string>
     <string name="in_progress_text">Отзыв находится на рассмотрении модератором и виден только Вам</string>
     <string name="choose_region">выбор региона</string>
+    <string name="error_text">Ошибка:</string>
+    <string name="ok">ОК</string>
+    <string name="repeat">Повторить</string>
 </resources>
