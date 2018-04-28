@@ -8,9 +8,9 @@
 
     <LinearLayout
         android:id="@+id/llProgressError"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -40,13 +40,33 @@
             android:textSize="16sp"
             tools:text="орфыорыфвола" />
 
-        <Button
-            android:id="@+id/btnRepeat"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
-            android:text="@string/repeat" />
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/btnAuth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:text="@string/enter" />
+
+            <Button
+                android:id="@+id/btnRepeat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:text="@string/repeat" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 </FrameLayout>
