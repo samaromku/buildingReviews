@@ -10,35 +10,27 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.EditText
+import android.widget.RelativeLayout
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
 import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.progress_error.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
+import ru.andrey.savchenko.buildingreviews.fragments.ProgressFragment
 
 
 /**
  * Created by savchenko on 13.02.18.
  */
 @SuppressLint("Registered")
-open class BaseActivity : MvpAppCompatActivity(), BaseView {
+open class BaseActivity : MvpAppCompatActivity(),
+        BaseView,
+        BaseViewMethods {
     lateinit var errordialog: AlertDialog
-    lateinit var dialog: ProgressDialog
     private var mBottomSheetDialog: BottomSheetDialog? = null
-    lateinit var progressBar: ProgressBar
+    lateinit var dialog: ProgressDialog
 
-    override fun onStart() {
-        super.onStart()
-        mBottomSheetDialog = BottomSheetDialog(this)
-        progressBar = ProgressBar(this, null, android.R.attr.progressBarStyleLargeInverse)
-        val lp = RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, // Width in pixels
-                72// Height of progress bar
-        )
-        lp.addRule(RelativeLayout.CENTER_IN_PARENT)
-        progressBar.layoutParams = lp
-    }
 
     protected fun initBackButton() {
         val upArrow = resources.getDrawable(R.drawable.ic_arrow_back)
@@ -54,19 +46,19 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     override fun showProgress() {
-//        progressBar.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-//        progressBar.visibility = View.GONE
+        progressBar.visibility = View.GONE
     }
 
     override fun showDialog() {
-        container.addView(progressBar)
+        showProgressFragment(supportFragmentManager)
     }
 
     override fun hideDialog() {
-        container.removeView(progressBar)
+        hideProgressFragment(supportFragmentManager)
     }
 
     protected fun setDialogTitleAndText(title: String, message: String) {
@@ -94,16 +86,20 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     override fun showError(error: String, repeat: () -> Unit) {
-
-
         val errorFragment = ErrorFragment()
         errorFragment.error = error
-        errorFragment.repeat = repeat
+        errorFragment.repeat = {
+            supportFragmentManager.beginTransaction()
+                    .remove(supportFragmentManager.findFragmentByTag("error"))
+                    .commit()
+            repeat()
+        }
         supportFragmentManager.beginTransaction()
-                .replace(R.id.container, errorFragment)
+                .replace(R.id.container, errorFragment, "error")
                 .commit()
 
         //bottomSheet
+//        mBottomSheetDialog = BottomSheetDialog(this)
 //        val sheetView = layoutInflater.inflate(R.layout.bottom_sheet, null)
 //        val tvError = sheetView.findViewById<TextView>(R.id.tvErrorBody)
 //        tvError.text = error

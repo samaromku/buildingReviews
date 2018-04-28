@@ -4,6 +4,8 @@ import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import retrofit2.Response
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
 /**
@@ -39,6 +41,12 @@ interface BasePresenterNoMvp {
                 } else {
                     throw Throwable("Вернулся пустой ответ с сервера")
                 }
+            } catch (ex: SocketTimeoutException) {
+                ex.printStackTrace()
+                errorShow("Превышено время ожидания ответа с сервера")
+            }catch (ex: ConnectException){
+                ex.printStackTrace()
+                errorShow("Не удалось подключиться к серверу \nПроверьте свое подключение к интернету")
             } catch (ex: Throwable) {
                 ex.printStackTrace()
                 errorShow(ex.message.toString())
