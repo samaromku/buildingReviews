@@ -93,7 +93,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
         when (item?.itemId) {
             R.id.action_search -> { openToolbarSearch() }
             R.id.action_filter -> { filter()}
-            R.id.action_exit -> { exit() }
+//            R.id.action_exit -> { exit() }
 
         }
         return super.onOptionsItemSelected(item)

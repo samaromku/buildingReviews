@@ -5,7 +5,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.labo.kaji.fragmentanimations.CubeAnimation
 import entities.Building
 import kotlinx.android.synthetic.main.fragment_buildings.*
 import ru.andrey.savchenko.buildingreviews.R
@@ -37,5 +39,10 @@ class BuildingsFragment : BaseFragment(), BuildingView {
             }
         })
         rvBuildings.adapter = adapter
+    }
+
+    override fun setTextEmptyBuildings(text: String) {
+        tvNoBuildings.visibility = View.VISIBLE
+        tvNoBuildings.text = text
     }
 }

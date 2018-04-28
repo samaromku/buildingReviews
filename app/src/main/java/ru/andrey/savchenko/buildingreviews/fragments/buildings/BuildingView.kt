@@ -8,4 +8,5 @@ import ru.andrey.savchenko.buildingreviews.base.BaseView
  */
 interface BuildingView:BaseView {
     fun setListToAdapter(list:MutableList<Building>)
+    fun setTextEmptyBuildings(text:String)
 }

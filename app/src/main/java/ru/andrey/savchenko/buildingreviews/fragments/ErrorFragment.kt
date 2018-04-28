@@ -19,10 +19,6 @@ class ErrorFragment : BaseFragment() {
     lateinit var error: String
     lateinit var repeat: () -> Unit
 
-    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
-        return CubeAnimation.create(CubeAnimation.LEFT, enter, 500)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.progress_error, container, false)
     }

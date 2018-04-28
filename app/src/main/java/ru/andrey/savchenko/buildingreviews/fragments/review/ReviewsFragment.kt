@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.labo.kaji.fragmentanimations.CubeAnimation
 import kotlinx.android.synthetic.main.fragment_reviews.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment

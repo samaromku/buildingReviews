@@ -18,8 +18,12 @@ class BuildingPresenter: BasePresenter<BuildingView>() {
                 request = {NetworkHandler.getService().getBuildingsByCompanyId(companyId).execute()},
                 onResult = {it ->
                     it.toMutableList().let {
-                        viewState.setListToAdapter(it)
-                        list = it
+                        if(it.isNotEmpty()) {
+                            viewState.setListToAdapter(it)
+                            list = it
+                        }else {
+                            viewState.setTextEmptyBuildings("К сожалению, у нас нет данных о проектах данного застройщика")
+                        }
                     }
                 }
         )

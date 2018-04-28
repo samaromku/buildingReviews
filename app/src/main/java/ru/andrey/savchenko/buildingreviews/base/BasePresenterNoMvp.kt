@@ -52,6 +52,9 @@ interface BasePresenterNoMvp {
                 ex.printStackTrace()
                 errorShow(ErrorResponse("Не удалось подключиться к серверу \nПроверьте свое подключение к интернету",
                         503))
+            }catch (ex:RestThrowable){
+                ex.printStackTrace()
+                errorShow(ex.errorResponse)
             } catch (ex: Throwable) {
                 ex.printStackTrace()
                 errorShow(ErrorResponse(ex.message.toString(), 500))

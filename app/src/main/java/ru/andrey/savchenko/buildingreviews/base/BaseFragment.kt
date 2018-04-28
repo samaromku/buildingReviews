@@ -5,8 +5,11 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.animation.Animation
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
+import com.labo.kaji.fragmentanimations.CubeAnimation
+import com.labo.kaji.fragmentanimations.FlipAnimation
 import kotlinx.android.synthetic.main.fragment_reviews.*
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 
@@ -18,7 +21,10 @@ open class BaseFragment : MvpAppCompatFragment(),
         BaseViewMethods {
     lateinit var dialog: ProgressDialog
     lateinit var errordialog: AlertDialog
-//    lateinit var progressLayout: RelativeLayout
+
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
+        return FlipAnimation.create(FlipAnimation.LEFT, enter, 300)
+    }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

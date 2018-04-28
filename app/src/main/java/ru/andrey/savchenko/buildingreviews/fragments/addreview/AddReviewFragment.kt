@@ -2,7 +2,9 @@ package ru.andrey.savchenko.buildingreviews.fragments.addreview
 
 import android.os.Bundle
 import android.view.*
+import android.view.animation.Animation
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.labo.kaji.fragmentanimations.CubeAnimation
 import kotlinx.android.synthetic.main.fragment_add_review.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
