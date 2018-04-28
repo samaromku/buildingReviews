@@ -10,12 +10,12 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import com.arellomobile.mvp.MvpAppCompatActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.progress_error.*
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
 
 
 /**
@@ -26,10 +26,18 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     lateinit var errordialog: AlertDialog
     lateinit var dialog: ProgressDialog
     private var mBottomSheetDialog: BottomSheetDialog? = null
+    lateinit var progressBar: ProgressBar
 
     override fun onStart() {
         super.onStart()
         mBottomSheetDialog = BottomSheetDialog(this)
+        progressBar = ProgressBar(this, null, android.R.attr.progressBarStyleLargeInverse)
+        val lp = RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, // Width in pixels
+                72// Height of progress bar
+        )
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT)
+        progressBar.layoutParams = lp
     }
 
     protected fun initBackButton() {
@@ -54,13 +62,11 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     override fun showDialog() {
-        idCenterProgressBar.visibility = View.VISIBLE
-//        dialog.show()
+        container.addView(progressBar)
     }
 
     override fun hideDialog() {
-        idCenterProgressBar.visibility = View.GONE
-//        dialog.dismiss()
+        container.removeView(progressBar)
     }
 
     protected fun setDialogTitleAndText(title: String, message: String) {
@@ -88,17 +94,16 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
     }
 
     override fun showError(error: String, repeat: () -> Unit) {
-        llProgressError.visibility = View.VISIBLE
-        tvErrorBody.text = error
-        btnRepeat.setOnClickListener {
-            llProgressError.visibility = View.GONE
-            repeat()
-        }
-
-//        val errorView = layoutInflater.inflate(R.layout.progress_error, container)
-//        container.addView(errorView)
 
 
+        val errorFragment = ErrorFragment()
+        errorFragment.error = error
+        errorFragment.repeat = repeat
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, errorFragment)
+                .commit()
+
+        //bottomSheet
 //        val sheetView = layoutInflater.inflate(R.layout.bottom_sheet, null)
 //        val tvError = sheetView.findViewById<TextView>(R.id.tvErrorBody)
 //        tvError.text = error
@@ -126,6 +131,7 @@ open class BaseActivity : MvpAppCompatActivity(), BaseView {
 //            mBottomSheetDialog?.show()
 //
 //        }
+        //dimple errorDialog
 //        val builder = AlertDialog.Builder(this, R.style.MyDialogTheme)
 //        builder.setTitle("Ошибка")
 //                .setMessage(error)

@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import kotlinx.android.synthetic.main.fragment_reviews.*
+import kotlinx.android.synthetic.main.progress_error.*
+import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
 
 /**
  * Created by savchenko on 18.02.18.
@@ -24,18 +26,28 @@ open class BaseFragment : MvpAppCompatFragment(),BaseView{
     }
 
     override fun showError(error: String, repeat:() -> Unit){
-        val builder = AlertDialog.Builder(activity, ru.andrey.savchenko.buildingreviews.R.style.MyDialogTheme)
-        builder.setTitle("Ошибка")
-                .setMessage(error)
-                .setCancelable(false)
-                .setPositiveButton("ОК", { dialog, _ -> dialog.dismiss() })
-                .setNegativeButton("Поторить", { dialog, _ ->
-                    dialog.dismiss()
-                    repeat()
-                })
-                .setNeutralButton("Войти", {dialog, _ -> dialog.dismiss()})
-        errordialog = builder.create()
-        errordialog.show()
+        fragmentManager.beginTransaction()
+                .replace(ru.andrey.savchenko.buildingreviews.R.id.container, ErrorFragment())
+                .commit()
+
+        llProgressError.visibility = View.VISIBLE
+        tvErrorBody.text = error
+        btnRepeat.setOnClickListener {
+            llProgressError.visibility = View.GONE
+            repeat()
+        }
+//        val builder = AlertDialog.Builder(activity, ru.andrey.savchenko.buildingreviews.R.style.MyDialogTheme)
+//        builder.setTitle("Ошибка")
+//                .setMessage(error)
+//                .setCancelable(false)
+//                .setPositiveButton("ОК", { dialog, _ -> dialog.dismiss() })
+//                .setNegativeButton("Поторить", { dialog, _ ->
+//                    dialog.dismiss()
+//                    repeat()
+//                })
+//                .setNeutralButton("Войти", {dialog, _ -> dialog.dismiss()})
+//        errordialog = builder.create()
+//        errordialog.show()
     }
 
     override fun changeToolbarTitle(title: String) {
