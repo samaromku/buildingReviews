@@ -1,10 +1,11 @@
 package ru.andrey.savchenko.buildingreviews.base
 
 import com.arellomobile.mvp.MvpView
+import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 
 
 interface BaseView:MvpView {
-    fun showError(error: String, repeat:() -> Unit)
+    fun showError(error: ErrorResponse, repeat:() -> Unit)
     /**
      * методо, если ui не надо блочить, к примеру ввод теста в строку и параллельное выполнение запроса
      */

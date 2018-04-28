@@ -4,6 +4,7 @@ import kotlinx.coroutines.experimental.Job
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
 import ru.andrey.savchenko.buildingreviews.entities.Like
 import ru.andrey.savchenko.buildingreviews.entities.Review
+import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 
 /**
@@ -35,7 +36,7 @@ class ReviewAdapterPresenter(val view: ReviewAdapterView, val list: MutableList<
         view.hideDialog()
     }
 
-    override fun showError(error: String, repeat:() -> Unit) {
+    override fun showError(error: ErrorResponse, repeat:() -> Unit) {
         view.showError(error)
     }
 }

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import com.labo.kaji.fragmentanimations.CubeAnimation
 import kotlinx.android.synthetic.main.progress_error.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
@@ -17,6 +19,9 @@ class ErrorFragment : BaseFragment() {
     lateinit var error: String
     lateinit var repeat: () -> Unit
 
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
+        return CubeAnimation.create(CubeAnimation.LEFT, enter, 500)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.progress_error, container, false)

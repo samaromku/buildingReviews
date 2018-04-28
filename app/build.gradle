@@ -76,6 +76,8 @@ dependencies {
     compile 'com.arello-mobile:moxy-app-compat:1.5.3'
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+    //animation fragments
+    compile 'com.labo.kaji:fragmentanimations:0.1.1'
 //    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
 //        transitive = true;
 //    }

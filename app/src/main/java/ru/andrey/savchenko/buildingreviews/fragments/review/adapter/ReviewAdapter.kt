@@ -14,6 +14,7 @@ import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Review
+import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.interfaces.ShowHideProgress
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.REVIEW_IN_PROGRESS
 
@@ -27,7 +28,7 @@ class ReviewAdapter(list: MutableList<Review>,
     val presenter = ReviewAdapterPresenter(this, list)
     lateinit var currentJob: () -> Unit
 
-    override fun showError(error: String) {
+    override fun showError(error: ErrorResponse) {
         showHideProgress.showError(error, {
             currentJob()
         })

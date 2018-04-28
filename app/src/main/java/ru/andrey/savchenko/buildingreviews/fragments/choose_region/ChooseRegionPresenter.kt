@@ -1,6 +1,7 @@
 package ru.andrey.savchenko.buildingreviews.fragments.choose_region
 
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
+import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 
 /**
@@ -33,7 +34,7 @@ class ChooseRegionPresenter(val view:ChooseRegionView):BasePresenterNoMvp {
 
     }
 
-    override fun showError(error: String, repeat: () -> Unit) {
+    override fun showError(error: ErrorResponse, repeat: () -> Unit) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

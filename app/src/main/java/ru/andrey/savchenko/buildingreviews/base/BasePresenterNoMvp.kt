@@ -4,6 +4,8 @@ import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import retrofit2.Response
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
+import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
+import ru.andrey.savchenko.buildingreviews.entities.network.RestThrowable
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
@@ -16,7 +18,7 @@ interface BasePresenterNoMvp {
                       afterRequest: () -> Unit = { hideDialog() },
                       request: () -> Response<ApiResponse<T>>,
                       onResult: (result: T) -> Unit,
-                      errorShow: (error: String) -> Unit = { t ->
+                      errorShow: (error: ErrorResponse) -> Unit = { t ->
                           showError(t, {
                               //todo  repeat
                               this.corMethod(onResult = onResult,
@@ -32,8 +34,9 @@ interface BasePresenterNoMvp {
                     val body = result.body()
                     if (body is ApiResponse<*>) {
                         if (body.error != null) {
-                            throw Throwable("Код: ${body.error.code}\n" +
-                                    "Ошибка: ${body.error.message} ")
+                            throw RestThrowable(ErrorResponse(
+                                    message = body.error.message,
+                                    code = body.error.code))
                         } else {
                             body.data?.let { onResult(it) }
                         }
@@ -43,13 +46,15 @@ interface BasePresenterNoMvp {
                 }
             } catch (ex: SocketTimeoutException) {
                 ex.printStackTrace()
-                errorShow("Превышено время ожидания ответа с сервера")
-            }catch (ex: ConnectException){
+                errorShow(ErrorResponse("Превышено время ожидания ответа с сервера",
+                        408))
+            } catch (ex: ConnectException) {
                 ex.printStackTrace()
-                errorShow("Не удалось подключиться к серверу \nПроверьте свое подключение к интернету")
+                errorShow(ErrorResponse("Не удалось подключиться к серверу \nПроверьте свое подключение к интернету",
+                        503))
             } catch (ex: Throwable) {
                 ex.printStackTrace()
-                errorShow(ex.message.toString())
+                errorShow(ErrorResponse(ex.message.toString(), 500))
             }
             afterRequest()
         }
@@ -57,5 +62,5 @@ interface BasePresenterNoMvp {
 
     fun showDialog()
     fun hideDialog()
-    fun showError(error: String, repeat: () -> Unit)
+    fun showError(error: ErrorResponse, repeat: () -> Unit)
 }

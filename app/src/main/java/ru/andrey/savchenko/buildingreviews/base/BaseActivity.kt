@@ -16,6 +16,7 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
 import ru.andrey.savchenko.buildingreviews.fragments.ProgressFragment
 
@@ -85,18 +86,19 @@ open class BaseActivity : MvpAppCompatActivity(),
         return super.onSupportNavigateUp()
     }
 
-    override fun showError(error: String, repeat: () -> Unit) {
-        val errorFragment = ErrorFragment()
-        errorFragment.error = error
-        errorFragment.repeat = {
-            supportFragmentManager.beginTransaction()
-                    .remove(supportFragmentManager.findFragmentByTag("error"))
-                    .commit()
-            repeat()
-        }
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.container, errorFragment, "error")
-                .commit()
+    override fun showError(error: ErrorResponse, repeat: () -> Unit) {
+        showErrorFragmentError(error, repeat, supportFragmentManager)
+//        val errorFragment = ErrorFragment()
+//        errorFragment.error = "Код: ${error.code} \n Ошибка: ${error.message}"
+//        errorFragment.repeat = {
+//            supportFragmentManager.beginTransaction()
+//                    .remove(supportFragmentManager.findFragmentByTag("error"))
+//                    .commit()
+//            repeat()
+//        }
+//        supportFragmentManager.beginTransaction()
+//                .replace(R.id.container, errorFragment, "error")
+//                .commit()
 
         //bottomSheet
 //        mBottomSheetDialog = BottomSheetDialog(this)

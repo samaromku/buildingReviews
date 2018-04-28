@@ -5,16 +5,10 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import kotlinx.android.synthetic.main.fragment_reviews.*
-import kotlinx.android.synthetic.main.progress_error.*
-import org.jetbrains.anko.support.v4.act
-import ru.andrey.savchenko.buildingreviews.R
-import ru.andrey.savchenko.buildingreviews.R.id.container
-import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
+import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 
 /**
  * Created by savchenko on 18.02.18.
@@ -38,18 +32,19 @@ open class BaseFragment : MvpAppCompatFragment(),
         }
     }
 
-    override fun showError(error: String, repeat: () -> Unit) {
-        val errorFragment = ErrorFragment()
-        errorFragment.error = error
-        errorFragment.repeat = {
-            activity.supportFragmentManager.beginTransaction()
-                    .remove(activity.supportFragmentManager.findFragmentByTag("error"))
-                    .commit()
-            repeat()
-        }
-        activity.supportFragmentManager.beginTransaction()
-                .add(R.id.container, errorFragment, "error")
-                .commit()
+    override fun showError(error: ErrorResponse, repeat: () -> Unit) {
+        showErrorFragmentError(error, repeat, activity.supportFragmentManager)
+//        val errorFragment = ErrorFragment()
+//        errorFragment.error = "Код: ${error.code} \n Ошибка: ${error.message}"
+//        errorFragment.repeat = {
+//            activity.supportFragmentManager.beginTransaction()
+//                    .remove(activity.supportFragmentManager.findFragmentByTag("error"))
+//                    .commit()
+//            repeat()
+//        }
+//        activity.supportFragmentManager.beginTransaction()
+//                .add(R.id.container, errorFragment, "error")
+//                .commit()
     }
 
     override fun changeToolbarTitle(title: String) {
