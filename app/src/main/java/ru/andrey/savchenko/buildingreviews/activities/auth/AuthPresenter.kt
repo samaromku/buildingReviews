@@ -29,7 +29,7 @@ class AuthPresenter : BasePresenter<AuthView>() {
     }
 
     fun checkAuthStart() {
-        if (Storage.user != null) {
+        if (Storage.user?.token != null) {
             viewState.startCompaniesActivity()
         }
     }
