@@ -78,6 +78,10 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     //animation fragments
     compile 'com.labo.kaji:fragmentanimations:0.1.1'
+    //location
+//    compile 'com.google.android.gms:play-services-base:15.0.1'
+//    compile "com.google.android.gms:play-services-location:15.0.1"
+    compile 'com.google.android.gms:play-services-maps:15.0.1'
 //    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
 //        transitive = true;
 //    }

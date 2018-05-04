@@ -13,7 +13,7 @@ import ru.andrey.savchenko.buildingreviews.storage.Storage
  * Created by savchenko on 11.04.18.
  */
 object NetworkHandler {
-//    const val BASE_HOST_INNER = "http://ovz1.samaromku.6okmz.vps.myjino.ru:49250" //jino
+    //    const val BASE_HOST_INNER = "http://ovz1.samaromku.6okmz.vps.myjino.ru:49250" //jino
     const val BASE_HOST_INNER = "http://10.0.2.2:8666"                          //mine computer emulator
 
     fun getService(): BuildingService {
@@ -24,7 +24,7 @@ object NetworkHandler {
                 .addInterceptor(Interceptor { chain ->
                     var request = chain.request()
                     val user = Storage.user
-                    if(user?.token != null){
+                    if (user?.token != null) {
                         request = request.newBuilder()
                                 .addHeader("token", user.token?.token)
                                 .build()
@@ -44,6 +44,26 @@ object NetworkHandler {
 //                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(BuildingService::class.java)
+    }
+
+
+    fun getGeoCodeService(): GeoCodeService {
+        val client: OkHttpClient = OkHttpClient
+                .Builder()
+                .addInterceptor(HttpLoggingInterceptor()
+                        .setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build()
+
+        val gson = GsonBuilder()
+                .setLenient()
+                .create()
+        //real server
+        return Retrofit.Builder()
+                .baseUrl("https://maps.googleapis.com")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(GeoCodeService::class.java)
     }
 
 }

@@ -9,5 +9,6 @@ class Const {
         const val REVIEW_ADDED = "added"
         const val REVIEW_DENIED = "denied"
         const val REVIEW_IN_PROGRESS = "in_progress"
+        const val MAP_KEY = "AIzaSyDAI8tMCJiA2PQYE9F__J2dmT1APUxTetA"
     }
 }

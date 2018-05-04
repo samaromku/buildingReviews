@@ -1,11 +1,17 @@
 package ru.andrey.savchenko.buildingreviews.activities.search
 
+import android.location.Location
 import com.arellomobile.mvp.InjectViewState
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.entities.ConstDict
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
+import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.MAP_KEY
 import ru.andrey.savchenko.buildingreviews.storage.Storage
 import java.util.*
 
@@ -42,6 +48,21 @@ class SearchPresenter : BasePresenter<SearchView>() {
                         }
                     }
             )
+        }
+    }
+
+    fun getAddress(location: Location){
+        val locationString = "${location.latitude},${location.longitude}"
+        launch(CommonPool) {
+            try {
+                val result = async(CommonPool) {
+                    NetworkHandler.getGeoCodeService()
+                            .geoCode(locationString, MAP_KEY).execute()
+                }.await()
+                println("gello result ${result.body()}")
+            }catch (ex:Throwable){
+                ex.printStackTrace()
+            }
         }
     }
 
