@@ -1,13 +1,11 @@
 package ru.andrey.savchenko.buildingreviews.activities.search
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.*
 import android.os.Bundle
-import android.os.Looper
 import android.support.v4.app.ActivityCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -28,9 +26,7 @@ import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.fragments.choose_region.ChooseRegionFragment
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
-import ru.andrey.savchenko.buildingreviews.storage.MyLocation
 import ru.andrey.savchenko.buildingreviews.storage.Storage
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -74,7 +70,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= rvCompanies.adapter.itemCount) {
                     if (progressBar.visibility == View.GONE) {
-                        presenter.corCompanyList(rvCompanies.adapter.itemCount)
+                        presenter.getCompanyList(rvCompanies.adapter.itemCount)
                     }
                 }
             }

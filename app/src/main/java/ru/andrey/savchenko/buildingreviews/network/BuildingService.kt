@@ -13,9 +13,8 @@ import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
  * Created by savchenko on 11.04.18.
  */
 interface BuildingService {
-    @GET("/mobile/getCompanies")
-    fun corGetCompanies(@Query("start")start:Int,
-                        @Query("end")end:Int):Call<ApiResponse<List<Company>>>
+    @POST("/mobile/getCompanies")
+    fun getGetCompaniesByCity(@Body companyFilter: CompanyFilter):Call<ApiResponse<List<Company>>>
 
     @GET("/mobile/getCompany")
     fun getCompany(@Query("id")id:Int):Call<ApiResponse<Company>>

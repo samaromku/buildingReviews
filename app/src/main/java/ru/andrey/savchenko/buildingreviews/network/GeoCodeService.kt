@@ -11,5 +11,6 @@ import ru.andrey.savchenko.buildingreviews.entities.map.GeoCode
 interface GeoCodeService {
     @GET("/maps/api/geocode/json")
     fun geoCode(@Query("latlng") latLng: String,
-                @Query("key") key: String):Call<GeoCode>
+                @Query("key") key: String,
+                @Query("language")language:String):Call<GeoCode>
 }
