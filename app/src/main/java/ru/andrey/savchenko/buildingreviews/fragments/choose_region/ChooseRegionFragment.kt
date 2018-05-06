@@ -18,8 +18,8 @@ import ru.andrey.savchenko.buildingreviews.fragments.choose_region.adapter.Regio
  */
 class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
     lateinit var presenter: ChooseRegionPresenter
-    lateinit var regionListener:(region:String) -> Unit
-    var adapter:RegionAdapter? = null
+    lateinit var regionListener: (list: MutableList<Region>) -> Unit
+    var adapter: RegionAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_choose_region, container, false)
@@ -29,7 +29,10 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
         super.onViewCreated(view, savedInstanceState)
         presenter = ChooseRegionPresenter(this)
         presenter.getRegions()
-        btnOk.setOnClickListener { dialog.dismiss() }
+        btnOk.setOnClickListener {
+            presenter.getSelectedRegions()
+            dialog.dismiss()
+        }
         btnCancel.setOnClickListener { dialog.dismiss() }
     }
 
@@ -43,9 +46,11 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
         rvRegion.adapter = adapter
     }
 
-    override fun chooseRegion() {
+    override fun onRegionClicked() {
         adapter?.notifyDataSetChanged()
-//        dialog.dismiss()
-//        regionListener(region)
+    }
+
+    override fun getSelectedRegions(list: MutableList<Region>) {
+        regionListener(list)
     }
 }

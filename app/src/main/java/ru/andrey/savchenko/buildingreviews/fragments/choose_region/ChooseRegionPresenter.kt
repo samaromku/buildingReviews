@@ -25,10 +25,15 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
     fun clickOnRegion(position: Int) {
         val region = list?.get(position)
         region?.selected = !region?.selected!!
-        view.chooseRegion()
+        view.onRegionClicked()
 //        list?.let {
-//            view.chooseRegion(it[position])
+//            view.onRegionClicked(it[position])
 //        }
+    }
+
+    fun getSelectedRegions(){
+        val selected = list?.filter { it.selected }
+        selected?.toMutableList()?.let { view.getSelectedRegions(it) }
     }
 
     override fun showDialog() {

@@ -1,7 +1,7 @@
 package ru.andrey.savchenko.buildingreviews.entities
 
 data class CompanyFilter (
-        val city:String,
+        val regions:List<Region>,
         val start:Int,
         val end:Int
 )

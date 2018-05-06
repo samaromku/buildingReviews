@@ -9,6 +9,7 @@ import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.entities.CompanyFilter
 import ru.andrey.savchenko.buildingreviews.entities.ConstDict
+import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.MAP_KEY
 import ru.andrey.savchenko.buildingreviews.storage.Storage
@@ -44,7 +45,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
                                 CompanyFilter(
                                         start = start,
                                         end = end,
-                                        city = city)).execute()
+                                        regions = mutableListOf(Region(city)))).execute()
                     },
                     onResult = {
                         it.toMutableList().let {

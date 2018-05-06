@@ -7,5 +7,6 @@ import ru.andrey.savchenko.buildingreviews.entities.Region
  */
 interface ChooseRegionView {
     fun setListToAdapter(list:MutableList<Region>)
-    fun chooseRegion()
+    fun onRegionClicked()
+    fun getSelectedRegions(list:MutableList<Region>)
 }
