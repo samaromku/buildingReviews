@@ -6,9 +6,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.bottom_buttons.*
 import kotlinx.android.synthetic.main.fragment_choose_region.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
+import ru.andrey.savchenko.buildingreviews.entities.Region
+import ru.andrey.savchenko.buildingreviews.fragments.choose_region.adapter.RegionAdapter
 
 /**
  * Created by savchenko on 24.04.18.
@@ -16,6 +19,7 @@ import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
     lateinit var presenter: ChooseRegionPresenter
     lateinit var regionListener:(region:String) -> Unit
+    var adapter:RegionAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_choose_region, container, false)
@@ -25,19 +29,23 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
         super.onViewCreated(view, savedInstanceState)
         presenter = ChooseRegionPresenter(this)
         presenter.getRegions()
+        btnOk.setOnClickListener { dialog.dismiss() }
+        btnCancel.setOnClickListener { dialog.dismiss() }
     }
 
-    override fun setListToAdapter(list: MutableList<String>) {
-        rvRegion.layoutManager = LinearLayoutManager(activity)
-        rvRegion.adapter = RegionAdapter(list, object : OnItemClickListener {
+    override fun setListToAdapter(list: MutableList<Region>) {
+        adapter = RegionAdapter(list, object : OnItemClickListener {
             override fun onclick(position: Int) {
                 presenter.clickOnRegion(position)
             }
         })
+        rvRegion.layoutManager = LinearLayoutManager(activity)
+        rvRegion.adapter = adapter
     }
 
-    override fun chooseRegion(region: String) {
-        dialog.dismiss()
-        regionListener(region)
+    override fun chooseRegion() {
+        adapter?.notifyDataSetChanged()
+//        dialog.dismiss()
+//        regionListener(region)
     }
 }
