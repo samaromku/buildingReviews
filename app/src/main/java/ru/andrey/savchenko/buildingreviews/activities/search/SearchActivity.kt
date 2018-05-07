@@ -79,7 +79,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
 
     private fun getLocation() {
         val REQUEST_LOCATION_PERMISSIONS = 100
-        val listener = object :LocationListener{
+        val listener = object : LocationListener {
             override fun onLocationChanged(p0: Location?) {
                 p0?.let { presenter.getAddress(it) }
             }
@@ -153,8 +153,14 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
 
     private fun filter() {
         val chooseRegion = ChooseRegionFragment()
-        chooseRegion.regionListener = { println(it) }
+        chooseRegion.regionListener = {
+            presenter.uploadNewList(it)
+        }
         chooseRegion.show(fragmentManager, "choose_region")
+    }
+
+    override fun updateAdapter() {
+        adapter?.notifyDataSetChanged()
     }
 
     private fun exit() {

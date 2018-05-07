@@ -1,6 +1,9 @@
 package ru.andrey.savchenko.buildingreviews.fragments.choose_region
 
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
+import ru.andrey.savchenko.buildingreviews.db.BaseDao
+import ru.andrey.savchenko.buildingreviews.db.Dao
+import ru.andrey.savchenko.buildingreviews.db.RealmWrapper
 import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
@@ -12,19 +15,29 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
     var list: MutableList<Region>? = null
 
     fun getRegions() {
-        corMethod(request = { NetworkHandler.getService().getRegions().execute() },
-                onResult = {
-                    val regions = it.map { Region(value = it) }.toMutableList()
-                    list = regions
-                    list?.let {
-                        view.setListToAdapter(it)
-                    }
-                })
+        val dbRegions = BaseDao(Region::class.java).getAll()
+        if(dbRegions.isNotEmpty()){
+            list = dbRegions.toMutableList()
+            list?.let { view.setListToAdapter(it) }
+        }else {
+            corMethod(request = { NetworkHandler.getService().getRegions().execute() },
+                    onResult = {
+                        val regions = it.map { Region(value = it) }.toMutableList()
+                        list = regions
+                        list?.let {
+                            view.setListToAdapter(it)
+                            BaseDao(Region::class.java).addList(it)
+                        }
+                    })
+        }
     }
 
     fun clickOnRegion(position: Int) {
         val region = list?.get(position)
-        region?.selected = !region?.selected!!
+        region?.let { Dao().setRegionSelected(it) }
+        region?.selected?.let {
+            region.selected = !it
+        }
         view.onRegionClicked()
 //        list?.let {
 //            view.onRegionClicked(it[position])
@@ -33,7 +46,13 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
 
     fun getSelectedRegions(){
         val selected = list?.filter { it.selected }
-        selected?.toMutableList()?.let { view.getSelectedRegions(it) }
+        selected?.let {
+            if(it.isEmpty()){
+                view.showToast("Вы ничего не выбрали")
+            }else {
+                selected.toMutableList().let { view.getSelectedRegions(it) }
+            }
+        }
     }
 
     override fun showDialog() {

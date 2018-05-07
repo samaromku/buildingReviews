@@ -22,7 +22,7 @@ import java.util.*
 class SearchPresenter : BasePresenter<SearchView>() {
     val allCompanies: MutableList<Company> = mutableListOf()
     val currentCompanies: MutableList<Company> = mutableListOf()
-    var city = "Москва"
+    var regionList = mutableListOf<Region>(Region("Москва"))
 
 
     fun getCompanyList(itemCount: Int) {
@@ -45,7 +45,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
                                 CompanyFilter(
                                         start = start,
                                         end = end,
-                                        regions = mutableListOf(Region(city)))).execute()
+                                        regions = regionList)).execute()
                     },
                     onResult = {
                         it.toMutableList().let {
@@ -56,6 +56,14 @@ class SearchPresenter : BasePresenter<SearchView>() {
                     }
             )
         }
+    }
+
+    fun uploadNewList(list:MutableList<Region>){
+        regionList = list
+        currentCompanies.clear()
+        allCompanies.clear()
+        getCompanyList(0)
+        viewState.updateAdapter()
     }
 
     fun getAddress(location: Location) {
@@ -74,7 +82,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
                         if (types != null) {
                             for (type in types) {
                                 if (type == "locality") {
-                                    city = result.addressComponents?.get(0).toString()
+                                    regionList = mutableListOf(Region(result.addressComponents?.get(0).toString()))
                                 }
                             }
                         }

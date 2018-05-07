@@ -9,4 +9,5 @@ interface ChooseRegionView {
     fun setListToAdapter(list:MutableList<Region>)
     fun onRegionClicked()
     fun getSelectedRegions(list:MutableList<Region>)
+    fun showToast(text:String)
 }

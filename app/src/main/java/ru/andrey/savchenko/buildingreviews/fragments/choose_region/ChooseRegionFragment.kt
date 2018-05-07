@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.bottom_buttons.*
 import kotlinx.android.synthetic.main.fragment_choose_region.*
 import ru.andrey.savchenko.buildingreviews.R
@@ -31,7 +32,6 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
         presenter.getRegions()
         btnOk.setOnClickListener {
             presenter.getSelectedRegions()
-            dialog.dismiss()
         }
         btnCancel.setOnClickListener { dialog.dismiss() }
     }
@@ -51,6 +51,11 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
     }
 
     override fun getSelectedRegions(list: MutableList<Region>) {
+        dialog.dismiss()
         regionListener(list)
+    }
+
+    override fun showToast(text: String) {
+        Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
     }
 }
