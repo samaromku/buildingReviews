@@ -30,6 +30,9 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
         super.onViewCreated(view, savedInstanceState)
         presenter = ChooseRegionPresenter(this)
         presenter.getRegions()
+        btnAll.setOnClickListener {
+            presenter.setAllSelected()
+        }
         btnOk.setOnClickListener {
             presenter.getSelectedRegions()
         }
@@ -46,7 +49,7 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
         rvRegion.adapter = adapter
     }
 
-    override fun onRegionClicked() {
+    override fun updateAdapter() {
         adapter?.notifyDataSetChanged()
     }
 

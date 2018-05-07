@@ -14,7 +14,7 @@ import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
  */
 interface BuildingService {
     @POST("/mobile/getCompanies")
-    fun getGetCompaniesByCity(@Body companyFilter: CompanyFilter):Call<ApiResponse<List<Company>>>
+    fun getGetCompaniesByCity(@Body companyFilter: CompanyFilter):Call<ApiResponse<CompaniesItemCount>>
 
     @GET("/mobile/getCompany")
     fun getCompany(@Query("id")id:Int):Call<ApiResponse<Company>>

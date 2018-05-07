@@ -7,7 +7,7 @@ import ru.andrey.savchenko.buildingreviews.entities.Region
  */
 interface ChooseRegionView {
     fun setListToAdapter(list:MutableList<Region>)
-    fun onRegionClicked()
+    fun updateAdapter()
     fun getSelectedRegions(list:MutableList<Region>)
     fun showToast(text:String)
 }

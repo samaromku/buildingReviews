@@ -3,7 +3,6 @@ package ru.andrey.savchenko.buildingreviews.fragments.choose_region
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
 import ru.andrey.savchenko.buildingreviews.db.BaseDao
 import ru.andrey.savchenko.buildingreviews.db.Dao
-import ru.andrey.savchenko.buildingreviews.db.RealmWrapper
 import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
@@ -16,10 +15,10 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
 
     fun getRegions() {
         val dbRegions = BaseDao(Region::class.java).getAll()
-        if(dbRegions.isNotEmpty()){
+        if (dbRegions.isNotEmpty()) {
             list = dbRegions.toMutableList()
             list?.let { view.setListToAdapter(it) }
-        }else {
+        } else {
             corMethod(request = { NetworkHandler.getService().getRegions().execute() },
                     onResult = {
                         val regions = it.map { Region(value = it) }.toMutableList()
@@ -38,18 +37,39 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
         region?.selected?.let {
             region.selected = !it
         }
-        view.onRegionClicked()
+        view.updateAdapter()
 //        list?.let {
-//            view.onRegionClicked(it[position])
+//            view.updateAdapter(it[position])
 //        }
     }
 
-    fun getSelectedRegions(){
+    fun setAllSelected() {
+        val selected = list?.filter { it.selected }
+        if (list != null) {
+            selected?.let {
+                if (selected.isEmpty() || selected.size < list?.size!!) {
+                    list?.let {
+                        for (region in list!!) {
+                            region.selected = true
+                        }
+                    }
+                } else {
+                    for (region in list!!) {
+                        region.selected = false
+                    }
+
+                }
+            }
+        }
+        view.updateAdapter()
+    }
+
+    fun getSelectedRegions() {
         val selected = list?.filter { it.selected }
         selected?.let {
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
                 view.showToast("Вы ничего не выбрали")
-            }else {
+            } else {
                 selected.toMutableList().let { view.getSelectedRegions(it) }
             }
         }

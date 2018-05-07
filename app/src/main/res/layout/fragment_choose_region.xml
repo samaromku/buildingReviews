@@ -4,12 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/btnAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/all_regions" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRegion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_buttons"
-        android:layout_alignParentTop="true" />
+        android:layout_below="@+id/btnAll" />
 
     <include
         android:id="@+id/bottom_buttons"

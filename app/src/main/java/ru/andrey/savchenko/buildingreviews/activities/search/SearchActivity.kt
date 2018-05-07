@@ -49,8 +49,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ text -> presenter.searchedList(text.toString()) },
                         { it.printStackTrace() })
-
-        presenter.onStart()
+        presenter.getCompanyList(0)
         ivBack.setOnClickListener { backClick() }
         ivClose.setOnClickListener {
             etSearch.setText("")
@@ -107,17 +106,6 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
                 lm.requestSingleUpdate(LocationManager.GPS_PROVIDER, listener, null)
             }
         }
-
-//        Thread(Runnable {
-//            Looper.prepare()
-//            val result = object : MyLocation.LocationResult {
-//                override fun gotLocation(location: Location?) {
-//                    location?.let { presenter.getAddress(it) }
-//                }
-//            }
-//            val location = MyLocation()
-//            location.getLocation(this, result)
-//        }).start()
     }
 
     override fun showProgress() {

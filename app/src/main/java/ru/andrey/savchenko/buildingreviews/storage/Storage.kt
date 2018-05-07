@@ -9,6 +9,7 @@ import ru.andrey.savchenko.buildingreviews.entities.User
 object Storage {
     var user:User? = null
     var constDictList = mutableListOf<ConstDict>()
+    var itemCount:Int? = 10
 
     fun getValueConst(name:String):String?{
         return constDictList.firstOrNull { it.name==name }?.value

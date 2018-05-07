@@ -6,10 +6,8 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
-import ru.andrey.savchenko.buildingreviews.entities.Company
-import ru.andrey.savchenko.buildingreviews.entities.CompanyFilter
-import ru.andrey.savchenko.buildingreviews.entities.ConstDict
-import ru.andrey.savchenko.buildingreviews.entities.Region
+import ru.andrey.savchenko.buildingreviews.db.BaseDao
+import ru.andrey.savchenko.buildingreviews.entities.*
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.MAP_KEY
 import ru.andrey.savchenko.buildingreviews.storage.Storage
@@ -23,12 +21,20 @@ class SearchPresenter : BasePresenter<SearchView>() {
     val allCompanies: MutableList<Company> = mutableListOf()
     val currentCompanies: MutableList<Company> = mutableListOf()
     var regionList = mutableListOf<Region>(Region("Москва"))
+    get() {
+        val dbRegions = BaseDao(Region::class.java).getAll()
+        return if(dbRegions.isEmpty()){
+            mutableListOf<Region>(Region("Москва"))
+        }else {
+            dbRegions.filter { it.selected }.toMutableList()
+        }
+    }
 
 
     fun getCompanyList(itemCount: Int) {
         val start: Int = itemCount
         var end: Int = start + 10
-        val itemCountStorage = Storage.getValueConst("itemCount")
+        val itemCountStorage = Storage.itemCount
         if (itemCountStorage != null) {
             if (start >= itemCountStorage.toInt()) {
                 return
@@ -37,7 +43,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
                 end = itemCountStorage.toInt()
             }
             println("start $start end $end")
-            corMethod<List<Company>>(
+            corMethod<CompaniesItemCount>(
                     beforeRequest = { showProgress() },
                     afterRequest = { hideProgress() },
                     request = {
@@ -48,11 +54,13 @@ class SearchPresenter : BasePresenter<SearchView>() {
                                         regions = regionList)).execute()
                     },
                     onResult = {
-                        it.toMutableList().let {
+                        it.companyList.toMutableList().let {
                             allCompanies.addAll(it)
                             currentCompanies.addAll(it)
                             viewState.setListToAdapter(currentCompanies)
                         }
+                        println("itemcount here ${it.itemCount}")
+                        Storage.itemCount = it.itemCount
                     }
             )
         }
@@ -92,16 +100,6 @@ class SearchPresenter : BasePresenter<SearchView>() {
                 ex.printStackTrace()
             }
         }
-    }
-
-    fun onStart() {
-        corMethod<List<ConstDict>>(
-                request = { NetworkHandler.getService().onStart().execute() },
-                onResult = {
-                    Storage.constDictList = it.toMutableList()
-                    getCompanyList(0)
-                }
-        )
     }
 
     fun clickOnPosition(position: Int) {
