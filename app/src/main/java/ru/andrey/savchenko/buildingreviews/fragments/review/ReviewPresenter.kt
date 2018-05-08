@@ -18,15 +18,17 @@ class ReviewPresenter : BasePresenter<ReviewView>() {
                 request = { NetworkHandler.getService().getReviewsByCompanyId(companyId).execute() },
                 onResult = {
                     it.toMutableList().let {
-                        if (it.isEmpty()) {
+                        if (checkListEmpty(it)) {
                             viewState.setNoReviewsVisible()
-                            return@let
+                        }else {
+                            it.sortByDescending { it.created }
+                            viewState.setListToAdapter(it)
+                            list = it
                         }
-                        it.sortByDescending { it.created }
-                        viewState.setListToAdapter(it)
-                        list = it
                     }
                 }
         )
     }
+
+    private fun checkListEmpty(list:List<Review>):Boolean = list.isEmpty()
 }

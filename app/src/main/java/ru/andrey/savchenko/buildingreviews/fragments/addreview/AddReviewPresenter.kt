@@ -3,8 +3,9 @@ package ru.andrey.savchenko.buildingreviews.fragments.addreview
 import com.arellomobile.mvp.InjectViewState
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.Review
-import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
+import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.CHOOSE_RATING
+import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.FILL_ONE_FIELD
 import ru.andrey.savchenko.buildingreviews.storage.Storage
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,14 +22,11 @@ class AddReviewPresenter : BasePresenter<AddReviewView>() {
             negative: String,
             general: String) {
 
-        var rating: Int? = null
-        if (ratingText.isNotEmpty()) {
-            rating = ratingText.split(" из ")[0].toInt()
-        }
+        val rating: Int? = getRatingText(ratingText)
         if (positive.isEmpty() && negative.isEmpty() && general.isEmpty()) {
-            viewState.showToast("Заполните хотя бы одно поле")
+            viewState.showToast(FILL_ONE_FIELD)
         } else if (rating == null) {
-            viewState.showToast("Выбирите рейтинг")
+            viewState.showToast(CHOOSE_RATING)
         } else {
             val review = Review(id = 0,
                     companyId = companyId,
@@ -42,12 +40,19 @@ class AddReviewPresenter : BasePresenter<AddReviewView>() {
                     userName = Storage.user?.name)
 
             corMethod(
-                    request = {NetworkHandler.getService().sendReview(review).execute()},
+                    request = { NetworkHandler.getService().sendReview(review).execute() },
                     onResult = {
                         println(it)
                         viewState.finishAfterSent()
                     }
             )
         }
+    }
+
+    private fun getRatingText(ratingText: String): Int? {
+        if (ratingText.isNotEmpty()) {
+            return ratingText.split(" из ")[0].toInt()
+        }
+        return null
     }
 }

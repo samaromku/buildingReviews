@@ -46,13 +46,15 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
     }
 
     private fun replaceFragment(baseFragment: BaseFragment, tag: String) {
-        val currentFragment = supportFragmentManager.findFragmentByTag(tag)
-        if(currentFragment!=null && currentFragment.isVisible){
-            return
+        if (!checkCurrentFragmentVisible(tag)) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, baseFragment, tag)
+                    .commit()
         }
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction
-                .replace(R.id.container, baseFragment, tag)
-                .commit()
+    }
+
+    private fun checkCurrentFragmentVisible(tag: String): Boolean {
+        val currentFragment = supportFragmentManager.findFragmentByTag(tag)
+        return currentFragment != null && currentFragment.isVisible
     }
 }

@@ -1,4 +1,4 @@
-package ru.andrey.savchenko.buildingreviews.fragments.buildings
+package ru.andrey.savchenko.buildingreviews.fragments.buildings.adapter
 
 import android.view.LayoutInflater
 import android.view.View

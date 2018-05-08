@@ -5,14 +5,13 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.labo.kaji.fragmentanimations.CubeAnimation
 import entities.Building
 import kotlinx.android.synthetic.main.fragment_buildings.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
+import ru.andrey.savchenko.buildingreviews.fragments.buildings.adapter.BuildingsAdapter
 import ru.andrey.savchenko.buildingreviews.storage.Const
 
 /**
@@ -33,7 +32,7 @@ class BuildingsFragment : BaseFragment(), BuildingView {
 
     override fun setListToAdapter(list: MutableList<Building>) {
         rvBuildings.layoutManager = LinearLayoutManager(activity)
-        val adapter = BuildingsAdapter(list, object : OnItemClickListener{
+        val adapter = BuildingsAdapter(list, object : OnItemClickListener {
             override fun onclick(position: Int) {
                 println(position)
             }

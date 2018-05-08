@@ -6,24 +6,25 @@ import ru.andrey.savchenko.buildingreviews.db.Dao
 import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
+import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.NOTHING_CHOSEN
 
 /**
  * Created by savchenko on 24.04.18.
  */
 class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
-    var list: MutableList<Region>? = null
+    var allRegions: MutableList<Region>? = null
 
     fun getRegions() {
         val dbRegions = BaseDao(Region::class.java).getAll()
         if (dbRegions.isNotEmpty()) {
-            list = dbRegions.toMutableList()
-            list?.let { view.setListToAdapter(it) }
+            allRegions = dbRegions.toMutableList()
+            allRegions?.let { view.setListToAdapter(it) }
         } else {
             corMethod(request = { NetworkHandler.getService().getRegions().execute() },
                     onResult = {
                         val regions = it.map { Region(value = it) }.toMutableList()
-                        list = regions
-                        list?.let {
+                        allRegions = regions
+                        allRegions?.let {
                             view.setListToAdapter(it)
                             BaseDao(Region::class.java).addList(it)
                         }
@@ -32,43 +33,41 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
     }
 
     fun clickOnRegion(position: Int) {
-        val region = list?.get(position)
+        val region = allRegions?.get(position)
         region?.let { Dao().setRegionSelected(it) }
         region?.selected?.let {
             region.selected = !it
         }
         view.updateAdapter()
-//        list?.let {
-//            view.updateAdapter(it[position])
-//        }
     }
 
     fun setAllSelected() {
-        val selected = list?.filter { it.selected }
-        if (list != null) {
+        val selected = allRegions?.filter { it.selected }
+        if (allRegions != null) {
             selected?.let {
-                if (selected.isEmpty() || selected.size < list?.size!!) {
-                    list?.let {
-                        for (region in list!!) {
-                            region.selected = true
-                        }
-                    }
+                if (selected.isEmpty() || selected.size < allRegions?.size!!) {
+                    makeRegionsSelected(true)
                 } else {
-                    for (region in list!!) {
-                        region.selected = false
-                    }
-
+                    makeRegionsSelected(false)
                 }
             }
         }
         view.updateAdapter()
     }
 
+    private fun makeRegionsSelected(selected: Boolean) {
+        allRegions?.let {
+            for (region in allRegions!!) {
+                region.selected = selected
+            }
+        }
+    }
+
     fun getSelectedRegions() {
-        val selected = list?.filter { it.selected }
+        val selected = allRegions?.filter { it.selected }
         selected?.let {
             if (it.isEmpty()) {
-                view.showToast("Вы ничего не выбрали")
+                view.showToast(NOTHING_CHOSEN)
             } else {
                 selected.toMutableList().let { view.getSelectedRegions(it) }
             }

@@ -16,25 +16,32 @@ class RegistryPresenter : BasePresenter<RegistryView>() {
                      password: String,
                      name: String,
                      email: String) {
-        if (login.isEmpty() ||
+        if (checkFieldsValidation(login, password, name, email)) {
+            viewState.showToast("Заполните все поля")
+        } else {
+            corMethod(
+                    request = {
+                        NetworkHandler.getService().register(User(
+                                id = 0,
+                                login = login,
+                                password = password,
+                                name = name,
+                                email = email)).execute()
+                    }, onResult = {
+                Storage.user = it
+                viewState.startCompaniesActivity()
+            }
+            )
+        }
+    }
+
+    private fun checkFieldsValidation(login: String,
+                                      password: String,
+                                      name: String,
+                                      email: String): Boolean {
+        return !(login.isEmpty() ||
                 password.isEmpty() ||
                 email.isEmpty() ||
-                name.isEmpty()) {
-            viewState.showToast("Заполните все поля")
-            return
-        }
-        corMethod<User>(
-                request = {
-                    NetworkHandler.getService().register(User(
-                            id = 0,
-                            login = login,
-                            password = password,
-                            name = name,
-                            email = email)).execute()
-                }, onResult = {
-            Storage.user = it
-            viewState.startCompaniesActivity()
-        }
-        )
+                name.isEmpty())
     }
 }
