@@ -39,9 +39,9 @@ class RegistryPresenter : BasePresenter<RegistryView>() {
                                       password: String,
                                       name: String,
                                       email: String): Boolean {
-        return !(login.isEmpty() ||
+        return login.isEmpty() ||
                 password.isEmpty() ||
                 email.isEmpty() ||
-                name.isEmpty())
+                name.isEmpty()
     }
 }
