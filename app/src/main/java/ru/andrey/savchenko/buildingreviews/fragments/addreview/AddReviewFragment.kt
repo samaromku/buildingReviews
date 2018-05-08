@@ -13,7 +13,7 @@ import ru.andrey.savchenko.buildingreviews.storage.Const
 /**
  * Created by savchenko on 11.04.18.
  */
-class AddReviewFragment:BaseFragment(), AddReviewView {
+class AddReviewFragment : BaseFragment(), AddReviewView {
     @InjectPresenter
     lateinit var presenter: AddReviewPresenter
 
@@ -26,7 +26,8 @@ class AddReviewFragment:BaseFragment(), AddReviewView {
         setHasOptionsMenu(true)
         rbRating.setOnRatingBarChangeListener { ratingBar, fl, b ->
             tvRating.visibility = View.VISIBLE
-            tvRating.text = "${fl.toInt()} из 5" }
+            tvRating.text = String.format(resources.getString(R.string.from_five), fl.toInt())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -35,14 +36,16 @@ class AddReviewFragment:BaseFragment(), AddReviewView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.action_send -> {presenter.addReview(
-                    activity.intent.getIntExtra(Const.COMPANY_ID, 0),
-                    tvRating.text.toString(),
-                    etPositive.text.toString(),
-                    etNegative.text.toString(),
-                    etGeneral.text.toString()
-            )}
+        when (item?.itemId) {
+            R.id.action_send -> {
+                presenter.addReview(
+                        activity.intent.getIntExtra(Const.COMPANY_ID, 0),
+                        tvRating.text.toString(),
+                        etPositive.text.toString(),
+                        etNegative.text.toString(),
+                        etGeneral.text.toString()
+                )
+            }
         }
         return super.onOptionsItemSelected(item)
     }

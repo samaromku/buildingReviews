@@ -57,7 +57,7 @@ object NetworkHandler {
         val gson = GsonBuilder()
                 .setLenient()
                 .create()
-        //real server
+        //google server
         return Retrofit.Builder()
                 .baseUrl("https://maps.googleapis.com")
                 .client(client)

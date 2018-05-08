@@ -33,4 +33,5 @@
     <string name="uups_error">Упс, произошла ошибка</string>
     <string name="cancel">Отмена</string>
     <string name="all_regions">Все регионы</string>
+    <string name="from_five">%1$d из 5</string>
 </resources>
