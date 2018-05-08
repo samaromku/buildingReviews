@@ -13,6 +13,7 @@ class Const {
         const val CHOOSE_RATING = "Выбирите рейтинг"
         const val FILL_ONE_FIELD = "Заполните хотя бы одно поле"
         const val NOTHING_CHOSEN = "Вы ничего не выбрали"
+        const val FILL_FIELDS = "Заполните поля"
         const val NO_DATA_ABOUT_PROJECTS = "К сожалению, у нас нет данных о проектах данного застройщика"
     }
 }

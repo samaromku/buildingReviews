@@ -5,6 +5,7 @@ import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.User
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
+import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.FILL_FIELDS
 import ru.andrey.savchenko.buildingreviews.storage.Storage
 
 /**
@@ -15,7 +16,7 @@ class AuthPresenter : BasePresenter<AuthView>() {
     fun auth(login: String,
              password: String) {
         if (login.isEmpty() || password.isEmpty()) {
-            viewState.showToast("Заполните поля")
+            viewState.showToast(FILL_FIELDS)
             return
         } else {
             corMethod<User>(
