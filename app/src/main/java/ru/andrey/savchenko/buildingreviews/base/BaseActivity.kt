@@ -160,12 +160,10 @@ open class BaseActivity : MvpAppCompatActivity(),
 
     fun addValueToPrefs(name: String, value: Any) {
         PreferenceManager.getDefaultSharedPreferences(this).edit {
-            if(value is String) {
-                putString(name, value)
-            }else if(value is Boolean){
-                putBoolean(name, value)
-            }else if(value is Int){
-                putInt(name, value)
+            when (value) {
+                is String -> putString(name, value)
+                is Boolean -> putBoolean(name, value)
+                is Int -> putInt(name, value)
             }
         }
     }
