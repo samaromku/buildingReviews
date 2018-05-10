@@ -5,14 +5,17 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.app.Service
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.BottomSheetDialog
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.core.content.edit
 import com.arellomobile.mvp.MvpAppCompatActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import ru.andrey.savchenko.buildingreviews.R
@@ -153,5 +156,27 @@ open class BaseActivity : MvpAppCompatActivity(),
         editText.requestFocus()
         val keyboard = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         keyboard.showSoftInput(editText, 0)
+    }
+
+    fun addValueToPrefs(name: String, value: Any) {
+        PreferenceManager.getDefaultSharedPreferences(this).edit {
+            if(value is String) {
+                putString(name, value)
+            }else if(value is Boolean){
+                putBoolean(name, value)
+            }else if(value is Int){
+                putInt(name, value)
+            }
+        }
+    }
+
+    fun<T> getValueFromPrefs(name:String, type:T):Any?{
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        return when (type) {
+            is String -> prefs.getString(name, "")
+            is Int -> prefs.getInt(name, 0)
+            is Boolean -> prefs.getBoolean(name, false)
+            else -> null
+        }
     }
 }

@@ -12,11 +12,14 @@ android {
         applicationId "ru.andrey.savchenko.buildingreviews"
         minSdkVersion 18
         targetSdkVersion 26
-        versionCode 108
-        versionName "1.8"
+        versionCode 109
+        versionName "1.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
     buildTypes {
         release {
@@ -91,6 +94,7 @@ dependencies {
 //    }
     //rating
 //    compile 'me.zhanghai.android.materialratingbar:library:1.2.0'
-
+    //ktx
+    implementation 'androidx.core:core-ktx:0.3'
 
 }
