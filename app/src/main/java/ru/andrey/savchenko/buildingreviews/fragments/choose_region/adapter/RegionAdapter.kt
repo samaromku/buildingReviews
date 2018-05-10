@@ -8,27 +8,26 @@ import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
-import ru.andrey.savchenko.buildingreviews.db.Dao
-import ru.andrey.savchenko.buildingreviews.entities.Region
+import ru.andrey.savchenko.buildingreviews.db.room.RegionRoom
 
 /**
  * Created by savchenko on 24.04.18.
  */
-class RegionAdapter(dataList: MutableList<Region>,
+class RegionAdapter(dataList: MutableList<RegionRoom>,
                     onItemClickListener: OnItemClickListener) :
-        BaseAdapter<Region>(dataList, onItemClickListener) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Region> {
+        BaseAdapter<RegionRoom>(dataList, onItemClickListener) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<RegionRoom> {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_region, parent, false)
         return RegionViewHolder(view)
     }
 
-    class RegionViewHolder(itemView: View) : BaseViewHolder<Region>(itemView) {
-        override fun bind(t: Region, clickListener: OnItemClickListener) {
+    class RegionViewHolder(itemView: View) : BaseViewHolder<RegionRoom>(itemView) {
+        override fun bind(t: RegionRoom, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
             tvTitle.text = t.value
             chbSelected.isChecked = t.selected
             chbSelected.setOnClickListener {
-                t.let { Dao().setRegionSelected(it) }
+//                t.let { Dao().setRegionSelected(it) }
                 t.selected = !t.selected
             }
         }

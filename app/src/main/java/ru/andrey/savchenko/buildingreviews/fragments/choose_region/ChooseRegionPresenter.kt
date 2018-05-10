@@ -15,6 +15,7 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
     var allRegions: MutableList<Region>? = null
 
     fun getRegions() {
+
         val dbRegions = BaseDao(Region::class.java).getAll()
         if (dbRegions.isNotEmpty()) {
             allRegions = dbRegions.toMutableList()
