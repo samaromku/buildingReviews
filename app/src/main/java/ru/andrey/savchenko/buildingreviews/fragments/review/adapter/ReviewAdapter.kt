@@ -42,8 +42,8 @@ class ReviewAdapter(list: MutableList<Review>,
         showHideProgress.hideProgress()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<Review> {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_review, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Review> {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_review, parent, false)
         return ReviewViewHolder(view, presenter)
     }
 

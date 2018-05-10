@@ -21,13 +21,13 @@ class BuildingsFragment : BaseFragment(), BuildingView {
     @InjectPresenter
     lateinit var presenter: BuildingPresenter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_buildings, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.getBuildingsByCompanyId(activity.intent.getIntExtra(Const.COMPANY_ID, 0))
+        activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let { presenter.getBuildingsByCompanyId(it) }
     }
 
     override fun setListToAdapter(list: MutableList<Building>) {

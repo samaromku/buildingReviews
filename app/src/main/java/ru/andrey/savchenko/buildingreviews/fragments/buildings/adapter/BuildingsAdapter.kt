@@ -18,8 +18,8 @@ import ru.andrey.savchenko.buildingreviews.storage.Utils
 class BuildingsAdapter(list: MutableList<Building>, onItemClickListener: OnItemClickListener)
     : BaseAdapter<Building>(list, onItemClickListener) {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<Building> {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_building, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Building> {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_building, parent, false)
         return BuildingViewHolder(view)
     }
 

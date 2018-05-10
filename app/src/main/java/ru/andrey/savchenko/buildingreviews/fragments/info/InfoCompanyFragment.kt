@@ -21,13 +21,13 @@ class InfoCompanyFragment:BaseFragment(), InfoView{
     @InjectPresenter
     lateinit var presenter: InfoPresenter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_info, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_info, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.getInfoCompany(activity.intent.getIntExtra(Const.COMPANY_ID, 0))
+        activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let { presenter.getInfoCompany(it) }
     }
 
     override fun setToolbarText(text: String) {

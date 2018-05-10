@@ -23,7 +23,7 @@ class ErrorFragment : BaseFragment() {
         return inflater.inflate(R.layout.progress_error, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         tvErrorBody.text = error
         btnRepeat.setOnClickListener {

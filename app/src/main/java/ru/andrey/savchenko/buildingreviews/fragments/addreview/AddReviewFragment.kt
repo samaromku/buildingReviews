@@ -17,11 +17,11 @@ class AddReviewFragment : BaseFragment(), AddReviewView {
     @InjectPresenter
     lateinit var presenter: AddReviewPresenter
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_add_review, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_add_review, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         rbRating.setOnRatingBarChangeListener { ratingBar, fl, b ->
@@ -38,19 +38,21 @@ class AddReviewFragment : BaseFragment(), AddReviewView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_send -> {
-                presenter.addReview(
-                        activity.intent.getIntExtra(Const.COMPANY_ID, 0),
-                        tvRating.text.toString(),
-                        etPositive.text.toString(),
-                        etNegative.text.toString(),
-                        etGeneral.text.toString()
-                )
+                activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let {
+                    presenter.addReview(
+                            it,
+                            tvRating.text.toString(),
+                            etPositive.text.toString(),
+                            etNegative.text.toString(),
+                            etGeneral.text.toString()
+                    )
+                }
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun finishAfterSent() {
-        activity.finish()
+        activity?.finish()
     }
 }

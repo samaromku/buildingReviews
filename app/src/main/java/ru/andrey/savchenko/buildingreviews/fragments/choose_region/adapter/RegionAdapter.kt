@@ -17,8 +17,8 @@ import ru.andrey.savchenko.buildingreviews.entities.Region
 class RegionAdapter(dataList: MutableList<Region>,
                     onItemClickListener: OnItemClickListener) :
         BaseAdapter<Region>(dataList, onItemClickListener) {
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder<Region> {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_region, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Region> {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_region, parent, false)
         return RegionViewHolder(view)
     }
 

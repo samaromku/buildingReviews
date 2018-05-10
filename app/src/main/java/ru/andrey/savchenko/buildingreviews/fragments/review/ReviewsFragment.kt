@@ -28,9 +28,9 @@ class ReviewsFragment:BaseFragment(), ReviewView, ShowHideProgress {
         return inflater.inflate(R.layout.fragment_reviews, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.getReviews(activity.intent.getIntExtra(Const.COMPANY_ID, 0))
+        activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let { presenter.getReviews(it) }
     }
 
     override fun setListToAdapter(list: MutableList<Review>) {

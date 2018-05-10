@@ -26,7 +26,7 @@ open class BaseFragment : MvpAppCompatFragment(),
         return FlipAnimation.create(FlipAnimation.LEFT, enter, 300)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setDialogTitleAndText("Загрузка данных", "Ожидайте")
     }
@@ -39,7 +39,7 @@ open class BaseFragment : MvpAppCompatFragment(),
     }
 
     override fun showError(error: ErrorResponse, repeat: () -> Unit) {
-        showErrorFragmentError(error, repeat, activity.supportFragmentManager)
+        activity?.supportFragmentManager?.let { showErrorFragmentError(error, repeat, it) }
 //        val errorFragment = ErrorFragment()
 //        errorFragment.error = "Код: ${error.code} \n Ошибка: ${error.message}"
 //        errorFragment.repeat = {
@@ -82,11 +82,11 @@ open class BaseFragment : MvpAppCompatFragment(),
     }
 
     override fun showDialog() {
-        showProgressFragment(activity.supportFragmentManager)
+        activity?.supportFragmentManager?.let { showProgressFragment(it) }
     }
 
     override fun hideDialog() {
-        hideProgressFragment(activity.supportFragmentManager)
+        activity?.supportFragmentManager?.let { hideProgressFragment(it) }
     }
 
 

@@ -1,11 +1,13 @@
 package ru.andrey.savchenko.buildingreviews.fragments.choose_region
 
+import android.app.Dialog
 import android.app.DialogFragment
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import kotlinx.android.synthetic.main.bottom_buttons.*
 import kotlinx.android.synthetic.main.fragment_choose_region.*
@@ -24,6 +26,11 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_choose_region, container, false)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        dialog.window.requestFeature(Window.FEATURE_NO_TITLE);
+        return super.onCreateDialog(savedInstanceState)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
