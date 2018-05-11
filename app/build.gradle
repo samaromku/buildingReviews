@@ -1,9 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'realm-android'
 //apply plugin: 'io.fabric'
 
 android {
@@ -35,9 +33,6 @@ android {
     }
     kapt {
         correctErrorTypes = true
-    }
-    realm {
-        syncEnabled = true;
     }
 }
 def mySupportVersion = '27.1.0'

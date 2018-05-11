@@ -10,14 +10,8 @@ import android.view.Window
 import android.widget.Toast
 import kotlinx.android.synthetic.main.bottom_buttons.*
 import kotlinx.android.synthetic.main.fragment_choose_region.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
-import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
-import ru.andrey.savchenko.buildingreviews.db.room.RegionRoom
 import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.fragments.choose_region.adapter.RegionAdapter
 
@@ -40,27 +34,7 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
 
         presenter = ChooseRegionPresenter(this)
 
-        launch(UI){
-            async(CommonPool){
-                val dataBase = App.database
-                dataBase.weatherDataDao().insert(RegionRoom("test", true))
-                dataBase.weatherDataDao().insert(RegionRoom("test12345", true))
-                dataBase.weatherDataDao().insert(RegionRoom("asdfasdf", true))
-
-                val list = dataBase.weatherDataDao().getAll().toMutableList()
-                println(list)
-                adapter = RegionAdapter(list, object : OnItemClickListener {
-                    override fun onclick(position: Int) {
-                        presenter.clickOnRegion(position)
-                    }
-                })
-                rvRegion.layoutManager = LinearLayoutManager(activity)
-                rvRegion.adapter = adapter
-            }
-        }
-
-
-//        presenter.getRegions()
+        presenter.getRegions()
         btnAll.setOnClickListener {
             presenter.setAllSelected()
         }
@@ -71,13 +45,13 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
     }
 
     override fun setListToAdapter(list: MutableList<Region>) {
-//        adapter = RegionAdapter(list, object : OnItemClickListener {
-//            override fun onclick(position: Int) {
-//                presenter.clickOnRegion(position)
-//            }
-//        })
-//        rvRegion.layoutManager = LinearLayoutManager(activity)
-//        rvRegion.adapter = adapter
+        adapter = RegionAdapter(list, object : OnItemClickListener {
+            override fun onclick(position: Int) {
+                presenter.clickOnRegion(position)
+            }
+        })
+        rvRegion.layoutManager = LinearLayoutManager(activity)
+        rvRegion.adapter = adapter
     }
 
     override fun updateAdapter() {

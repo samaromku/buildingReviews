@@ -63,6 +63,10 @@ interface BasePresenterNoMvp {
         }
     }
 
+    fun bdExecute(exec:() -> Any){
+
+    }
+
     fun showDialog()
     fun hideDialog()
     fun showError(error: ErrorResponse, repeat: () -> Unit)

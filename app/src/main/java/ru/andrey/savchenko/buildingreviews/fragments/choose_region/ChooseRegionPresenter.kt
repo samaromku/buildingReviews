@@ -1,8 +1,11 @@
 package ru.andrey.savchenko.buildingreviews.fragments.choose_region
 
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
-import ru.andrey.savchenko.buildingreviews.db.BaseDao
-import ru.andrey.savchenko.buildingreviews.db.Dao
 import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
@@ -12,30 +15,47 @@ import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.NOTHING_CHOSE
  * Created by savchenko on 24.04.18.
  */
 class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
-    var allRegions: MutableList<Region>? = null
+    private var allRegions: MutableList<Region>? = null
 
     fun getRegions() {
+        val dataBase = App.database
+        var dbRegions: MutableList<Region>
+        launch(UI) {
+            dbRegions = async(CommonPool) {
+                dataBase.regionDao().getAll().toMutableList()
+            }.await()
 
-        val dbRegions = BaseDao(Region::class.java).getAll()
-        if (dbRegions.isNotEmpty()) {
-            allRegions = dbRegions.toMutableList()
-            allRegions?.let { view.setListToAdapter(it) }
-        } else {
-            corMethod(request = { NetworkHandler.getService().getRegions().execute() },
-                    onResult = {
-                        val regions = it.map { Region(value = it) }.toMutableList()
-                        allRegions = regions
-                        allRegions?.let {
-                            view.setListToAdapter(it)
-                            BaseDao(Region::class.java).addList(it)
-                        }
-                    })
+            if (dbRegions.isNotEmpty()) {
+                allRegions = dbRegions
+                allRegions?.let { view.setListToAdapter(it) }
+            } else {
+                corMethod(request = { NetworkHandler.getService().getRegions().execute() },
+                        onResult = {
+                            val regions = it.map { Region(value = it) }.toMutableList()
+                            allRegions = regions
+                            allRegions?.let {
+                                view.setListToAdapter(it)
+                                launch(UI) {
+                                    async(CommonPool) {
+                                        dataBase.regionDao().insertAll(it)
+                                    }.await()
+                                }
+                            }
+                        })
+            }
         }
     }
 
     fun clickOnRegion(position: Int) {
         val region = allRegions?.get(position)
-        region?.let { Dao().setRegionSelected(it) }
+        region?.let {
+            it.selected = !it.selected
+            launch(UI) {
+                async(CommonPool) {
+                    App.database.regionDao().insert(it)
+                }.await()
+            }
+        }
         region?.selected?.let {
             region.selected = !it
         }

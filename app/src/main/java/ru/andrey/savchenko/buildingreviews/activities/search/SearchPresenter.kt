@@ -3,11 +3,15 @@ package ru.andrey.savchenko.buildingreviews.activities.search
 import android.location.Location
 import com.arellomobile.mvp.InjectViewState
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
-import ru.andrey.savchenko.buildingreviews.db.BaseDao
-import ru.andrey.savchenko.buildingreviews.entities.*
+import ru.andrey.savchenko.buildingreviews.entities.CompaniesItemCount
+import ru.andrey.savchenko.buildingreviews.entities.Company
+import ru.andrey.savchenko.buildingreviews.entities.CompanyFilter
+import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.MAP_KEY
 import ru.andrey.savchenko.buildingreviews.storage.Storage
@@ -22,7 +26,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
     val currentCompanies: MutableList<Company> = mutableListOf()
     var regionList = mutableListOf<Region>(Region("Москва"))
     get() {
-        val dbRegions = BaseDao(Region::class.java).getAll()
+        val dbRegions = App.database.regionDao().getAll()
         return if(dbRegions.isEmpty()){
             mutableListOf<Region>(Region("Москва"))
         }else {
@@ -47,11 +51,17 @@ class SearchPresenter : BasePresenter<SearchView>() {
                     beforeRequest = { showProgress() },
                     afterRequest = { hideProgress() },
                     request = {
+                        var sentRegion :MutableList<Region>? = null
+                        if(regionList.isEmpty()){
+                            sentRegion = mutableListOf(Region("Москва", true))
+                        }else {
+                            sentRegion = regionList
+                        }
                         NetworkHandler.getService().getGetCompaniesByCity(
                                 CompanyFilter(
                                         start = start,
                                         end = end,
-                                        regions = regionList)).execute()
+                                        regions = sentRegion)).execute()
                     },
                     onResult = {
                         it.companyList.toMutableList().let {
@@ -67,7 +77,16 @@ class SearchPresenter : BasePresenter<SearchView>() {
     }
 
     fun uploadNewList(list:MutableList<Region>){
-        regionList = list
+        launch(UI){
+            async(CommonPool){
+                val allRegions = App.database.regionDao().getAll()
+                for(region in allRegions){
+                    region.selected = false
+                }
+                App.database.regionDao().insertAll(allRegions)
+                App.database.regionDao().insertAll(list)
+            }.await()
+        }
         currentCompanies.clear()
         allCompanies.clear()
         getCompanyList(0)
@@ -90,6 +109,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
                         if (types != null) {
                             for (type in types) {
                                 if (type == "locality") {
+                                    //get current position and set it to current regionList
                                     regionList = mutableListOf(Region(result.addressComponents?.get(0).toString()))
                                 }
                             }
