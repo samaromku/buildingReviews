@@ -64,6 +64,7 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
             for (region in allRegions!!) {
                 region.selected = selected
             }
+            Repository().addRegions(it)
         }
     }
 
