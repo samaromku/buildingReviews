@@ -1,11 +1,9 @@
 package ru.andrey.savchenko.buildingreviews.fragments.choose_region
 
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
+import ru.andrey.savchenko.buildingreviews.db.Repository
 import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
@@ -18,12 +16,8 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
     private var allRegions: MutableList<Region>? = null
 
     fun getRegions() {
-        val dataBase = App.database
-        var dbRegions: MutableList<Region>
         launch(UI) {
-            dbRegions = async(CommonPool) {
-                dataBase.regionDao().getAll().toMutableList()
-            }.await()
+            val dbRegions = Repository().getAllRegions()
 
             if (dbRegions.isNotEmpty()) {
                 allRegions = dbRegions
@@ -35,11 +29,7 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
                             allRegions = regions
                             allRegions?.let {
                                 view.setListToAdapter(it)
-                                launch(UI) {
-                                    async(CommonPool) {
-                                        dataBase.regionDao().insertAll(it)
-                                    }.await()
-                                }
+                                Repository().addRegions(it)
                             }
                         })
             }
@@ -50,14 +40,7 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
         val region = allRegions?.get(position)
         region?.let {
             it.selected = !it.selected
-            launch(UI) {
-                async(CommonPool) {
-                    App.database.regionDao().insert(it)
-                }.await()
-            }
-        }
-        region?.selected?.let {
-            region.selected = !it
+            Repository().addRegion(it)
         }
         view.updateAdapter()
     }

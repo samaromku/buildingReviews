@@ -11,12 +11,12 @@ import ru.andrey.savchenko.buildingreviews.entities.Region
  */
 @Dao
 interface RegionDao {
-    @Query("SELECT * from region")
+    @Query("SELECT * from region order by value")
     fun getAll(): List<Region>
 
     @Insert(onConflict = REPLACE)
-    fun insert(region: Region)
+    fun insertOrUpdate(region: Region)
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(region: List<Region>)
+    fun insertOrUpdateAll(region: List<Region>)
 }

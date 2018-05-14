@@ -3,7 +3,6 @@ package ru.andrey.savchenko.buildingreviews.activities.search
 import android.location.Location
 import com.arellomobile.mvp.InjectViewState
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import ru.andrey.savchenko.App
@@ -24,15 +23,6 @@ import java.util.*
 class SearchPresenter : BasePresenter<SearchView>() {
     val allCompanies: MutableList<Company> = mutableListOf()
     val currentCompanies: MutableList<Company> = mutableListOf()
-    var regionList = mutableListOf<Region>(Region("Москва"))
-    get() {
-        val dbRegions = App.database.regionDao().getAll()
-        return if(dbRegions.isEmpty()){
-            mutableListOf<Region>(Region("Москва"))
-        }else {
-            dbRegions.filter { it.selected }.toMutableList()
-        }
-    }
 
 
     fun getCompanyList(itemCount: Int) {
@@ -51,17 +41,12 @@ class SearchPresenter : BasePresenter<SearchView>() {
                     beforeRequest = { showProgress() },
                     afterRequest = { hideProgress() },
                     request = {
-                        var sentRegion :MutableList<Region>? = null
-                        if(regionList.isEmpty()){
-                            sentRegion = mutableListOf(Region("Москва", true))
-                        }else {
-                            sentRegion = regionList
-                        }
+
                         NetworkHandler.getService().getGetCompaniesByCity(
                                 CompanyFilter(
                                         start = start,
                                         end = end,
-                                        regions = sentRegion)).execute()
+                                        regions = getRegionsList())).execute()
                     },
                     onResult = {
                         it.companyList.toMutableList().let {
@@ -70,23 +55,28 @@ class SearchPresenter : BasePresenter<SearchView>() {
                             viewState.setListToAdapter(currentCompanies)
                         }
                         println("itemcount here ${it.itemCount}")
-                        Storage.itemCount = it.itemCount
+                        if(it.itemCount!=0) {
+                            Storage.itemCount = it.itemCount
+                        }else {
+                            println("itemcount here failed $it")
+                        }
                     }
             )
         }
     }
 
-    fun uploadNewList(list:MutableList<Region>){
-        launch(UI){
-            async(CommonPool){
-                val allRegions = App.database.regionDao().getAll()
-                for(region in allRegions){
-                    region.selected = false
-                }
-                App.database.regionDao().insertAll(allRegions)
-                App.database.regionDao().insertAll(list)
-            }.await()
+    private fun getRegionsList():MutableList<Region>{
+        val regionList: MutableList<Region>
+        val dbRegions = App.database.regionDao().getAll()
+        regionList = if(dbRegions.isEmpty()){
+            mutableListOf<Region>(Region("Москва", true))
+        }else {
+            dbRegions.filter { it.selected }.toMutableList()
         }
+        return regionList
+    }
+
+    fun uploadNewList(){
         currentCompanies.clear()
         allCompanies.clear()
         getCompanyList(0)
@@ -110,7 +100,7 @@ class SearchPresenter : BasePresenter<SearchView>() {
                             for (type in types) {
                                 if (type == "locality") {
                                     //get current position and set it to current regionList
-                                    regionList = mutableListOf(Region(result.addressComponents?.get(0).toString()))
+//                                    regionList = mutableListOf(Region(result.addressComponents?.get(0).toString()))
                                 }
                             }
                         }

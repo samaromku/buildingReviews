@@ -20,7 +20,7 @@ import ru.andrey.savchenko.buildingreviews.fragments.choose_region.adapter.Regio
  */
 class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
     lateinit var presenter: ChooseRegionPresenter
-    lateinit var regionListener: (list: MutableList<Region>) -> Unit
+    lateinit var regionListener: () -> Unit
     var adapter: RegionAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -60,7 +60,7 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
 
     override fun getSelectedRegions(list: MutableList<Region>) {
         dialog.dismiss()
-        regionListener(list)
+        regionListener()
     }
 
     override fun showToast(text: String) {

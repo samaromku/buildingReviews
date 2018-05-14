@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.item_region.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
+import ru.andrey.savchenko.buildingreviews.db.Repository
 import ru.andrey.savchenko.buildingreviews.entities.Region
 
 /**
@@ -26,8 +27,8 @@ class RegionAdapter(dataList: MutableList<Region>,
             tvTitle.text = t.value
             chbSelected.isChecked = t.selected
             chbSelected.setOnClickListener {
-//                t.let { Dao().setRegionSelected(it) }
                 t.selected = !t.selected
+                Repository().addRegion(t)
             }
         }
     }

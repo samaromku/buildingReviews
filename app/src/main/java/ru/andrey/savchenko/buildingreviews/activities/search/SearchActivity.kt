@@ -143,9 +143,7 @@ class SearchActivity : BaseActivity(), SearchView, BaseAdapter.OnItemClickListen
 
     private fun filter() {
         val chooseRegion = ChooseRegionFragment()
-        chooseRegion.regionListener = {
-            presenter.uploadNewList(it)
-        }
+        chooseRegion.regionListener = { presenter.uploadNewList() }
         chooseRegion.show(fragmentManager, "choose_region")
     }
 
