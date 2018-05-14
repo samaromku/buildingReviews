@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.toolbar.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
+import ru.andrey.savchenko.buildingreviews.activities.moderate.ModerateActivity
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
@@ -135,7 +136,7 @@ class SearchActivity : BaseActivity(), SearchView, BaseAdapter.OnItemClickListen
             R.id.action_filter -> {
                 filter()
             }
-//            R.id.action_exit -> { exit() }
+            R.id.action_admin -> { admin() }
 
         }
         return super.onOptionsItemSelected(item)
@@ -151,10 +152,8 @@ class SearchActivity : BaseActivity(), SearchView, BaseAdapter.OnItemClickListen
         adapter?.notifyDataSetChanged()
     }
 
-    private fun exit() {
-        startActivity(Intent(this, AuthActivity::class.java))
-        finish()
-        Storage.user = null
+    private fun admin() {
+        startActivity(Intent(this, ModerateActivity::class.java))
     }
 
     private fun openToolbarSearch() {

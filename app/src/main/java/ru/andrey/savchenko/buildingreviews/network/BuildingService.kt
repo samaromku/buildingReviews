@@ -22,6 +22,9 @@ interface BuildingService {
     @GET("/mobile/reviews")
     fun getReviewsByCompanyId(@Query("companyId")companyId:Int):Call<ApiResponse<List<Review>>>
 
+    @GET("/mobile/notAddedReviews")
+    fun getNotAddedReviews():Call<ApiResponse<List<Review>>>
+
     @POST("/mobile/reviews")
     fun sendReview(@Body review: Review):Call<ApiResponse<Boolean>>
 
