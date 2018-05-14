@@ -2,6 +2,7 @@ package ru.andrey.savchenko.buildingreviews.fragments.choose_region
 
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
 import ru.andrey.savchenko.buildingreviews.db.Repository
 import ru.andrey.savchenko.buildingreviews.entities.Region
@@ -27,9 +28,11 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
                         onResult = {
                             val regions = it.map { Region(value = it) }.toMutableList()
                             allRegions = regions
-                            allRegions?.let {
-                                view.setListToAdapter(it)
-                                Repository().addRegions(it)
+                            allRegions?.let { regions ->
+                                view.setListToAdapter(regions)
+                                Repository().dbQueryWrapper {
+                                    it.regionDao().insertOrUpdateAll(regions)
+                                }
                             }
                         })
             }
@@ -40,7 +43,9 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
         val region = allRegions?.get(position)
         region?.let {
             it.selected = !it.selected
-            Repository().addRegion(it)
+            Repository().dbQueryWrapper({
+                it.regionDao().insertOrUpdate(region)
+            })
         }
         view.updateAdapter()
     }
@@ -60,11 +65,13 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
     }
 
     private fun makeRegionsSelected(selected: Boolean) {
-        allRegions?.let {
+        allRegions?.let { regions ->
             for (region in allRegions!!) {
                 region.selected = selected
             }
-            Repository().addRegions(it)
+            Repository().dbQueryWrapper {
+                it.regionDao().insertOrUpdateAll(regions)
+            }
         }
     }
 

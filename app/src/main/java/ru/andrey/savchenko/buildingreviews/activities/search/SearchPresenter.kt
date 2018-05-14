@@ -41,7 +41,6 @@ class SearchPresenter : BasePresenter<SearchView>() {
                     beforeRequest = { showProgress() },
                     afterRequest = { hideProgress() },
                     request = {
-
                         NetworkHandler.getService().getGetCompaniesByCity(
                                 CompanyFilter(
                                         start = start,

@@ -13,23 +13,15 @@ import ru.andrey.savchenko.buildingreviews.entities.Region
 class Repository {
     private val dataBase = App.database
 
-    fun addRegion(region: Region){
+    fun dbQueryWrapper(query: (db:RegionDataBase) -> Unit) {
         launch(UI) {
             async(CommonPool) {
-                dataBase.regionDao().insertOrUpdate(region)
+                query(dataBase)
             }.await()
         }
     }
 
-    fun addRegions(region: List<Region>){
-        launch(UI) {
-            async(CommonPool) {
-                dataBase.regionDao().insertOrUpdateAll(region)
-            }.await()
-        }
-    }
-
-    suspend fun getAllRegions():MutableList<Region>{
+    suspend fun getAllRegions(): MutableList<Region> {
         return async(CommonPool) {
             dataBase.regionDao().getAll().toMutableList()
         }.await()
