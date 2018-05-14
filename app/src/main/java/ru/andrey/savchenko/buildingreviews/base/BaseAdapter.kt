@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView
  */
 abstract class BaseAdapter <T> (
         protected var dataList: MutableList<T>,
-        private val clickListener: OnItemClickListener):
+        private val clickListener: BaseAdapter.OnItemClickListener):
         RecyclerView.Adapter<BaseViewHolder<T>>() {
 
     override fun getItemCount(): Int {
@@ -20,5 +20,9 @@ abstract class BaseAdapter <T> (
 
     fun removeItem(){
         notifyDataSetChanged()
+    }
+
+    interface OnItemClickListener{
+        fun onClick(position:Int)
     }
 }

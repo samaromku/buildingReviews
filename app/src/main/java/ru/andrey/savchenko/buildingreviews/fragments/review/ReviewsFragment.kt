@@ -5,13 +5,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.labo.kaji.fragmentanimations.CubeAnimation
 import kotlinx.android.synthetic.main.fragment_reviews.*
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
-import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.fragments.review.adapter.ReviewAdapter
 import ru.andrey.savchenko.buildingreviews.interfaces.ShowHideProgress
@@ -34,8 +32,8 @@ class ReviewsFragment:BaseFragment(), ReviewView, ShowHideProgress {
     }
 
     override fun setListToAdapter(list: MutableList<Review>) {
-        val adapter = ReviewAdapter(list, object : OnItemClickListener {
-            override fun onclick(position: Int) {
+        val adapter = ReviewAdapter(list, object : BaseAdapter.OnItemClickListener {
+            override fun onClick(position: Int) {
                 println(position)
             }
         }, this)

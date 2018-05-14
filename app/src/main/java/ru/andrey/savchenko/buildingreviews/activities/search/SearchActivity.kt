@@ -4,7 +4,9 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.*
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -22,7 +24,7 @@ import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
-import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
+import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.fragments.choose_region.ChooseRegionFragment
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
@@ -30,7 +32,7 @@ import ru.andrey.savchenko.buildingreviews.storage.Storage
 import java.util.concurrent.TimeUnit
 
 
-class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
+class SearchActivity : BaseActivity(), SearchView, BaseAdapter.OnItemClickListener {
     val TAG = SearchActivity::class.java.simpleName
     @InjectPresenter
     lateinit var presenter: SearchPresenter
@@ -55,7 +57,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
             etSearch.setText("")
         }
 
-        adapter = SearchAdapter(mutableListOf(), this as OnItemClickListener)
+        adapter = SearchAdapter(mutableListOf(), this as BaseAdapter.OnItemClickListener)
         val layoutManager = LinearLayoutManager(this)
         rvCompanies.layoutManager = layoutManager
         rvCompanies.adapter = adapter
@@ -163,7 +165,7 @@ class SearchActivity : BaseActivity(), SearchView, OnItemClickListener {
         showKeyboard(this, etSearch)
     }
 
-    override fun onclick(position: Int) {
+    override fun onClick(position: Int) {
         presenter.clickOnPosition(position)
     }
 

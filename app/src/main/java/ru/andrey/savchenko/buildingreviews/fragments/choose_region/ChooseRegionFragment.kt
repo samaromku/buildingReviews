@@ -11,7 +11,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.bottom_buttons.*
 import kotlinx.android.synthetic.main.fragment_choose_region.*
 import ru.andrey.savchenko.buildingreviews.R
-import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
+import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.fragments.choose_region.adapter.RegionAdapter
 
@@ -45,8 +45,8 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
     }
 
     override fun setListToAdapter(list: MutableList<Region>) {
-        adapter = RegionAdapter(list, object : OnItemClickListener {
-            override fun onclick(position: Int) {
+        adapter = RegionAdapter(list, object : BaseAdapter.OnItemClickListener {
+            override fun onClick(position: Int) {
                 presenter.clickOnRegion(position)
             }
         })

@@ -9,8 +9,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import entities.Building
 import kotlinx.android.synthetic.main.fragment_buildings.*
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
-import ru.andrey.savchenko.buildingreviews.base.OnItemClickListener
 import ru.andrey.savchenko.buildingreviews.fragments.buildings.adapter.BuildingsAdapter
 import ru.andrey.savchenko.buildingreviews.storage.Const
 
@@ -22,7 +22,7 @@ class BuildingsFragment : BaseFragment(), BuildingView {
     lateinit var presenter: BuildingPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_buildings, container, false)
+        return inflater.inflate(R.layout.fragment_buildings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,8 +32,8 @@ class BuildingsFragment : BaseFragment(), BuildingView {
 
     override fun setListToAdapter(list: MutableList<Building>) {
         rvBuildings.layoutManager = LinearLayoutManager(activity)
-        val adapter = BuildingsAdapter(list, object : OnItemClickListener {
-            override fun onclick(position: Int) {
+        val adapter = BuildingsAdapter(list, object : BaseAdapter.OnItemClickListener {
+            override fun onClick(position: Int) {
                 println(position)
             }
         })

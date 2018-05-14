@@ -14,9 +14,9 @@ open class BaseViewHolder<T>(override val containerView: View?) :
         RecyclerView.ViewHolder(containerView),
         View.OnClickListener,
         LayoutContainer{
-    var clickListener: OnItemClickListener? = null
+    var clickListener: BaseAdapter.OnItemClickListener? = null
 
-    open fun bind(t:T, clickListener: OnItemClickListener){
+    open fun bind(t:T, clickListener: BaseAdapter.OnItemClickListener){
         this.clickListener = clickListener
     }
 
@@ -25,6 +25,6 @@ open class BaseViewHolder<T>(override val containerView: View?) :
     }
 
     override fun onClick(p0: View?) {
-        clickListener?.onclick(adapterPosition)
+        clickListener?.onClick(adapterPosition)
     }
 }
