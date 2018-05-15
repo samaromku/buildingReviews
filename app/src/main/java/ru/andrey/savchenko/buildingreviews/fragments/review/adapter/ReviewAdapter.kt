@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import kotlinx.android.synthetic.main.item_review.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
@@ -13,6 +14,8 @@ import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.interfaces.ShowHideProgress
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.REVIEW_IN_PROGRESS
+import ru.andrey.savchenko.buildingreviews.storage.gone
+import ru.andrey.savchenko.buildingreviews.storage.visible
 
 /**
  * Created by Andrey on 13.04.2018.
@@ -47,33 +50,18 @@ class ReviewAdapter(list: MutableList<Review>,
         override fun bind(t: Review, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
             if (t.state == REVIEW_IN_PROGRESS) {
-                tvInProgress.visibility = View.VISIBLE
+                tvInProgress.visible()
             } else {
-                tvInProgress.visibility = View.GONE
+                tvInProgress.gone()
             }
             tvRating.text = "${t.rating} из 5"
             tvCreatorName.text = t.userName
-            if (t.positive == null || t.positive.isEmpty()) {
-                tvPositiveText.visibility = View.GONE
-                tvPositive.visibility = View.GONE
-            } else {
-                tvPositiveText.visibility = View.VISIBLE
-                tvPositive.visibility = View.VISIBLE
-            }
-            if (t.negative == null || t.negative.isEmpty()) {
-                tvNegativeText.visibility = View.GONE
-                tvNegative.visibility = View.GONE
-            } else {
-                tvNegativeText.visibility = View.VISIBLE
-                tvNegative.visibility = View.VISIBLE
-            }
-            if (t.general == null || t.general.isEmpty()) {
-                tvGeneralEmotionText.visibility = View.GONE
-                tvGeneralEmotion.visibility = View.GONE
-            } else {
-                tvGeneralEmotionText.visibility = View.VISIBLE
-                tvGeneralEmotion.visibility = View.VISIBLE
-            }
+
+            setTextViewVisibility(tvPositive, tvPositiveText, t.positive)
+            setTextViewVisibility(tvNegative, tvNegativeText, t.negative)
+            setTextViewVisibility(tvGeneralEmotion, tvGeneralEmotionText, t.general)
+
+
             tvPositive.text = t.positive
             tvNegative.text = t.negative
             tvGeneralEmotion.text = t.general
@@ -81,15 +69,19 @@ class ReviewAdapter(list: MutableList<Review>,
             tvPeopleLikes.text = t.peopleLike.toString()
 
             if (t.like != null) {
-                if (t.like.state == 1) {
-                    setAvailable(ivRatingDown, true)
-                    setAvailable(ivRatingUp, false)
-                } else if (t.like.state == -1) {
-                    setAvailable(ivRatingUp, true)
-                    setAvailable(ivRatingDown, false)
-                } else {
-                    setAvailable(ivRatingUp, true)
-                    setAvailable(ivRatingDown, true)
+                when {
+                    t.like.state == 1 -> {
+                        setAvailable(ivRatingDown, true)
+                        setAvailable(ivRatingUp, false)
+                    }
+                    t.like.state == -1 -> {
+                        setAvailable(ivRatingUp, true)
+                        setAvailable(ivRatingDown, false)
+                    }
+                    else -> {
+                        setAvailable(ivRatingUp, true)
+                        setAvailable(ivRatingDown, true)
+                    }
                 }
             }
 
@@ -111,7 +103,18 @@ class ReviewAdapter(list: MutableList<Review>,
                 ivView.setColorFilter(Color.parseColor("#8e979b"))
             }
             ivView.isEnabled = enabled
+        }
+    }
 
+    fun setTextViewVisibility(editableTextView: TextView,
+                              textViewWithText:TextView,
+                              text:String?){
+        if (text == null || text.isEmpty()) {
+            textViewWithText.gone()
+            editableTextView.gone()
+        } else {
+            textViewWithText.visible()
+            editableTextView.visible()
         }
     }
 

@@ -13,6 +13,7 @@ import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 import ru.andrey.savchenko.buildingreviews.fragments.buildings.adapter.BuildingsAdapter
 import ru.andrey.savchenko.buildingreviews.storage.Const
+import ru.andrey.savchenko.buildingreviews.storage.visible
 
 /**
  * Created by savchenko on 11.04.18.
@@ -41,7 +42,7 @@ class BuildingsFragment : BaseFragment(), BuildingView {
     }
 
     override fun setTextEmptyBuildings(text: String) {
-        tvNoBuildings.visibility = View.VISIBLE
+        tvNoBuildings.visible()
         tvNoBuildings.text = text
     }
 }

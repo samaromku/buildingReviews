@@ -22,6 +22,8 @@ import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
 import ru.andrey.savchenko.buildingreviews.fragments.ProgressFragment
+import ru.andrey.savchenko.buildingreviews.storage.gone
+import ru.andrey.savchenko.buildingreviews.storage.visible
 
 
 /**
@@ -50,11 +52,11 @@ open class BaseActivity : MvpAppCompatActivity(),
     }
 
     override fun showProgress() {
-        progressBar.visibility = View.VISIBLE
+        progressBar.visible()
     }
 
     override fun hideProgress() {
-        progressBar.visibility = View.GONE
+        progressBar.gone()
     }
 
     override fun showDialog() {

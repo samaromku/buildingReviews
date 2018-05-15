@@ -30,6 +30,8 @@ import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.fragments.choose_region.ChooseRegionFragment
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
 import ru.andrey.savchenko.buildingreviews.storage.Storage
+import ru.andrey.savchenko.buildingreviews.storage.gone
+import ru.andrey.savchenko.buildingreviews.storage.visible
 import java.util.concurrent.TimeUnit
 
 
@@ -112,11 +114,11 @@ class SearchActivity : BaseActivity(), SearchView, BaseAdapter.OnItemClickListen
     }
 
     override fun showProgress() {
-        progressBar.visibility = View.VISIBLE
+        progressBar.visible()
     }
 
     override fun hideProgress() {
-        progressBar.visibility = View.GONE
+        progressBar.gone()
     }
 
     override fun setListToAdapter(list: MutableList<Company>) {
@@ -157,8 +159,8 @@ class SearchActivity : BaseActivity(), SearchView, BaseAdapter.OnItemClickListen
     }
 
     private fun openToolbarSearch() {
-        toolbar.visibility = View.GONE
-        search_toolbar.visibility = View.VISIBLE
+        toolbar.gone()
+        search_toolbar.visible()
         showKeyboard(this, etSearch)
     }
 
@@ -172,15 +174,15 @@ class SearchActivity : BaseActivity(), SearchView, BaseAdapter.OnItemClickListen
     }
 
     private fun backClick() {
-        toolbar.visibility = View.VISIBLE
-        search_toolbar.visibility = View.GONE
+        toolbar.visible()
+        search_toolbar.gone()
         hideKeyboard(this, etSearch)
     }
 
     override fun onBackPressed() {
         if (search_toolbar.visibility == View.VISIBLE) {
-            toolbar.visibility = View.VISIBLE
-            search_toolbar.visibility = View.GONE
+            toolbar.visible()
+            search_toolbar.gone()
             hideKeyboard(this, findViewById(R.id.etSearch))
         } else {
             super.onBackPressed()

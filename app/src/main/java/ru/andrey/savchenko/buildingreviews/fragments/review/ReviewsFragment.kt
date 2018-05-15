@@ -14,6 +14,8 @@ import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.fragments.review.adapter.ReviewAdapter
 import ru.andrey.savchenko.buildingreviews.interfaces.ShowHideProgress
 import ru.andrey.savchenko.buildingreviews.storage.Const
+import ru.andrey.savchenko.buildingreviews.storage.gone
+import ru.andrey.savchenko.buildingreviews.storage.visible
 
 /**
  * Created by Andrey on 13.04.2018.
@@ -42,8 +44,8 @@ class ReviewsFragment:BaseFragment(), ReviewView, ShowHideProgress {
     }
 
     override fun setNoReviewsVisible() {
-        tvNoReviews.visibility = View.VISIBLE
-        rvReviews.visibility = View.GONE
+        tvNoReviews.visible()
+        rvReviews.gone()
     }
 
 }

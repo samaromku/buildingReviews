@@ -12,6 +12,8 @@ import com.labo.kaji.fragmentanimations.CubeAnimation
 import com.labo.kaji.fragmentanimations.FlipAnimation
 import kotlinx.android.synthetic.main.fragment_reviews.*
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
+import ru.andrey.savchenko.buildingreviews.storage.gone
+import ru.andrey.savchenko.buildingreviews.storage.visible
 
 /**
  * Created by savchenko on 18.02.18.
@@ -74,11 +76,11 @@ open class BaseFragment : MvpAppCompatFragment(),
 
 
     override fun showProgress() {
-        progressBar.visibility = View.VISIBLE
+        progressBar.visible()
     }
 
     override fun hideProgress() {
-        progressBar.visibility = View.GONE
+        progressBar.gone()
     }
 
     override fun showDialog() {

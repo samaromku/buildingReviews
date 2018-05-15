@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import com.labo.kaji.fragmentanimations.CubeAnimation
 import kotlinx.android.synthetic.main.progress_error.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
+import ru.andrey.savchenko.buildingreviews.storage.visible
 
 /**
  * Created by savchenko on 28.04.18.
@@ -33,7 +32,7 @@ class ErrorFragment : BaseFragment() {
         btnAuth.setOnClickListener { startActivity(Intent(activity, AuthActivity::class.java)) }
         //auth failed
         if (error.contains("403")) {
-            btnAuth.visibility = View.VISIBLE
+            btnAuth.visible()
         }
     }
 

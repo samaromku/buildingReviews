@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.fragment_add_review.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 import ru.andrey.savchenko.buildingreviews.storage.Const
+import ru.andrey.savchenko.buildingreviews.storage.visible
 
 /**
  * Created by savchenko on 11.04.18.
@@ -25,7 +26,7 @@ class AddReviewFragment : BaseFragment(), AddReviewView {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         rbRating.setOnRatingBarChangeListener { ratingBar, fl, b ->
-            tvRating.visibility = View.VISIBLE
+            tvRating.visible()
             tvRating.text = String.format(resources.getString(R.string.from_five), fl.toInt())
         }
     }
