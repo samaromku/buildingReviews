@@ -21,7 +21,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.toolbar.*
 import ru.andrey.savchenko.buildingreviews.R
-import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
 import ru.andrey.savchenko.buildingreviews.activities.moderate.ModerateActivity
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
@@ -29,7 +28,6 @@ import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.fragments.choose_region.ChooseRegionFragment
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
-import ru.andrey.savchenko.buildingreviews.storage.Storage
 import ru.andrey.savchenko.buildingreviews.storage.gone
 import ru.andrey.savchenko.buildingreviews.storage.visible
 import java.util.concurrent.TimeUnit

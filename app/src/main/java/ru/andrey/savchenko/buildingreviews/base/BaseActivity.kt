@@ -5,23 +5,18 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.app.Service
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.BottomSheetDialog
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.content.edit
 import com.arellomobile.mvp.MvpAppCompatActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
-import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
-import ru.andrey.savchenko.buildingreviews.fragments.ProgressFragment
 import ru.andrey.savchenko.buildingreviews.storage.gone
 import ru.andrey.savchenko.buildingreviews.storage.visible
 
