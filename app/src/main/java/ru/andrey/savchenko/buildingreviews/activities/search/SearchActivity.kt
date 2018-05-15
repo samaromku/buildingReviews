@@ -28,6 +28,7 @@ import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.fragments.choose_region.ChooseRegionFragment
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.COMPANY_ID
+import ru.andrey.savchenko.buildingreviews.storage.Storage
 import ru.andrey.savchenko.buildingreviews.storage.gone
 import ru.andrey.savchenko.buildingreviews.storage.visible
 import java.util.concurrent.TimeUnit
@@ -126,6 +127,12 @@ class SearchActivity : BaseActivity(), SearchView, BaseAdapter.OnItemClickListen
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val item = menu?.findItem(R.id.action_admin)
+        item?.isVisible = Storage.user?.login == "test"
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
