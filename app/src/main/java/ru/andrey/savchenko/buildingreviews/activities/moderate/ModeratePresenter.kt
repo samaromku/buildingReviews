@@ -8,6 +8,7 @@ import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.Network
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.REVIEW_ADDED
+import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.REVIEW_DENIED
 
 /**
  * Created by savchenko on 14.05.18.
@@ -51,18 +52,28 @@ class ModeratePresenter() : BasePresenterNoMvp, ViewModel() {
     fun sendAddedAndDeleted() {
         val addedReviews = reviews.value?.filter { it.selected }
         addedReviews?.let {
-            for(review in addedReviews){
+            for (review in addedReviews) {
                 review.state = REVIEW_ADDED
             }
         }
-        addedReviews?.let {
-            coroutines.add(corMethod(
-                    request = { Network().getService().addAddedReviews(it).execute() },
-                    onResult = {
-                            reviews.value?.removeAll(addedReviews)
-                            reviews.postValue(reviews.value)
-                    }))
+        val deniedReviews = reviews.value?.filter { it.denied }
+        deniedReviews?.let {
+            for (review in deniedReviews) {
+                review.state = REVIEW_DENIED
+            }
         }
+        val needToChangeReviews = mutableListOf<Review>()
+        deniedReviews?.let { needToChangeReviews.addAll(it) }
+        addedReviews?.let { needToChangeReviews.addAll(it) }
+        coroutines.add(corMethod(
+                request = {
+                    Network().getService()
+                            .addAddedReviews(needToChangeReviews).execute()
+                },
+                onResult = {
+                    reviews.value?.removeAll(needToChangeReviews)
+                    reviews.postValue(reviews.value)
+                }))
     }
 
     override fun onCleared() {

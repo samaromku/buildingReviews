@@ -35,4 +35,6 @@
     <string name="all_regions">Все регионы</string>
     <string name="from_five">%1$d из 5</string>
     <string name="admin">Админ</string>
+    <string name="submit">Утвердить</string>
+    <string name="deny">Отказать</string>
 </resources>

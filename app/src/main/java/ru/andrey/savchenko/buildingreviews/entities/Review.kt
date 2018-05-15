@@ -16,5 +16,6 @@ data class Review(
         val userName:String?,
         var state:String = "",
         var selected:Boolean = false,
+        var denied:Boolean = false,
         val like:Like? = null
 )

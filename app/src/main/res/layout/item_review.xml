@@ -149,11 +149,6 @@
                     app:srcCompat="@drawable/ic_down" />
             </LinearLayout>
 
-            <CheckBox
-                android:id="@+id/chbAdd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvCreateDate"
@@ -165,6 +160,38 @@
                 android:gravity="end"
                 android:textStyle="bold|italic"
                 tools:text="2018.12.12" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llModeratorCheckBoxes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/submit" />
+
+            <CheckBox
+                android:id="@+id/chbAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/deny" />
+
+            <CheckBox
+                android:id="@+id/chbDeny"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

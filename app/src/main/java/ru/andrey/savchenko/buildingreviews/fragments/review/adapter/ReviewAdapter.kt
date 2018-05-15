@@ -51,10 +51,13 @@ class ReviewAdapter(list: MutableList<Review>,
         override fun bind(t: Review, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
             if (moderate) {
-                chbAdd.visible()
+                llModeratorCheckBoxes.visible()
             }
             chbAdd.setOnCheckedChangeListener { _, isChecked ->
                 t.selected = isChecked
+            }
+            chbDeny.setOnCheckedChangeListener { _, isChecked ->
+                t.denied = isChecked
             }
             if (t.state == REVIEW_IN_PROGRESS) {
                 tvInProgress.visible()
