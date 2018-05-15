@@ -25,6 +25,9 @@ interface BuildingService {
     @GET("/mobile/notAddedReviews")
     fun getNotAddedReviews():Call<ApiResponse<List<Review>>>
 
+    @POST("/mobile/notAddedReviews")
+    fun addAddedReviews(@Body reviews:List<Review>):Call<ApiResponse<Boolean>>
+
     @POST("/mobile/reviews")
     fun sendReview(@Body review: Review):Call<ApiResponse<Boolean>>
 

@@ -22,7 +22,8 @@ import ru.andrey.savchenko.buildingreviews.storage.visible
  */
 class ReviewAdapter(list: MutableList<Review>,
                     onItemClickListener: OnItemClickListener,
-                    val showHideProgress: ShowHideProgress) :
+                    val showHideProgress: ShowHideProgress,
+                    val moderate: Boolean = false) :
         BaseAdapter<Review>(list, onItemClickListener), ReviewAdapterView {
     val presenter = ReviewAdapterPresenter(this, list)
     lateinit var currentJob: () -> Unit
@@ -49,6 +50,12 @@ class ReviewAdapter(list: MutableList<Review>,
     inner class ReviewViewHolder(itemView: View, val presenter: ReviewAdapterPresenter) : BaseViewHolder<Review>(itemView) {
         override fun bind(t: Review, clickListener: OnItemClickListener) {
             super.bind(t, clickListener)
+            if (moderate) {
+                chbAdd.visible()
+            }
+            chbAdd.setOnCheckedChangeListener { _, isChecked ->
+                t.selected = isChecked
+            }
             if (t.state == REVIEW_IN_PROGRESS) {
                 tvInProgress.visible()
             } else {
@@ -86,12 +93,12 @@ class ReviewAdapter(list: MutableList<Review>,
             }
 
             ivRatingUp.setOnClickListener {
-                currentJob = {presenter.sendLike(t.id, 1, adapterPosition)}
+                currentJob = { presenter.sendLike(t.id, 1, adapterPosition) }
                 currentJob()
 
             }
             ivRatingDown.setOnClickListener {
-                currentJob = {presenter.sendLike(t.id, -1, adapterPosition)}
+                currentJob = { presenter.sendLike(t.id, -1, adapterPosition) }
                 currentJob()
             }
         }
@@ -107,8 +114,8 @@ class ReviewAdapter(list: MutableList<Review>,
     }
 
     fun setTextViewVisibility(editableTextView: TextView,
-                              textViewWithText:TextView,
-                              text:String?){
+                              textViewWithText: TextView,
+                              text: String?) {
         if (text == null || text.isEmpty()) {
             textViewWithText.gone()
             editableTextView.gone()

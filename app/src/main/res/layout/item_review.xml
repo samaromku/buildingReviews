@@ -149,6 +149,11 @@
                     app:srcCompat="@drawable/ic_down" />
             </LinearLayout>
 
+            <CheckBox
+                android:id="@+id/chbAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvCreateDate"

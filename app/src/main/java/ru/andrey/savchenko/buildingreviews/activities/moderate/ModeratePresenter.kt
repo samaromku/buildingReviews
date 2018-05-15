@@ -3,14 +3,11 @@ package ru.andrey.savchenko.buildingreviews.activities.moderate
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
 import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.Network
-import java.util.concurrent.TimeUnit
+import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.REVIEW_ADDED
 
 /**
  * Created by savchenko on 14.05.18.
@@ -19,45 +16,53 @@ class ModeratePresenter() : BasePresenterNoMvp, ViewModel() {
     val reviews = MutableLiveData<MutableList<Review>>()
     val coroutines = mutableListOf<Job>()
     val state: MutableLiveData<ViewState> = MutableLiveData()
+    var error: ErrorResponse? = null
 
     init {
         println(ViewState.Created)
         state.value = ViewState.Created
     }
 
-    sealed class ViewState {
-        object Created : ViewState()
-        object Loading : ViewState()
-        object Loaded : ViewState()
-    }
 
     override fun showDialog() {
-
+        println("presenter state loading")
+        state.value = ViewState.Loading
     }
 
     override fun hideDialog() {
-
+        println("presenter state loaded")
+        state.postValue(ViewState.Loaded)
     }
 
     override fun showError(error: ErrorResponse, repeat: () -> Unit) {
-
+        state.postValue(ViewState.ErrorShown)
+        this.error = error
     }
 
     fun getNotAddedReviews() {
-        coroutines.add(corMethod(beforeRequest = {
-            println("presenter state loading")
-            state.value = ViewState.Loading
-        }, afterRequest = {
-            launch(UI) {
-                delay(10000, TimeUnit.MILLISECONDS)
-                println("presenter state loaded")
-                state.postValue(ViewState.Loaded)
-            }
-        }, request = {
-            Network().getService().getNotAddedReviews().execute()
-        }, onResult = {
+        coroutines.add(corMethod(
+                request = {
+                    Network().getService().getNotAddedReviews().execute()
+                }, onResult = {
             reviews.value = it.toMutableList()
         }))
+    }
+
+    fun sendAddedAndDeleted() {
+        val addedReviews = reviews.value?.filter { it.selected }
+        addedReviews?.let {
+            for(review in addedReviews){
+                review.state = REVIEW_ADDED
+            }
+        }
+        addedReviews?.let {
+            coroutines.add(corMethod(
+                    request = { Network().getService().addAddedReviews(it).execute() },
+                    onResult = {
+                            reviews.value?.removeAll(addedReviews)
+                            reviews.postValue(reviews.value)
+                    }))
+        }
     }
 
     override fun onCleared() {
@@ -67,5 +72,12 @@ class ModeratePresenter() : BasePresenterNoMvp, ViewModel() {
                 cor.cancel()
             }
         }
+    }
+
+    sealed class ViewState {
+        object Created : ViewState()
+        object Loading : ViewState()
+        object Loaded : ViewState()
+        object ErrorShown : ViewState()
     }
 }
