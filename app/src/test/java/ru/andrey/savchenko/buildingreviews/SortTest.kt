@@ -32,6 +32,7 @@ class SortTest {
 
     @Test
     fun allSorts() {
+        combSort()
         fullSort()
         bubbleSort() //too slow
         collectionsBaseSort()
@@ -58,7 +59,6 @@ class SortTest {
     }
 
 
-
     private fun cocktailSortAlgorithm(items: MutableList<Int>) {
         var rightBorder = items.size
         var leftBorder = 1
@@ -70,7 +70,7 @@ class SortTest {
                 val currentItem = items[index]
                 if (previousItem.compare(currentItem)) {
                     items.swapItems(index - 1, index)
-                    rightBorder = index-1
+                    rightBorder = index - 1
                     swapped = true
                 }
             }
@@ -95,7 +95,6 @@ class SortTest {
             val swapped: Boolean = swapIfNeedGoUp(items) && swapIfNeedGoDown(items)
         } while (swapped)
     }
-
 
 
 //    private fun swapIfNeedGoUp(items: MutableList<Int>):Boolean{
@@ -138,9 +137,36 @@ class SortTest {
         return false
     }
 
+    fun combSort() {
+        getTimeMethod("comb", {
+            //            val fake = mutableListOf(14, 9, 1, 0, 33, 15, 12, 222, 45, 62, 1, 3)
+            combSortAlgorithm(it)
+        })
+    }
+
+    fun combSortAlgorithm(items: MutableList<Int>) {
+        var gap = items.size
+        var swapped = true
+        var index: Int
+
+        while (gap > 1 || swapped) {
+            if (gap > 1) {
+                gap = (gap / 1.3).toInt()
+            }
+            swapped = false
+            index = 0
+            while (index + gap < items.size) {
+                if (items[index] > items[index + gap]) {
+                    items.swapItems(index, index + gap)
+                }
+                index++
+            }
+        }
+    }
+
     fun fullSort() {
         getTimeMethod("coctail", {
-//            val fake = mutableListOf(14, 9, 1, 0, 33, 5, 1, 15, 2, 45, 5, 15, 2266, 3)
+            //            val fake = mutableListOf(14, 9, 1, 0, 33, 5, 1, 15, 2, 45, 5, 15, 2266, 3)
             cocktailSortAlgorithm(it)
         })
     }
@@ -240,6 +266,33 @@ class SortTest {
 
     //делим коллекцию на две части рекурсивно(потом выполняем слияние)
     private fun sortMergeAlgorithm(items: MutableList<Int>) {
+        fun merge(items: MutableList<Int>, left: MutableList<Int>, right: MutableList<Int>) {
+            var leftIndex = 0
+            var rightIndex = 0
+            var targetIndex = 0
+            var remaining = left.size + right.size
+            while (remaining > 0) {
+                when {
+                //смотрим, где должен быть массив, в зависимости от уже отсортированного массива, вставляем либо справа либо слева
+                    leftIndex >= left.size -> {
+                        items[targetIndex] = right[rightIndex++]
+                    }
+                    rightIndex >= right.size -> {
+                        items[targetIndex] = left[leftIndex++]
+                    }
+                    left[leftIndex] - right[rightIndex] < 0 -> {
+                        items[targetIndex] = left[leftIndex++]
+                    }
+                    else -> {
+                        items[targetIndex] = right[rightIndex++]
+                    }
+                }
+
+                targetIndex++
+                remaining--
+            }
+        }
+
         if (items.size <= 1) {
             return
         }
@@ -257,35 +310,6 @@ class SortTest {
         sortMergeAlgorithm(left)
         sortMergeAlgorithm(right)
         merge(items, left, right)
-//        println("merge items: $items left: $left right: $right")
-    }
-
-
-    private fun merge(items: MutableList<Int>, left: MutableList<Int>, right: MutableList<Int>) {
-        var leftIndex = 0
-        var rightIndex = 0
-        var targetIndex = 0
-        var remaining = left.size + right.size
-        while (remaining > 0) {
-            when {
-            //смотрим, где должен быть массив, в зависимости от уже отсортированного массива, вставляем либо справа либо слева
-                leftIndex >= left.size -> {
-                    items[targetIndex] = right[rightIndex++]
-                }
-                rightIndex >= right.size -> {
-                    items[targetIndex] = left[leftIndex++]
-                }
-                left[leftIndex] - right[rightIndex] < 0 -> {
-                    items[targetIndex] = left[leftIndex++]
-                }
-                else -> {
-                    items[targetIndex] = right[rightIndex++]
-                }
-            }
-
-            targetIndex++
-            remaining--
-        }
     }
 
     private fun quickSort() {
@@ -297,7 +321,26 @@ class SortTest {
     }
 
     fun quickSortAlgorithm(items: MutableList<Int>, left: Int, right: Int) {
+        fun partitions(items: MutableList<Int>, left: Int, right: Int, pivotIndex: Int): Int {
+            //это опорный элемент
+            val pivotValue = items[pivotIndex]
+            //меняем местами опорный элемент и самый правый
+            items.swapItems(pivotIndex, right)
+            //запоминаем левый
+            var storeIndex = left
+            for (index in left until right) {
+                if (items[index] - pivotValue < 0) {
+                    swap(items, index, storeIndex)
+                    storeIndex++
+                }
+            }
+            swap(items, storeIndex, right)
+            return storeIndex
+        }
+
         if (left < right) {
+            //выбираем случайным образом опорный элемент, который будем сравнивать
+            // в диапазоне между большим и меньшим отсортированным элементом
             val pivotIndex: Int = (Math.random() * (right - left)).toInt()
             val newPivot = partitions(items, left, right, pivotIndex)
 
@@ -306,19 +349,6 @@ class SortTest {
         }
     }
 
-    fun partitions(items: MutableList<Int>, left: Int, right: Int, pivotIndex: Int): Int {
-        val pivotValue = items[pivotIndex]
-        swap(items, pivotIndex, right)
-        var storeIndex = left
-        for (index in left until right) {
-            if (items[index] - pivotValue < 0) {
-                swap(items, index, storeIndex)
-                storeIndex++
-            }
-        }
-        swap(items, storeIndex, right)
-        return storeIndex
-    }
 
     private fun getTimeMethod(sort: String, sortMethod: (notSortedArray: MutableList<Int>) -> Unit) {
         val notSortedArray = mutableListOf<Int>()
@@ -333,44 +363,50 @@ class SortTest {
 
     private fun insertSort() {
         getTimeMethod("insert", { notSortedArray ->
-            var sortedRange = 1
-            while (sortedRange < notSortedArray.size) {
-                if (notSortedArray[sortedRange] - notSortedArray[sortedRange - 1] < 0) {
-                    //сравнить текущий и предыдущий, если текущий меньше, то продолжить алгоритм, если нет, перейти к след. элементу
-                    val insertIndex = findInsertionIndex(notSortedArray, notSortedArray[sortedRange])
-                    insert(notSortedArray, insertIndex, sortedRange)
-                }
-                sortedRange++
-            }
+            insertSortAlgorithm(notSortedArray)
         })
     }
 
-    private fun findInsertionIndex(items: MutableList<Int>, value: Int): Int {
-        //ищем элемент, который необходимо вставить
-        //todo  как мы определяем какой в элемент будем вставлять??? what is value, how get it?
-        for (index in 0 until items.size) {
-            if (items[index] - value > 0) {
-                return index
+    private fun insertSortAlgorithm(notSortedArray:MutableList<Int>){
+        var sortedRange = 1
+
+        fun findInsertionIndex(items: MutableList<Int>, value: Int): Int {
+            //ищем элемент, который необходимо вставить
+            for (index in 0 until items.size) {
+                if (items[index] - value > 0) {
+                    return index
+                }
             }
+            throw Throwable("The insertion index was not found")
         }
-        throw Throwable("The insertion index was not found")
+
+
+        fun insert(itemArray: MutableList<Int>,
+                           maxUnsortedElementFromStart: Int,
+                           firstUnsortedElement: Int) {
+            //сохранить текущий индекс во временную переменную
+            val temporary = itemArray[maxUnsortedElementFromStart]
+            //присвоить текущему элементу элемент, который хотим вставить на его место
+            itemArray[maxUnsortedElementFromStart] = itemArray[firstUnsortedElement]
+            //сдвинуть все элементы на один с того, который хотим вставить до места куда вставляем
+            for (current in maxUnsortedElementFromStart downTo firstUnsortedElement) {
+                itemArray[current] = itemArray[current - 1]
+            }
+            //присвоить временный файл индексу текущего элемента +1
+            itemArray[maxUnsortedElementFromStart + 1] = temporary
+        }
+
+        while (sortedRange < notSortedArray.size) {
+            if (notSortedArray[sortedRange] - notSortedArray[sortedRange - 1] < 0) {
+                //сравнить текущий и предыдущий, если текущий меньше, то продолжить алгоритм, если нет, перейти к след. элементу
+                val insertIndex = findInsertionIndex(notSortedArray, notSortedArray[sortedRange])
+                insert(notSortedArray, insertIndex, sortedRange)
+            }
+            sortedRange++
+        }
     }
 
 
-    private fun insert(itemArray: MutableList<Int>,
-                       maxUnsortedElementFromStart: Int,
-                       firstUnsortedElement: Int) {
-        //сохранить текущий индекс во временную переменную
-        val temporary = itemArray[maxUnsortedElementFromStart]
-        //присвоить текущему элементу элемент, который хотим вставить на его место
-        itemArray[maxUnsortedElementFromStart] = itemArray[firstUnsortedElement]
-        //сдвинуть все элементы на один с того, который хотим вставить до места куда вставляем
-        for (current in maxUnsortedElementFromStart downTo firstUnsortedElement) {
-            itemArray[current] = itemArray[current - 1]
-        }
-        //присвоить временный файл индексу текущего элемента +1
-        itemArray[maxUnsortedElementFromStart + 1] = temporary
-    }
 
     private fun collectionsBaseSort() {
         getTimeMethod("collections", {
