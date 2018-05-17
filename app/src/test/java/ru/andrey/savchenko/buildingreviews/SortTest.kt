@@ -32,19 +32,209 @@ class SortTest {
 
     @Test
     fun allSorts() {
-        bubbleSort()
+        fullSort()
+        bubbleSort() //too slow
         collectionsBaseSort()
         arraysSort()
         insertSort()
         chooseSort()
         mergeSort()
         quickSort()
+        shellSort()
+    }
+
+    private fun bubbleSortFromFool(items: MutableList<Int>) {
+        do {
+            var swapped = false
+            for (index in 1 until items.size) {
+                val previousItem = items[index - 1]
+                val currentItem = items[index]
+                if (previousItem.compare(currentItem)) {
+                    items.swapItems(index - 1, index)
+                    swapped = true
+                }
+            }
+        } while (swapped)
+    }
+
+
+
+    private fun cocktailSortAlgorithm(items: MutableList<Int>) {
+        var rightBorder = items.size
+        var leftBorder = 1
+
+        fun swapIfNeedGoUp(items: MutableList<Int>): Boolean {
+            var swapped = false
+            for (index in 1 until rightBorder) {
+                val previousItem = items[index - 1]
+                val currentItem = items[index]
+                if (previousItem.compare(currentItem)) {
+                    items.swapItems(index - 1, index)
+                    rightBorder = index-1
+                    swapped = true
+                }
+            }
+            return swapped
+        }
+
+        fun swapIfNeedGoDown(items: MutableList<Int>): Boolean {
+            var swapped = false
+            for (index in items.size - 1 downTo leftBorder) {
+                val previousItem = items[index - 1]
+                val currentItem = items[index]
+                if (previousItem.compare(currentItem)) {
+                    items.swapItems(index - 1, index)
+                    leftBorder = index
+                    swapped = true
+                }
+            }
+            return swapped
+        }
+
+        do {
+            val swapped: Boolean = swapIfNeedGoUp(items) && swapIfNeedGoDown(items)
+        } while (swapped)
+    }
+
+
+
+//    private fun swapIfNeedGoUp(items: MutableList<Int>):Boolean{
+//        var swapped = false
+//        for(index in 1 until items.size){
+//            swapped = swapIfNeed(items, index-1, index, "up")
+//        }
+//        return swapped
+//    }
+//
+//    private fun swapIfNeedGoDown(items: MutableList<Int>):Boolean{
+//        var swapped = false
+//        for(index in items.size-1 downTo 1){
+//            swapped = swapIfNeed(items, index-1, index, "down")
+//        }
+//        return swapped
+//    }
+//
+//    fun swapIfNeed(items:MutableList<Int>, previousIndex:Int, currentIndex:Int, upOrDown:String):Boolean{
+//        val previousItem = items[previousIndex]
+//        val currentItem = items[currentIndex]
+//        var swapped = false
+//        if(previousItem.compare(currentItem)){
+//            items.swapItems(previousIndex, currentIndex)
+//            println(upOrDown + " " + items)
+//            swapped = true
+//        }
+//        return swapped
+//    }
+
+    private fun swapIfNeedNotReturn(items: MutableList<Int>): Boolean {
+        for (index in 1 until items.size) {
+            val previousItem = items[index - 1]
+            val currentItem = items[index]
+            if (previousItem.compare(currentItem)) {
+                items.swapItems(index - 1, index)
+                return true
+            }
+        }
+        return false
+    }
+
+    fun fullSort() {
+        getTimeMethod("coctail", {
+//            val fake = mutableListOf(14, 9, 1, 0, 33, 5, 1, 15, 2, 45, 5, 15, 2266, 3)
+            cocktailSortAlgorithm(it)
+        })
+    }
+
+    private fun foolSortAlgorithm(items: MutableList<Int>) {
+        var swapped = true
+        while (swapped) {
+            swapped = swapIfNeedAndReturn(items)
+        }
+    }
+
+    private fun swapIfNeedAndReturn(items: MutableList<Int>): Boolean {
+        for (index in 1 until items.size) {
+            val previousItem = items[index - 1]
+            val currentItem = items[index]
+            if (previousItem.compare(currentItem)) {
+                items.swapItems(index - 1, index)
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun MutableList<Int>.swapItems(leftIndex: Int, rightIndex: Int) {
+        if (leftIndex != rightIndex) {
+            val temporary = this[leftIndex]
+            this[leftIndex] = this[rightIndex]
+            this[rightIndex] = temporary
+        }
+    }
+
+    fun <T> swap(items: MutableList<T>, left: Int, right: Int) {
+        if (left != right) {
+            val temporary = items[left]
+            items[left] = items[right]
+            items[right] = temporary
+        }
+    }
+
+    private fun Int.compare(anotherItem: Int): Boolean {
+        return this - anotherItem > 0
+    }
+
+    fun shellSort(array: MutableList<Int>) {
+        var interval = 1
+        var insertedValue: Int
+        var insertedIndex: Int
+
+        while (interval < array.size / 3) {
+            interval = 3 * interval + 1
+        }
+
+        while (interval > 0) {
+            for (i in interval until array.size) {
+                insertedValue = array[i]
+                insertedIndex = i
+
+                while (insertedIndex >= interval && insertedValue < array[insertedIndex - interval]) {
+                    array[insertedIndex] = array[insertedIndex - interval]
+                    insertedIndex = insertedIndex - interval
+                }
+
+                array[insertedIndex] = insertedValue
+            }
+
+            interval = (interval - 1) / 3
+
+//            printArray(array)
+        }
+    }
+
+
+    fun shellSort() {
+        getTimeMethod("shell", {
+            //            it.shellSort()
+            shellSort(it)
+
+        })
+    }
+
+    fun shelSortAlgorithm(items: MutableList<Int>) {
+        val length = items.size
+        for (gap in length / 2 downTo 0) {
+            for (index in gap..length) {
+                val tamporary = items[index]
+
+            }
+        }
     }
 
     private fun mergeSort() {
         getTimeMethod("merge", { items ->
-            val fakeItems = mutableListOf(1, 15, 29, 30, 11, 42, 5)
-            sortMergeAlgorithm(fakeItems)
+            //            val fakeItems = mutableListOf(1, 15, 29, 30, 11, 42, 5)
+            sortMergeAlgorithm(items)
         })
     }
 
@@ -67,7 +257,7 @@ class SortTest {
         sortMergeAlgorithm(left)
         sortMergeAlgorithm(right)
         merge(items, left, right)
-        println("merge items: $items left: $left right: $right")
+//        println("merge items: $items left: $left right: $right")
     }
 
 
@@ -101,27 +291,27 @@ class SortTest {
     private fun quickSort() {
         getTimeMethod("quick", {
 
-            quickSortAlgorithm(it, 0, it.size-1)
+            quickSortAlgorithm(it, 0, it.size - 1)
 
         })
     }
 
-    fun quickSortAlgorithm(items:MutableList<Int>, left:Int, right:Int){
-        if(left<right){
-            val pivotIndex :Int= (Math.random()*(right-left)).toInt()
+    fun quickSortAlgorithm(items: MutableList<Int>, left: Int, right: Int) {
+        if (left < right) {
+            val pivotIndex: Int = (Math.random() * (right - left)).toInt()
             val newPivot = partitions(items, left, right, pivotIndex)
 
-            quickSortAlgorithm(items, left, newPivot-1)
-            quickSortAlgorithm(items, newPivot+1, right)
+            quickSortAlgorithm(items, left, newPivot - 1)
+            quickSortAlgorithm(items, newPivot + 1, right)
         }
     }
 
-    fun partitions(items:MutableList<Int>, left:Int, right:Int, pivotIndex:Int):Int{
+    fun partitions(items: MutableList<Int>, left: Int, right: Int, pivotIndex: Int): Int {
         val pivotValue = items[pivotIndex]
         swap(items, pivotIndex, right)
         var storeIndex = left
-        for(index in left until right){
-            if(items[index]-pivotValue<0){
+        for (index in left until right) {
+            if (items[index] - pivotValue < 0) {
                 swap(items, index, storeIndex)
                 storeIndex++
             }
@@ -222,13 +412,5 @@ class SortTest {
             list.add(random.nextInt(1000))
         }
         return list
-    }
-
-    fun <T> swap(items: MutableList<T>, left: Int, right: Int) {
-        if (left != right) {
-            val temporary = items[left]
-            items[left] = items[right]
-            items[right] = temporary
-        }
     }
 }
