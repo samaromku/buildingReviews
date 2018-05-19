@@ -18,6 +18,13 @@ public class CollectionsTest {
     public void testArrayList() {
         MyArrayLust myArrayLust = new MyArrayLust<Integer>();
         List<Integer> randomArray = generateRandomArray(10_000_000);
+        List<Integer>dataArray = new ArrayList<>();
+        dataArray.add(1);
+        dataArray.add(5);
+        dataArray.add(6);
+        dataArray.add(88);
+        dataArray.add(10);
+
         List<Integer> defaultArrayList = new ArrayList<>();
 
         long startDef = System.currentTimeMillis();
@@ -25,7 +32,13 @@ public class CollectionsTest {
 //            defaultArrayList.add(i);
 //        }
         defaultArrayList.addAll(randomArray);
-        System.out.println(defaultArrayList.indexOf(123));
+        for (int i = 0; i < 100; i++) {
+            defaultArrayList.remove(1);
+        }
+//        for (int i = 0; i < defaultArrayList.size(); i++) {
+//            System.out.print(defaultArrayList.get(i) + ", ");
+//        }
+        System.out.println();
         long endDef = System.currentTimeMillis();
         System.out.println("default collection " + (endDef - startDef));
 
@@ -34,7 +47,13 @@ public class CollectionsTest {
 //            myArrayLust.add(i);
 //        }
         myArrayLust.addAll(randomArray);
-        System.out.println(myArrayLust.indexOf(123));
+        for (int i = 0; i < 100; i++) {
+            myArrayLust.remove(1);
+        }
+//        for (int i = 0; i < myArrayLust.size(); i++) {
+//            System.out.print(myArrayLust.get(i) + ", ");
+//        }
+        System.out.println();
         long endMy = System.currentTimeMillis();
         System.out.println("my collection " + (endMy - startMy));
     }
@@ -63,6 +82,19 @@ public class CollectionsTest {
             }
             objects[size] = object;
             size++;
+        }
+
+        //удалить элемент под индексом, сдвинуть все элементы справа от него на один влево, уменьшить size
+        public void remove(int index){
+            for (int i = index; i < size-1; i++) {
+                objects[i] = objects[i+1];
+            }
+            objects[size]=null;
+            size--;
+        }
+
+        public Object get(int index){
+            return objects[index];
         }
 
         public void addAll(List<Object>addObjects){
