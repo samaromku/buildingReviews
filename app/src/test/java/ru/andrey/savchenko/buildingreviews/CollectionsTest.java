@@ -25,7 +25,7 @@ public class CollectionsTest {
 //            defaultArrayList.add(i);
 //        }
         defaultArrayList.addAll(randomArray);
-//        System.out.println(defaultArrayList.indexOf(123));
+        System.out.println(defaultArrayList.indexOf(123));
         long endDef = System.currentTimeMillis();
         System.out.println("default collection " + (endDef - startDef));
 
@@ -34,7 +34,7 @@ public class CollectionsTest {
 //            myArrayLust.add(i);
 //        }
         myArrayLust.addAll(randomArray);
-//        System.out.println(myArrayLust.indexOf(123));
+        System.out.println(myArrayLust.indexOf(123));
         long endMy = System.currentTimeMillis();
         System.out.println("my collection " + (endMy - startMy));
     }
@@ -85,6 +85,17 @@ public class CollectionsTest {
                 }
             }
             return -1;
+        }
+
+        public boolean contains(@Nullable Object object){
+            if(object!=null){
+                for (int i = 0; i < objects.length; i++) {
+                    if (objects[i].equals(object)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void grow() {
