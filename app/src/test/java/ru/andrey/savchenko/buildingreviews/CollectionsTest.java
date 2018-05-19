@@ -16,7 +16,7 @@ import io.reactivex.annotations.Nullable;
 public class CollectionsTest {
     @Test
     public void testArrayList() {
-        MyArrayLust myArrayLust = new MyArrayLust<Integer>();
+        MyArrayList myArrayLust = new MyArrayList<Integer>();
         List<Integer> randomArray = generateRandomArray(10_000_000);
         List<Integer>dataArray = new ArrayList<>();
         dataArray.add(1);
@@ -67,16 +67,16 @@ public class CollectionsTest {
         return list;
     }
 
-    class MyArrayLust<T> {
+    class MyArrayList<T> {
 
         private Object[] objects;
         private int size;
 
-        public MyArrayLust() {
+        public MyArrayList() {
             objects = new Object[10];
         }
 
-        public void add(Object object) {
+        public void add(T object) {
             if (size >= objects.length) {
                 grow();
             }
@@ -97,7 +97,7 @@ public class CollectionsTest {
             return objects[index];
         }
 
-        public void addAll(List<Object>addObjects){
+        public void addAll(List<T>addObjects){
             objects = Arrays.copyOf(objects, objects.length + addObjects.size());
             for (int i = 0; i < addObjects.size(); i++) {
                 add(addObjects.get(i));
