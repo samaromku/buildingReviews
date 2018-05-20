@@ -24,7 +24,7 @@ public class LinkedListTest {
         MyLinkedList myLinkedList = new MyLinkedList<Integer>();
         myLinkedList.add(1);
         myLinkedList.add(2);
-        myLinkedList.add(3);
+//        myLinkedList.add(3);
         for (int i = 0; i < myLinkedList.size(); i++) {
             System.out.println(myLinkedList.get(i));
         }
@@ -44,21 +44,17 @@ public class LinkedListTest {
             } else if (size == 1) {
                 last = new Node<T>(element, first, null);
                 first.next = last;
-            } else {
-                Node<T> current = new Node<T>(element, first, last);
-                first.next = current;
-                last.previous = current;
             }
             size++;
         }
 
         public T get(int index) {
             Node<T> current = first;
-            for (int i = 0; i < index; i++) {
+            for (int i = 0; i <= index; i++) {
                 if (i == 0) {
                     current = first;
-                } else {
-                    current = current.next;
+                } else if(i==1){
+                    current = last;
                 }
             }
             return current.element;
