@@ -13,7 +13,7 @@ import io.reactivex.annotations.Nullable;
  * Created by Andrey on 19.05.2018.
  */
 
-public class CollectionsTest {
+public class ArrayListTest {
     @Test
     public void testArrayList() {
         MyArrayList myArrayLust = new MyArrayList<Integer>();
