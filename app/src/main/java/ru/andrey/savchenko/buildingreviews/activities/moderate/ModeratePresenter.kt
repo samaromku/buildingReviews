@@ -3,8 +3,10 @@ package ru.andrey.savchenko.buildingreviews.activities.moderate
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.Job
+import retrofit2.Response
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
 import ru.andrey.savchenko.buildingreviews.entities.Review
+import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.Network
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.REVIEW_ADDED
@@ -41,12 +43,24 @@ class ModeratePresenter() : BasePresenterNoMvp, ViewModel() {
     }
 
     fun getNotAddedReviews() {
-        coroutines.add(corMethod(
-                request = {
-                    Network().getService().getNotAddedReviews().execute()
-                }, onResult = {
-            reviews.value = it.toMutableList()
-        }))
+        showDialog()
+        var result :Response<ApiResponse<List<Review>>>? = null
+        val networkReques = Thread(Runnable {
+            result = Network().getService().getNotAddedReviews().execute()
+        })
+
+        networkReques.start()
+
+        networkReques.join()
+        hideDialog()
+        reviews.value = result?.body()?.data?.toMutableList()
+
+//        coroutines.add(corMethod(
+//                request = {
+//                    Network().getService().getNotAddedReviews().execute()
+//                }, onResult = {
+//            reviews.value = it.toMutableList()
+//        }))
     }
 
     fun sendAddedAndDeleted() {
