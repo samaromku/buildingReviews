@@ -32,6 +32,7 @@ class SortTest {
 
     @Test
     fun allSorts() {
+        binaryTree()
         combSort()
         fullSort()
         bubbleSort() //too slow
@@ -42,6 +43,61 @@ class SortTest {
         mergeSort()
         quickSort()
         shellSort()
+    }
+
+    private fun binaryTree() {
+        getTimeMethod("binaryTree", {
+            val fake = mutableListOf(1, 45, 2, 34, 14, 6, 7)
+            binaryTreeAlgorithm(fake)
+        })
+    }
+
+
+
+
+    private fun binaryTreeAlgorithm(items: MutableList<Int>) {
+        data class Node(
+                val element: Int,
+                var left: Node? = null,
+                var right: Node? = null
+        )
+
+        //строим дерево в нужном порядке рекурсивно
+        fun insertNode(node:Node?, value:Int):Node{
+            if(node==null){
+                return Node(value)
+            }
+            //если текущий элемент меньше значения узла, вставляем его слева, если больше, направо
+            if(value < node.element){
+                node.left = insertNode(node.left, value)
+            }else {
+                node.right = insertNode(node.right, value)
+            }
+            return node
+        }
+
+        val orderItems = mutableListOf<Int>()
+        fun inOrder(node:Node){
+            node.left?.let { inOrder(it) }
+            orderItems.add(node.element)
+            node.right?.let { inOrder(it) }
+        }
+
+        val descOrderItems = mutableListOf<Int>()
+        fun descOrder(node:Node){
+            node.right?.let { descOrder(it) }
+            descOrderItems.add(node.element)
+            node.left?.let { descOrder(it) }
+        }
+
+        val root = Node(items[0])
+        for(index in 1 until items.size){
+            insertNode(root, items[index])
+        }
+        inOrder(root)
+        println(orderItems)
+        descOrder(root)
+        println(descOrderItems)
     }
 
     private fun bubbleSortFromFool(items: MutableList<Int>) {
@@ -210,35 +266,6 @@ class SortTest {
         return this - anotherItem > 0
     }
 
-    fun shellSort(array: MutableList<Int>) {
-        var interval = 1
-        var insertedValue: Int
-        var insertedIndex: Int
-
-        while (interval < array.size / 3) {
-            interval = 3 * interval + 1
-        }
-
-        while (interval > 0) {
-            for (i in interval until array.size) {
-                insertedValue = array[i]
-                insertedIndex = i
-
-                while (insertedIndex >= interval && insertedValue < array[insertedIndex - interval]) {
-                    array[insertedIndex] = array[insertedIndex - interval]
-                    insertedIndex = insertedIndex - interval
-                }
-
-                array[insertedIndex] = insertedValue
-            }
-
-            interval = (interval - 1) / 3
-
-//            printArray(array)
-        }
-    }
-
-
     fun shellSort() {
         getTimeMethod("shell", {
             //            it.shellSort()
@@ -247,13 +274,32 @@ class SortTest {
         })
     }
 
-    fun shelSortAlgorithm(items: MutableList<Int>) {
-        val length = items.size
-        for (gap in length / 2 downTo 0) {
-            for (index in gap..length) {
-                val tamporary = items[index]
 
+    private fun shellSort(array: MutableList<Int>) {
+        var interval = 1
+        var insertedValue: Int
+        var insertedIndex: Int
+        //получаем первоначальный интервал, с которым буем ходить по массиву
+        //согласно круту, интервал расчитывается по формуле h = 3*h + 1
+        while (interval < array.size / 3) {
+            interval = 3 * interval + 1
+        }
+        //используем метод сортировки вставками на большом интервале.
+        //Как только интервал становится равен 1 - сортировка становится обычной сортировкой вставками
+        while (interval > 0) {
+            for (i in interval until array.size) {
+                insertedValue = array[i]
+                insertedIndex = i
+
+                while (insertedIndex >= interval && insertedValue < array[insertedIndex - interval]) {
+                    array[insertedIndex] = array[insertedIndex - interval]
+                    insertedIndex -= interval
+                }
+
+                array[insertedIndex] = insertedValue
             }
+
+            interval = (interval - 1) / 3
         }
     }
 
@@ -367,7 +413,7 @@ class SortTest {
         })
     }
 
-    private fun insertSortAlgorithm(notSortedArray:MutableList<Int>){
+    private fun insertSortAlgorithm(notSortedArray: MutableList<Int>) {
         var sortedRange = 1
 
         fun findInsertionIndex(items: MutableList<Int>, value: Int): Int {
@@ -382,8 +428,8 @@ class SortTest {
 
 
         fun insert(itemArray: MutableList<Int>,
-                           maxUnsortedElementFromStart: Int,
-                           firstUnsortedElement: Int) {
+                   maxUnsortedElementFromStart: Int,
+                   firstUnsortedElement: Int) {
             //сохранить текущий индекс во временную переменную
             val temporary = itemArray[maxUnsortedElementFromStart]
             //присвоить текущему элементу элемент, который хотим вставить на его место
@@ -405,7 +451,6 @@ class SortTest {
             sortedRange++
         }
     }
-
 
 
     private fun collectionsBaseSort() {
