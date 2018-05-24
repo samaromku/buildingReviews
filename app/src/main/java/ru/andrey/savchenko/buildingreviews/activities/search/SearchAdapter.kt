@@ -1,6 +1,5 @@
 package ru.andrey.savchenko.buildingreviews.activities.search
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
@@ -8,6 +7,7 @@ import kotlinx.android.synthetic.main.item_company.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
+import ru.andrey.savchenko.buildingreviews.base.getViewForHolder
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.storage.Utils.Companion.getImageFullUrl
 
@@ -19,8 +19,7 @@ class SearchAdapter(dataList: MutableList<Company>,
                     onItemClickListener: OnItemClickListener) :
         BaseAdapter<Company>(dataList, onItemClickListener) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Company> {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_company, parent, false)
-        return CompanyViewHolder(view)
+        return CompanyViewHolder(getViewForHolder(parent, R.layout.item_company))
     }
 
 

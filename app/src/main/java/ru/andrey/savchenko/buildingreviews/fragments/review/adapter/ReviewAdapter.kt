@@ -1,7 +1,6 @@
 package ru.andrey.savchenko.buildingreviews.fragments.review.adapter
 
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -10,6 +9,7 @@ import kotlinx.android.synthetic.main.item_review.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
+import ru.andrey.savchenko.buildingreviews.base.getViewForHolder
 import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.interfaces.ShowHideProgress
@@ -43,8 +43,7 @@ class ReviewAdapter(list: MutableList<Review>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Review> {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_review, parent, false)
-        return ReviewViewHolder(view, presenter)
+        return ReviewViewHolder(getViewForHolder(parent, R.layout.item_review), presenter)
     }
 
     inner class ReviewViewHolder(itemView: View, val presenter: ReviewAdapterPresenter) : BaseViewHolder<Review>(itemView) {

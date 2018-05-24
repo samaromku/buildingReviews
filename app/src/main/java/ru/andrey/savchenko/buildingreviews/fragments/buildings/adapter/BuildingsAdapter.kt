@@ -1,6 +1,5 @@
 package ru.andrey.savchenko.buildingreviews.fragments.buildings.adapter
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
@@ -9,6 +8,7 @@ import kotlinx.android.synthetic.main.item_building.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseViewHolder
+import ru.andrey.savchenko.buildingreviews.base.getViewForHolder
 import ru.andrey.savchenko.buildingreviews.storage.Utils
 
 /**
@@ -18,8 +18,7 @@ class BuildingsAdapter(list: MutableList<Building>, onItemClickListener: OnItemC
     : BaseAdapter<Building>(list, onItemClickListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Building> {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_building, parent, false)
-        return BuildingViewHolder(view)
+        return BuildingViewHolder(getViewForHolder(parent, R.layout.item_building))
     }
 
     class BuildingViewHolder(itemView: View) : BaseViewHolder<Building>(itemView) {
