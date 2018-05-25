@@ -18,6 +18,7 @@
     <string name="price">Цена</string>
     <string name="class_building">Класс</string>
     <string name="registry">Регистрация</string>
+    <string name="create_account">Создать учетную запись</string>
     <string name="auth">Авторизация</string>
     <string name="enter">Войти</string>
     <string name="wish_name">Желаемое имя</string>

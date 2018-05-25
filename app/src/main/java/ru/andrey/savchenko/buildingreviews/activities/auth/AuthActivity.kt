@@ -3,7 +3,7 @@ package ru.andrey.savchenko.buildingreviews.activities.auth
 import android.content.Intent
 import android.os.Bundle
 import com.arellomobile.mvp.presenter.InjectPresenter
-import kotlinx.android.synthetic.main.activity_auth.*
+import kotlinx.android.synthetic.main.activity_login.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.registry.RegistryActivity
 import ru.andrey.savchenko.buildingreviews.activities.search.SearchActivity
@@ -18,7 +18,7 @@ lateinit var presenter: AuthPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_auth)
+        setContentView(R.layout.activity_login)
         changeToolbarTitle(getString(R.string.auth))
         presenter.checkAuthStart()
         btnRegister.setOnClickListener {
