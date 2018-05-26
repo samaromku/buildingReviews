@@ -3,7 +3,7 @@ package ru.andrey.savchenko.buildingreviews.activities.registry
 import android.content.Intent
 import android.os.Bundle
 import com.arellomobile.mvp.presenter.InjectPresenter
-import kotlinx.android.synthetic.main.activity_registry.*
+import kotlinx.android.synthetic.main.activity_register.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
 import ru.andrey.savchenko.buildingreviews.activities.search.SearchActivity
