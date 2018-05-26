@@ -18,7 +18,7 @@ class RegistryActivity : BaseActivity(), RegistryView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_registry)
+        setContentView(R.layout.activity_register)
         changeToolbarTitle(getString(R.string.registry))
         btnRegister.setOnClickListener {
             presenter.registerUser(etLogin.text.toString(),
