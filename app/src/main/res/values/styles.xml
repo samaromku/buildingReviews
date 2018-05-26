@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="buttonStyle">@style/TmpButton</item>
+        <item name="buttonStyle">@style/MaterialButton</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
 
@@ -23,6 +23,14 @@
         <item name="android:background">@color/colorAccent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <style name="MaterialButton" parent="android:style/Widget.Holo.Button">
+        <item name="android:background">@drawable/button_rounded_corners</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
