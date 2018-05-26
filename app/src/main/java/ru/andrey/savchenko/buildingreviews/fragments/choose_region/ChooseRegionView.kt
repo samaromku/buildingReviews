@@ -10,4 +10,7 @@ interface ChooseRegionView {
     fun updateAdapter()
     fun getSelectedRegions(list:MutableList<Region>)
     fun showToast(text:String)
+    fun showDialog()
+    fun hideDialog()
+    fun showError(error:String)
 }

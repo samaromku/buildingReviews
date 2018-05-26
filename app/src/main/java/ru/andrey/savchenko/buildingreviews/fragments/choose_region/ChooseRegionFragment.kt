@@ -14,6 +14,8 @@ import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.entities.Region
 import ru.andrey.savchenko.buildingreviews.fragments.choose_region.adapter.RegionAdapter
+import ru.andrey.savchenko.buildingreviews.storage.gone
+import ru.andrey.savchenko.buildingreviews.storage.visible
 
 /**
  * Created by savchenko on 24.04.18.
@@ -54,6 +56,16 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
         rvRegion.adapter = adapter
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter.attachView(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.detachView()
+    }
+
     override fun updateAdapter() {
         adapter?.notifyDataSetChanged()
     }
@@ -65,5 +77,17 @@ class ChooseRegionFragment : DialogFragment(), ChooseRegionView {
 
     override fun showToast(text: String) {
         Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showDialog() {
+        progressBar.visible()
+    }
+
+    override fun hideDialog() {
+        progressBar.gone()
+    }
+
+    override fun showError(error: String) {
+        showToast(error)
     }
 }

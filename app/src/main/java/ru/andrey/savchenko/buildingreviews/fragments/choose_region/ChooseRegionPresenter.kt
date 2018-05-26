@@ -13,8 +13,16 @@ import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.NOTHING_CHOSE
 /**
  * Created by savchenko on 24.04.18.
  */
-class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
+class ChooseRegionPresenter(var view: ChooseRegionView?) : BasePresenterNoMvp {
     private var allRegions: MutableList<Region>? = null
+
+    fun attachView(view: ChooseRegionView?){
+        this.view = view
+    }
+
+    fun detachView(){
+        this.view = null
+    }
 
     fun getRegions() {
         launch(UI) {
@@ -22,14 +30,14 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
 
             if (dbRegions.isNotEmpty()) {
                 allRegions = dbRegions
-                allRegions?.let { view.setListToAdapter(it) }
+                allRegions?.let { view?.setListToAdapter(it) }
             } else {
                 corMethod(request = { NetworkHandler.getService().getRegions().execute() },
                         onResult = {
                             val regions = it.map { Region(value = it) }.toMutableList()
                             allRegions = regions
                             allRegions?.let { regions ->
-                                view.setListToAdapter(regions)
+                                view?.setListToAdapter(regions)
                                 Repository().dbQueryWrapper {
                                     it.regionDao().insertOrUpdateAll(regions)
                                 }
@@ -47,7 +55,7 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
                 it.regionDao().insertOrUpdate(region)
             })
         }
-        view.updateAdapter()
+        view?.updateAdapter()
     }
 
     fun setAllSelected() {
@@ -61,7 +69,7 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
                 }
             }
         }
-        view.updateAdapter()
+        view?.updateAdapter()
     }
 
     private fun makeRegionsSelected(selected: Boolean) {
@@ -79,22 +87,22 @@ class ChooseRegionPresenter(val view: ChooseRegionView) : BasePresenterNoMvp {
         val selected = allRegions?.filter { it.selected }
         selected?.let {
             if (it.isEmpty()) {
-                view.showToast(NOTHING_CHOSEN)
+                view?.showToast(NOTHING_CHOSEN)
             } else {
-                selected.toMutableList().let { view.getSelectedRegions(it) }
+                selected.toMutableList().let { view?.getSelectedRegions(it) }
             }
         }
     }
 
     override fun showDialog() {
-
+        view?.showDialog()
     }
 
     override fun hideDialog() {
-
+        view?.hideDialog()
     }
 
     override fun showError(error: ErrorResponse, repeat: () -> Unit) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view?.showError(error.message)
     }
 }

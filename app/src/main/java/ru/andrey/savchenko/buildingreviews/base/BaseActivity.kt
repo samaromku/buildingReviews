@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.core.content.edit
 import com.arellomobile.mvp.MvpAppCompatActivity
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.hide_able_progressbar.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.storage.gone

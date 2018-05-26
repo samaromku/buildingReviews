@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <Button
@@ -11,12 +12,23 @@
         android:layout_alignParentTop="true"
         android:text="@string/all_regions" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:progress="25"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_below="@id/btnAll"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRegion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_buttons"
-        android:layout_below="@+id/btnAll" />
+        android:layout_below="@+id/progressBar" />
 
     <include
         android:id="@+id/bottom_buttons"
