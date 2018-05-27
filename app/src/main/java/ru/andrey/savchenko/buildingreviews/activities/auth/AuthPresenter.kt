@@ -26,7 +26,9 @@ class AuthPresenter : BasePresenter<AuthView>() {
                     onResult = {
                         Storage.user = it
                         App.cicerone.router.backTo(Storage.keyGoBackAfterAuth)
-                    }
+//                        App.cicerone.router.replaceScreen(Storage.keyGoBackAfterAuth)
+                    }, afterRequest = {},
+                    beforeRequest = {}
             )
         }
     }

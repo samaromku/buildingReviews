@@ -24,9 +24,9 @@ open class BaseFragment : MvpAppCompatFragment(),
     lateinit var dialog: ProgressDialog
     lateinit var errordialog: AlertDialog
 
-    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
-        return FlipAnimation.create(FlipAnimation.LEFT, enter, 300)
-    }
+//    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
+//        return FlipAnimation.create(FlipAnimation.LEFT, enter, 300)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

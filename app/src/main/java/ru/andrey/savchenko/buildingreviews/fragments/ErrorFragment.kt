@@ -18,7 +18,7 @@ import ru.andrey.savchenko.buildingreviews.storage.visible
  */
 const val AUTH_FAILED_CODE = 403
 class ErrorFragment : BaseFragment() {
-    lateinit var errorRepeat: ErrorRepeat
+    var errorRepeat: ErrorRepeat? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_error, container, false)
@@ -26,16 +26,16 @@ class ErrorFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tvErrorBody.text = errorRepeat.error.message
+        tvErrorBody.text = errorRepeat?.error?.message
         btnRepeat.setOnClickListener {
             llProgressError.visibility = View.GONE
-            errorRepeat.repeat()
+            errorRepeat?.repeat?.invoke()
         }
         btnAuth.setOnClickListener {
-            App.cicerone.router.navigateTo(AUTH, ADD_REVIEW)
+            App.cicerone.router.navigateTo(AUTH)
         }
         //auth failed
-        if (errorRepeat.error.code==AUTH_FAILED_CODE) {
+        if (errorRepeat?.error?.code==AUTH_FAILED_CODE) {
             btnAuth.visible()
         }
     }

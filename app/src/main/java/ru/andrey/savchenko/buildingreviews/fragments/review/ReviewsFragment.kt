@@ -20,9 +20,9 @@ import ru.andrey.savchenko.buildingreviews.storage.visible
 /**
  * Created by Andrey on 13.04.2018.
  */
-class ReviewsFragment:BaseFragment(), ReviewView, ShowHideProgress {
+class ReviewsFragment : BaseFragment(), ReviewView, ShowHideProgress {
     @InjectPresenter
-    lateinit var presenter:ReviewPresenter
+    lateinit var presenter: ReviewPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_reviews, container, false)
@@ -30,7 +30,9 @@ class ReviewsFragment:BaseFragment(), ReviewView, ShowHideProgress {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let { presenter.getReviews(it) }
+        activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let {
+            presenter.getReviews(it)
+        }
     }
 
     override fun setListToAdapter(list: MutableList<Review>) {
