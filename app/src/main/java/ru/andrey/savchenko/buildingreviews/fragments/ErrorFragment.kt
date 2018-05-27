@@ -18,9 +18,8 @@ import ru.andrey.savchenko.buildingreviews.storage.visible
 /**
  * Created by savchenko on 28.04.18.
  */
+const val AUTH_FAILED_CODE = 403
 class ErrorFragment : BaseFragment() {
-//    lateinit var error: String
-//    lateinit var repeat: () -> Unit
     lateinit var errorRepeat: ErrorRepeat
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,10 +35,9 @@ class ErrorFragment : BaseFragment() {
         }
         btnAuth.setOnClickListener {
             App.cicerone.router.navigateTo(AUTH, ADD_REVIEW)
-//            startActivity(Intent(activity, AuthActivity::class.java))
         }
         //auth failed
-        if (errorRepeat.error.code==403) {
+        if (errorRepeat.error.code==AUTH_FAILED_CODE) {
             btnAuth.visible()
         }
     }

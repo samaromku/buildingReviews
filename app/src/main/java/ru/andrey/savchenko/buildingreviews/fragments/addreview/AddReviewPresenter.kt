@@ -54,19 +54,10 @@ class AddReviewPresenter : BasePresenter<AddReviewView>() {
                 App.cicerone.router.exit()
             },
                     errorShow = {
-                        //                        val errorFragment = ErrorFragment()
-//                        errorFragment.error = "Код: ${it.code} \nОшибка: ${it.message}"
-//                        errorFragment.repeat = {
-//                            supportFragmentManager.beginTransaction()
-//                                    .remove(supportFragmentManager.findFragmentByTag(ru.andrey.savchenko.buildingreviews.base.ERROR))
-//                                    .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-//                                    .commit()
-//                            repeat()
-//                        }
-//                        viewState.hideDialog()
-                        val errorRepeat = ErrorRepeat(it, {})
+                        val errorRepeat = ErrorRepeat(it, {
+                            addReview(companyId, ratingText, positive, negative, general)
+                        })
                         App.cicerone.router.navigateTo(ERROR, errorRepeat)
-                        println("error")
                     }
             )
         }

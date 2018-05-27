@@ -8,14 +8,12 @@ import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.auth.AuthFragment
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
-import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorRepeat
-import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
 import ru.andrey.savchenko.buildingreviews.fragments.ProgressFragment
 import ru.andrey.savchenko.buildingreviews.fragments.addreview.AddReviewFragment
-import ru.andrey.savchenko.buildingreviews.fragments.info.InfoCompanyFragment
 import ru.andrey.savchenko.buildingreviews.fragments.buildings.BuildingsFragment
+import ru.andrey.savchenko.buildingreviews.fragments.info.InfoCompanyFragment
 import ru.andrey.savchenko.buildingreviews.fragments.review.ReviewsFragment
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
@@ -23,13 +21,13 @@ import ru.terrakok.cicerone.android.SupportFragmentNavigator
 /**
  * Created by savchenko on 11.04.18.
  */
-val INFO = "info"
-val BUILDINGS = "buildings"
-val REVIEWS = "reviews"
-val ADD_REVIEW = "add_review"
-val AUTH = "auth"
-val ERROR = "error"
-val PROGRESS = "progress"
+const val INFO = "info"
+const val BUILDINGS = "buildings"
+const val REVIEWS = "reviews"
+const val ADD_REVIEW = "add_review"
+const val AUTH = "auth"
+const val ERROR = "error"
+const val PROGRESS = "progress"
 
 class OneCompanyActivity : BaseActivity(), OneCompanyView {
     lateinit var presenter: OneCompanyPresenter
@@ -68,10 +66,10 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
 //        }
 //    }
 
-    private fun checkCurrentFragmentVisible(tag: String): Boolean {
-        val currentFragment = supportFragmentManager.findFragmentByTag(tag)
-        return currentFragment != null && currentFragment.isVisible
-    }
+//    private fun checkCurrentFragmentVisible(tag: String): Boolean {
+//        val currentFragment = supportFragmentManager.findFragmentByTag(tag)
+//        return currentFragment != null && currentFragment.isVisible
+//    }
 
     override fun onResume() {
         super.onResume()
@@ -110,11 +108,9 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
                     return authFragment
                 }
                 ERROR -> {
-                    println("$data from error fragment")
                     val errorFragment = ErrorFragment()
                     if (data is ErrorRepeat) {
                         errorFragment.errorRepeat = data
-//                        errorFragment.error = "Код: ${data.error.code} \nОшибка: ${data.error.message}"
                     }
                     return errorFragment
                 }
