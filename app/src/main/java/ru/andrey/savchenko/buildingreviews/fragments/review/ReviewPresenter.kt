@@ -45,7 +45,8 @@ class ReviewPresenter(var view: ReviewView?) : BasePresenterNoMvp {
                             list = it
                         }
                     }
-                }
+                }, beforeRequest = {},
+                afterRequest = {}
         )
     }
 
