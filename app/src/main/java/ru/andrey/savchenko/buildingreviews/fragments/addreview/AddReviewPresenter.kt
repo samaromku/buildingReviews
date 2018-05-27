@@ -2,6 +2,7 @@ package ru.andrey.savchenko.buildingreviews.fragments.addreview
 
 import com.arellomobile.mvp.InjectViewState
 import ru.andrey.savchenko.App
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.ADD_REVIEW
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.ERROR
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.PROGRESS
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
@@ -57,6 +58,7 @@ class AddReviewPresenter : BasePresenter<AddReviewView>() {
                         val errorRepeat = ErrorRepeat(it, {
                             addReview(companyId, ratingText, positive, negative, general)
                         })
+                        Storage.keyGoBackAfterAuth = ADD_REVIEW
                         App.cicerone.router.navigateTo(ERROR, errorRepeat)
                     }
             )

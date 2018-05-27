@@ -10,6 +10,7 @@ object Storage {
     var user:User? = null
     var constDictList = mutableListOf<ConstDict>()
     var itemCount:Int? = 10
+    lateinit var keyGoBackAfterAuth:String
 
     fun getValueConst(name:String):String?{
         return constDictList.firstOrNull { it.name==name }?.value

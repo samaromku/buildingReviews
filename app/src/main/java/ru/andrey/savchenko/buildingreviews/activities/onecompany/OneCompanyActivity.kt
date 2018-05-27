@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_one_company.*
 import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.auth.AuthFragment
+import ru.andrey.savchenko.buildingreviews.activities.registry.RegisterFragment
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorRepeat
 import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
@@ -28,6 +29,7 @@ const val ADD_REVIEW = "add_review"
 const val AUTH = "auth"
 const val ERROR = "error"
 const val PROGRESS = "progress"
+const val REGISTER = "register"
 
 class OneCompanyActivity : BaseActivity(), OneCompanyView {
     lateinit var presenter: OneCompanyPresenter
@@ -103,9 +105,7 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
                     return AddReviewFragment()
                 }
                 AUTH -> {
-                    val authFragment = AuthFragment()
-                    authFragment.key = data as String
-                    return authFragment
+                    return AuthFragment()
                 }
                 ERROR -> {
                     val errorFragment = ErrorFragment()
@@ -116,6 +116,9 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
                 }
                 PROGRESS -> {
                     return ProgressFragment()
+                }
+                REGISTER -> {
+                    return RegisterFragment()
                 }
                 else -> {
                     throw Exception("no key")

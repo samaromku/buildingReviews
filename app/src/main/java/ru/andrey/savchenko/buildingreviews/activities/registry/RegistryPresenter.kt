@@ -1,6 +1,8 @@
 package ru.andrey.savchenko.buildingreviews.activities.registry
 
 import com.arellomobile.mvp.InjectViewState
+import ru.andrey.savchenko.App
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.ADD_REVIEW
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.User
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
@@ -29,7 +31,7 @@ class RegistryPresenter : BasePresenter<RegistryView>() {
                                 email = email)).execute()
                     }, onResult = {
                 Storage.user = it
-                viewState.startCompaniesActivity()
+                App.cicerone.router.backTo(Storage.keyGoBackAfterAuth)
             }
             )
         }

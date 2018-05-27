@@ -2,24 +2,28 @@ package ru.andrey.savchenko.buildingreviews.activities.registry
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.activity_register.*
 import ru.andrey.savchenko.buildingreviews.R
-import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
 import ru.andrey.savchenko.buildingreviews.activities.search.SearchActivity
-import ru.andrey.savchenko.buildingreviews.base.BaseActivity
+import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 
 /**
- * Created by savchenko on 16.04.18.
+ * Created by savchenko on 27.05.18.
  */
-class RegistryActivity : BaseActivity(), RegistryView {
+class RegisterFragment:BaseFragment(), RegistryView {
     @InjectPresenter
     lateinit var presenter: RegistryPresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-        changeToolbarTitle(getString(R.string.registry))
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.activity_register, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         btnRegister.setOnClickListener {
             presenter.registerUser(etLogin.text.toString(),
                     etPassword.text.toString(),
@@ -28,14 +32,9 @@ class RegistryActivity : BaseActivity(), RegistryView {
         }
     }
 
-    override fun onBackPressed() {
-        startActivity(Intent(this, AuthActivity::class.java))
-        finish()
-    }
-
     override fun startCompaniesActivity() {
-        startActivity(Intent(this, SearchActivity::class.java)
+        startActivity(Intent(activity, SearchActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK))
-        finish()
+        activity?.finish()
     }
 }

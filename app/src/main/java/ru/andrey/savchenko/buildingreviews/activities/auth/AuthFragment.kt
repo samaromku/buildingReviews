@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.activity_login.*
 import ru.andrey.savchenko.buildingreviews.R
-import ru.andrey.savchenko.buildingreviews.activities.registry.RegistryActivity
 import ru.andrey.savchenko.buildingreviews.activities.search.SearchActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 
@@ -18,7 +17,6 @@ import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 class AuthFragment: BaseFragment(), AuthView {
     @InjectPresenter
     lateinit var presenter: AuthPresenter
-    lateinit var key:String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_login, container, false)
@@ -28,11 +26,10 @@ class AuthFragment: BaseFragment(), AuthView {
         super.onViewCreated(view, savedInstanceState)
         presenter.checkAuthStart()
         btnRegister.setOnClickListener {
-            startActivity(Intent(activity, RegistryActivity::class.java))
-            activity?.finish()
+            presenter.startRegister()
         }
         btnEnter.setOnClickListener {
-            presenter.auth(etLogin.text.toString(), etPassword.text.toString(), key)
+            presenter.auth(etLogin.text.toString(), etPassword.text.toString())
         }
     }
 

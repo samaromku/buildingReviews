@@ -1,6 +1,5 @@
 package ru.andrey.savchenko.buildingreviews.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_error.*
 import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.R
-import ru.andrey.savchenko.buildingreviews.activities.auth.AuthActivity
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.ADD_REVIEW
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.AUTH
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
