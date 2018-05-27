@@ -1,6 +1,7 @@
 package ru.andrey.savchenko.buildingreviews.activities.auth
 
 import com.arellomobile.mvp.InjectViewState
+import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.base.BasePresenter
 import ru.andrey.savchenko.buildingreviews.entities.User
 import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
@@ -14,7 +15,8 @@ import ru.andrey.savchenko.buildingreviews.storage.Storage
 @InjectViewState
 class AuthPresenter : BasePresenter<AuthView>() {
     fun auth(login: String,
-             password: String) {
+             password: String,
+             key:String) {
         if (login.isEmpty() || password.isEmpty()) {
             viewState.showToast(FILL_FIELDS)
             return
@@ -23,7 +25,8 @@ class AuthPresenter : BasePresenter<AuthView>() {
                     request = { NetworkHandler.getService().auth(login, password).execute() },
                     onResult = {
                         Storage.user = it
-                        viewState.startCompaniesActivity()
+                        App.cicerone.router.backTo(key)
+//                        viewState.startCompaniesActivity()
                     }
             )
         }

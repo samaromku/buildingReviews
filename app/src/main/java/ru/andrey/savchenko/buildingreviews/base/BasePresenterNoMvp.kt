@@ -30,6 +30,9 @@ interface BasePresenterNoMvp {
             var result: Response<ApiResponse<T>>? = null
             try {
                 result = async(CommonPool) { request() }.await()
+
+                afterRequest()
+
                 if (result.body() != null) {
                     val body = result.body()
                     if (body is ApiResponse<*>) {
@@ -59,7 +62,6 @@ interface BasePresenterNoMvp {
                 ex.printStackTrace()
                 errorShow(ErrorResponse(ex.message.toString(), 500))
             }
-            afterRequest()
         }
     }
 

@@ -2,6 +2,9 @@ package ru.andrey.savchenko.buildingreviews.base
 
 import android.support.v4.app.FragmentManager
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.ERROR
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.PROGRESS
+import ru.andrey.savchenko.buildingreviews.entities.network.ErrorRepeat
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
 import ru.andrey.savchenko.buildingreviews.fragments.ProgressFragment
@@ -9,8 +12,6 @@ import ru.andrey.savchenko.buildingreviews.fragments.ProgressFragment
 /**
  * Created by savchenko on 28.04.18.
  */
-const val PROGRESS = "progress"
-const val ERROR = "error"
 
 interface BaseViewMethods {
 
@@ -32,14 +33,24 @@ interface BaseViewMethods {
                                repeat: () -> Unit,
                                supportFragmentManager: FragmentManager){
         val errorFragment = ErrorFragment()
-        errorFragment.error = "Код: ${error.code} \nОшибка: ${error.message}"
-        errorFragment.repeat = {
-            supportFragmentManager.beginTransaction()
-                    .remove(supportFragmentManager.findFragmentByTag(ERROR))
-                    .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                    .commit()
-            repeat()
-        }
+        errorFragment.errorRepeat = ErrorRepeat(
+//                "Код: ${error.code} \nОшибка: ${error.message}",
+                error,
+                {supportFragmentManager.beginTransaction()
+                        .remove(supportFragmentManager.findFragmentByTag(ERROR))
+                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                        .commit()
+                    repeat()}
+        )
+
+//        errorFragment.error = "Код: ${error.code} \nОшибка: ${error.message}"
+//        errorFragment.repeat = {
+//            supportFragmentManager.beginTransaction()
+//                    .remove(supportFragmentManager.findFragmentByTag(ERROR))
+//                    .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+//                    .commit()
+//            repeat()
+//        }
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, errorFragment, ERROR)
                 .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)

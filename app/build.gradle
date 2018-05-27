@@ -111,4 +111,7 @@ dependencies {
     // alternatively - just LiveData
     implementation "android.arch.lifecycle:livedata:$lifecycle_version"
 
+    //cicerone
+    compile 'ru.terrakok.cicerone:cicerone:3.0.0'
+
 }
