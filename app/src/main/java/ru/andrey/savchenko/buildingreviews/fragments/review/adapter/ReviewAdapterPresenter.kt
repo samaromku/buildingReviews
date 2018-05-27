@@ -1,6 +1,5 @@
 package ru.andrey.savchenko.buildingreviews.fragments.review.adapter
 
-import kotlinx.coroutines.experimental.Job
 import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.ERROR
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.PROGRESS
@@ -30,9 +29,14 @@ class ReviewAdapterPresenter(val view: ReviewAdapterView,
         }, onResult = { reviewResponse ->
             list[position] = reviewResponse
             view.updateAdapter()
+        }, beforeRequest = {
+//            App.cicerone.router.navigateTo(PROGRESS)
+        }, afterRequest = {
+//            App.cicerone.router.exit()
         },
                 errorShow = {
                     val errorRepeat = ErrorRepeat(it, {
+                        println("repeat crash")
                         sendLike(reviewId, state, position)
                     })
                     Storage.keyGoBackAfterAuth = REVIEWS

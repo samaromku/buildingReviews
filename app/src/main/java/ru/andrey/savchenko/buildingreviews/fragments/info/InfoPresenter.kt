@@ -1,16 +1,15 @@
 package ru.andrey.savchenko.buildingreviews.fragments.info
 
 import com.arellomobile.mvp.InjectViewState
-import ru.andrey.savchenko.buildingreviews.base.BasePresenter
+import ru.andrey.savchenko.buildingreviews.base.BaseMoxyPresenter
 import ru.andrey.savchenko.buildingreviews.entities.Company
-import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 
 /**
  * Created by savchenko on 15.04.18.
  */
 @InjectViewState
-class InfoPresenter : BasePresenter<InfoView>() {
+class InfoPresenter : BaseMoxyPresenter<InfoView>() {
     fun getInfoCompany(companyId: Int) {
         corMethod<Company>(
                 request = { NetworkHandler.getService().getCompany(companyId).execute() },

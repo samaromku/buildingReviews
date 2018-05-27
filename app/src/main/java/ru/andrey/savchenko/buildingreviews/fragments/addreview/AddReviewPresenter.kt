@@ -5,10 +5,9 @@ import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.ADD_REVIEW
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.ERROR
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.PROGRESS
-import ru.andrey.savchenko.buildingreviews.base.BasePresenter
+import ru.andrey.savchenko.buildingreviews.base.BaseMoxyPresenter
 import ru.andrey.savchenko.buildingreviews.entities.Review
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorRepeat
-import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.CHOOSE_RATING
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.FILL_ONE_FIELD
@@ -20,7 +19,7 @@ import java.util.*
  * Created by savchenko on 15.04.18.
  */
 @InjectViewState
-class AddReviewPresenter : BasePresenter<AddReviewView>() {
+class AddReviewPresenter : BaseMoxyPresenter<AddReviewView>() {
     fun addReview(
             companyId: Int,
             ratingText: String,

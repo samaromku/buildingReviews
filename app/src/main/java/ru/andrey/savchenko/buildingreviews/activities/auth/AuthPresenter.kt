@@ -3,9 +3,8 @@ package ru.andrey.savchenko.buildingreviews.activities.auth
 import com.arellomobile.mvp.InjectViewState
 import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.REGISTER
-import ru.andrey.savchenko.buildingreviews.base.BasePresenter
+import ru.andrey.savchenko.buildingreviews.base.BaseMoxyPresenter
 import ru.andrey.savchenko.buildingreviews.entities.User
-import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 import ru.andrey.savchenko.buildingreviews.storage.Const.Companion.FILL_FIELDS
 import ru.andrey.savchenko.buildingreviews.storage.Storage
@@ -14,7 +13,7 @@ import ru.andrey.savchenko.buildingreviews.storage.Storage
  * Created by savchenko on 16.04.18.
  */
 @InjectViewState
-class AuthPresenter : BasePresenter<AuthView>() {
+class AuthPresenter : BaseMoxyPresenter<AuthView>() {
     fun auth(login: String,
              password: String) {
         if (login.isEmpty() || password.isEmpty()) {

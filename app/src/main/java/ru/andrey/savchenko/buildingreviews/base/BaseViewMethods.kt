@@ -18,7 +18,7 @@ interface BaseViewMethods {
     fun showProgressFragment(supportFragmentManager:FragmentManager){
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, ProgressFragment(), PROGRESS)
-                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+//                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                 .commit()
     }
 
@@ -38,7 +38,7 @@ interface BaseViewMethods {
                 error,
                 {supportFragmentManager.beginTransaction()
                         .remove(supportFragmentManager.findFragmentByTag(ERROR))
-                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+//                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                         .commit()
                     repeat()}
         )

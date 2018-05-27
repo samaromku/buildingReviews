@@ -1,22 +1,35 @@
 package ru.andrey.savchenko.buildingreviews.fragments.review
 
-import com.arellomobile.mvp.InjectViewState
-import ru.andrey.savchenko.App
-import ru.andrey.savchenko.buildingreviews.activities.onecompany.ADD_REVIEW
-import ru.andrey.savchenko.buildingreviews.activities.onecompany.ERROR
-import ru.andrey.savchenko.buildingreviews.activities.onecompany.PROGRESS
-import ru.andrey.savchenko.buildingreviews.activities.onecompany.REVIEWS
-import ru.andrey.savchenko.buildingreviews.base.BasePresenter
+import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
 import ru.andrey.savchenko.buildingreviews.entities.Review
-import ru.andrey.savchenko.buildingreviews.entities.network.ErrorRepeat
+import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
-import ru.andrey.savchenko.buildingreviews.storage.Storage
 
 /**
  * Created by Andrey on 13.04.2018.
  */
-@InjectViewState
-class ReviewPresenter : BasePresenter<ReviewView>() {
+class ReviewPresenter(var view: ReviewView?) : BasePresenterNoMvp {
+
+    fun onAttach(view: ReviewView?) {
+        this.view = view
+    }
+
+    fun onDetach() {
+        this.view = null
+    }
+
+    override fun showDialog() {
+        view?.showDialog()
+    }
+
+    override fun hideDialog() {
+        view?.hideDialog()
+    }
+
+    override fun showError(error: ErrorResponse, repeat: () -> Unit) {
+        view?.showError(error, repeat)
+    }
+
     var list: MutableList<Review>? = null
 
     fun getReviews(companyId: Int) {
@@ -25,10 +38,10 @@ class ReviewPresenter : BasePresenter<ReviewView>() {
                 onResult = {
                     it.toMutableList().let {
                         if (checkListEmpty(it)) {
-                            viewState.setNoReviewsVisible()
+                            view?.setNoReviewsVisible()
                         } else {
                             it.sortByDescending { it.created }
-                            viewState.setListToAdapter(it)
+                            view?.setListToAdapter(it)
                             list = it
                         }
                     }

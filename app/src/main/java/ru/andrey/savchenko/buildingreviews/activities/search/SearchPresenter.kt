@@ -6,7 +6,7 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import ru.andrey.savchenko.App
-import ru.andrey.savchenko.buildingreviews.base.BasePresenter
+import ru.andrey.savchenko.buildingreviews.base.BaseMoxyPresenter
 import ru.andrey.savchenko.buildingreviews.entities.CompaniesItemCount
 import ru.andrey.savchenko.buildingreviews.entities.Company
 import ru.andrey.savchenko.buildingreviews.entities.CompanyFilter
@@ -20,7 +20,7 @@ import java.util.*
  * Created by savchenko on 10.04.18.
  */
 @InjectViewState
-class SearchPresenter : BasePresenter<SearchView>() {
+class SearchPresenter : BaseMoxyPresenter<SearchView>() {
     val allCompanies: MutableList<Company> = mutableListOf()
     val currentCompanies: MutableList<Company> = mutableListOf()
 

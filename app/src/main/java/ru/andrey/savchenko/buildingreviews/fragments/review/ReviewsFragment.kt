@@ -21,7 +21,6 @@ import ru.andrey.savchenko.buildingreviews.storage.visible
  * Created by Andrey on 13.04.2018.
  */
 class ReviewsFragment : BaseFragment(), ReviewView, ShowHideProgress {
-    @InjectPresenter
     lateinit var presenter: ReviewPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,6 +29,7 @@ class ReviewsFragment : BaseFragment(), ReviewView, ShowHideProgress {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter = ReviewPresenter(this)
         activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let {
             presenter.getReviews(it)
         }
@@ -48,6 +48,16 @@ class ReviewsFragment : BaseFragment(), ReviewView, ShowHideProgress {
     override fun setNoReviewsVisible() {
         tvNoReviews.visible()
         rvReviews.gone()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.onAttach(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onDetach()
     }
 
 }

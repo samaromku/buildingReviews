@@ -84,11 +84,15 @@ open class BaseFragment : MvpAppCompatFragment(),
     }
 
     override fun showDialog() {
-        activity?.supportFragmentManager?.let { showProgressFragment(it) }
+        activity?.supportFragmentManager?.let {
+            showProgressFragment(it)
+        }
     }
 
     override fun hideDialog() {
-        activity?.supportFragmentManager?.let { hideProgressFragment(it) }
+        activity?.supportFragmentManager?.let {
+            hideProgressFragment(it)
+        }
     }
 
 

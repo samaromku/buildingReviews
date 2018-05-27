@@ -6,7 +6,7 @@ import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 /**
  * Created by savchenko on 10.04.18.
  */
-open class BasePresenter<T : BaseView> : MvpPresenter<T>(), BasePresenterNoMvp {
+open class BaseMoxyPresenter<T : BaseView> : MvpPresenter<T>(), BasePresenterNoMvp {
 
     fun showProgress() {
         viewState.showProgress()

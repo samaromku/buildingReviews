@@ -2,10 +2,8 @@ package ru.andrey.savchenko.buildingreviews.activities.registry
 
 import com.arellomobile.mvp.InjectViewState
 import ru.andrey.savchenko.App
-import ru.andrey.savchenko.buildingreviews.activities.onecompany.ADD_REVIEW
-import ru.andrey.savchenko.buildingreviews.base.BasePresenter
+import ru.andrey.savchenko.buildingreviews.base.BaseMoxyPresenter
 import ru.andrey.savchenko.buildingreviews.entities.User
-import ru.andrey.savchenko.buildingreviews.entities.network.ApiResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
 import ru.andrey.savchenko.buildingreviews.storage.Storage
 
@@ -13,7 +11,7 @@ import ru.andrey.savchenko.buildingreviews.storage.Storage
  * Created by savchenko on 16.04.18.
  */
 @InjectViewState
-class RegistryPresenter : BasePresenter<RegistryView>() {
+class RegistryPresenter : BaseMoxyPresenter<RegistryView>() {
     fun registerUser(login: String,
                      password: String,
                      name: String,
