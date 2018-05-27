@@ -29,6 +29,7 @@ class ErrorFragment : BaseFragment() {
         tvErrorBody.text = errorRepeat?.error?.message
         btnRepeat.setOnClickListener {
             llProgressError.visibility = View.GONE
+            App.cicerone.router.exit()
             errorRepeat?.repeat?.invoke()
         }
         btnAuth.setOnClickListener {

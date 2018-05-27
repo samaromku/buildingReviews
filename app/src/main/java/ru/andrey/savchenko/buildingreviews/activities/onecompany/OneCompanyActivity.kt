@@ -85,7 +85,9 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
     }
 
 
-    val navigator: Navigator = object : SupportFragmentNavigator(supportFragmentManager, R.id.container) {
+    val navigator: Navigator = object : SupportFragmentNavigator(
+            supportFragmentManager,
+            R.id.container) {
         override fun exit() {
             finish()
         }
