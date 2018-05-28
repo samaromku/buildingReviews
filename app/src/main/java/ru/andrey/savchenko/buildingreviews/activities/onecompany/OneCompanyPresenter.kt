@@ -9,7 +9,7 @@ import ru.terrakok.cicerone.Router
 class OneCompanyPresenter(private val router: Router): BaseMoxyPresenter<OneCompanyView>() {
 
     fun openFragment(key:String){
-        router.replaceScreen(key)
+        router.newRootScreen(key)
     }
 
 }

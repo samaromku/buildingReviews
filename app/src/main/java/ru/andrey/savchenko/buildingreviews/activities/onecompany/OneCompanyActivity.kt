@@ -2,6 +2,7 @@ package ru.andrey.savchenko.buildingreviews.activities.onecompany
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_one_company.*
 import ru.andrey.savchenko.App
@@ -44,6 +45,7 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_info -> {
+//                    checkCurrentFragmentVisible(INFO, App.cicerone)
                     presenter.openFragment(INFO)
                 }
                 R.id.action_reviews -> {
@@ -68,10 +70,16 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
 //        }
 //    }
 
-//    private fun checkCurrentFragmentVisible(tag: String): Boolean {
-//        val currentFragment = supportFragmentManager.findFragmentByTag(tag)
-//        return currentFragment != null && currentFragment.isVisible
-//    }
+    private fun checkCurrentFragmentVisible(tag: String, myFragmentManager: FragmentManager): Boolean {
+        println(myFragmentManager)
+        val currentFragment = myFragmentManager.findFragmentByTag(tag)
+        return currentFragment != null && currentFragment.isVisible
+    }
+
+    private fun checkVisible(myFragmentManager: FragmentManager):Boolean{
+        val fragment = myFragmentManager.findFragmentById(R.id.container)
+        return (fragment is InfoCompanyFragment)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -95,7 +103,11 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
         override fun createFragment(screenKey: String?, data: Any?): Fragment {
             when (screenKey) {
                 INFO -> {
-                    return InfoCompanyFragment()
+//                    if(checkVisible(supportFragmentManager)) {
+                        return InfoCompanyFragment()
+//                    }else {
+//                        throw Exception("already there")
+//                    }
                 }
                 BUILDINGS -> {
                     return BuildingsFragment()
