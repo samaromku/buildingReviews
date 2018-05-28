@@ -1,12 +1,11 @@
 package ru.andrey.savchenko.buildingreviews.fragments.info
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.labo.kaji.fragmentanimations.CubeAnimation
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_info.*
 import ru.andrey.savchenko.buildingreviews.R
@@ -17,8 +16,7 @@ import ru.andrey.savchenko.buildingreviews.storage.Utils.Companion.getImageFullU
 /**
  * Created by savchenko on 11.04.18.
  */
-class InfoCompanyFragment:BaseFragment(), InfoView{
-    @InjectPresenter
+class InfoCompanyFragment : BaseFragment(), InfoView {
     lateinit var presenter: InfoPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,7 +25,20 @@ class InfoCompanyFragment:BaseFragment(), InfoView{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let { presenter.getInfoCompany(it) }
+        presenter = ViewModelProviders.of(this).get(InfoPresenter::class.java)
+        activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let {
+            presenter.getInfoCompany(it)
+        }
+        presenter.company.observe(this, Observer { company ->
+            if (company != null) {
+                setToolbarText(company.title)
+                setSite(company.siteUrl)
+                setDescription(company.description)
+                setPhone(company.phone)
+                setAddress(company.address)
+                setLogo(company.imageUrl)
+            }
+        })
     }
 
     override fun setToolbarText(text: String) {

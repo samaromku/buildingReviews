@@ -76,7 +76,7 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
         return currentFragment != null && currentFragment.isVisible
     }
 
-    private fun checkVisible(myFragmentManager: FragmentManager):Boolean{
+    private fun checkVisible(myFragmentManager: FragmentManager): Boolean {
         val fragment = myFragmentManager.findFragmentById(R.id.container)
         return (fragment is InfoCompanyFragment)
     }
@@ -103,11 +103,7 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
         override fun createFragment(screenKey: String?, data: Any?): Fragment {
             when (screenKey) {
                 INFO -> {
-//                    if(checkVisible(supportFragmentManager)) {
-                        return InfoCompanyFragment()
-//                    }else {
-//                        throw Exception("already there")
-//                    }
+                    return InfoCompanyFragment()
                 }
                 BUILDINGS -> {
                     return BuildingsFragment()
