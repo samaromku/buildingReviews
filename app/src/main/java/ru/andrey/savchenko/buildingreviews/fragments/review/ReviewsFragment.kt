@@ -1,5 +1,7 @@
 package ru.andrey.savchenko.buildingreviews.fragments.review
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -8,9 +10,11 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.presenter.InjectPresenter
 import kotlinx.android.synthetic.main.fragment_reviews.*
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyPresenter
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 import ru.andrey.savchenko.buildingreviews.entities.Review
+import ru.andrey.savchenko.buildingreviews.fragments.info.InfoPresenter
 import ru.andrey.savchenko.buildingreviews.fragments.review.adapter.ReviewAdapter
 import ru.andrey.savchenko.buildingreviews.interfaces.ShowHideProgress
 import ru.andrey.savchenko.buildingreviews.storage.Const
@@ -27,13 +31,30 @@ class ReviewsFragment : BaseFragment(), ReviewView, ShowHideProgress {
         return inflater.inflate(R.layout.fragment_reviews, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter = ReviewPresenter(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter = ViewModelProviders.of(this).get(ReviewPresenter::class.java)
+        activity?.let {
+            presenter.routerPresenter = ViewModelProviders.of(it).get(OneCompanyPresenter::class.java)
+        }
+
+        presenter.list.observe(this, Observer {
+            it?.let {
+                if (checkListEmpty(it)) {
+                    setNoReviewsVisible()
+                } else {
+                    it.sortByDescending { it.created }
+                    setListToAdapter(it)
+                }
+            }
+
+        })
         activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let {
             presenter.getReviews(it)
         }
     }
+
+    private fun checkListEmpty(list: List<Review>): Boolean = list.isEmpty()
 
     override fun setListToAdapter(list: MutableList<Review>) {
         val adapter = ReviewAdapter(list, object : BaseAdapter.OnItemClickListener {
@@ -48,16 +69,6 @@ class ReviewsFragment : BaseFragment(), ReviewView, ShowHideProgress {
     override fun setNoReviewsVisible() {
         tvNoReviews.visible()
         rvReviews.gone()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.onAttach(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.onDetach()
     }
 
 }

@@ -19,6 +19,7 @@ import ru.andrey.savchenko.buildingreviews.fragments.addreview.AddReviewFragment
 import ru.andrey.savchenko.buildingreviews.fragments.buildings.BuildingsFragment
 import ru.andrey.savchenko.buildingreviews.fragments.info.InfoCompanyFragment
 import ru.andrey.savchenko.buildingreviews.fragments.review.ReviewsFragment
+import ru.andrey.savchenko.buildingreviews.storage.Storage
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.android.SupportFragmentNavigator
 
@@ -51,10 +52,12 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
                     App.cicerone.router.navigateTo(PROGRESS)
                 }
                 OneCompanyPresenter.ViewState.Loaded -> {
-                    App.cicerone.router.exit()
+                    App.cicerone.router.backTo(presenter.key)
                 }
                 OneCompanyPresenter.ViewState.ErrorShown -> {
-
+                    val errorRepeat = presenter.errorRepeat
+                    Storage.keyGoBackAfterAuth = ADD_REVIEW
+                    App.cicerone.router.navigateTo(ERROR, errorRepeat)
                 }
             }
         })
@@ -63,7 +66,6 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_info -> {
-//                    checkCurrentFragmentVisible(INFO, App.cicerone)
                     presenter.openFragment(INFO)
                 }
                 R.id.action_reviews -> {

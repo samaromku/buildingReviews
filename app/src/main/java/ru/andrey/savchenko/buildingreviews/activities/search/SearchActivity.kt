@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.moderate.ModerateActivity
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyActivity
+import ru.andrey.savchenko.buildingreviews.activities.search.adapter.SearchAdapter
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
 import ru.andrey.savchenko.buildingreviews.base.BaseAdapter
 import ru.andrey.savchenko.buildingreviews.entities.Company

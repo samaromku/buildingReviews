@@ -1,4 +1,4 @@
-package ru.andrey.savchenko.buildingreviews.activities.search
+package ru.andrey.savchenko.buildingreviews.activities.search.adapter
 
 import android.view.View
 import android.view.ViewGroup

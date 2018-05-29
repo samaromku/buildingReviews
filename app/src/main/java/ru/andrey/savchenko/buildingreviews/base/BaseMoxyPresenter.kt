@@ -16,7 +16,6 @@ open class BaseMoxyPresenter<T : BaseView> : MvpPresenter<T>(), BasePresenterNoM
         viewState.hideProgress()
     }
 
-
     override fun showDialog() {
         viewState.showDialog()
     }
