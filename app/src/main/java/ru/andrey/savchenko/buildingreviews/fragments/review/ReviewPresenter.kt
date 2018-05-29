@@ -2,15 +2,13 @@ package ru.andrey.savchenko.buildingreviews.fragments.review
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import ru.andrey.savchenko.buildingreviews.activities.onecompany.INFO
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyPresenter
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.REVIEWS
-import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterProgress
 import ru.andrey.savchenko.buildingreviews.entities.Review
-import ru.andrey.savchenko.buildingreviews.entities.network.ErrorRepeat
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorResponse
 import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
+import ru.andrey.savchenko.buildingreviews.storage.Storage
 
 /**
  * Created by Andrey on 13.04.2018.
@@ -29,5 +27,10 @@ class ReviewPresenter : ViewModel(), BasePresenterProgress {
                     }
                 }, fragmentKey = REVIEWS
         )
+    }
+
+    override fun showError(error: ErrorResponse, repeat: () -> Unit) {
+        Storage.keyGoBackAfterAuth = REVIEWS
+        super.showError(error, repeat)
     }
 }

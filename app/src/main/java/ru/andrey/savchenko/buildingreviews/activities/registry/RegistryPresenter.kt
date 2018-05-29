@@ -29,7 +29,8 @@ class RegistryPresenter : BaseMoxyPresenter<RegistryView>() {
                                 email = email)).execute()
                     }, onResult = {
                 Storage.user = it
-                App.cicerone.router.backTo(Storage.keyGoBackAfterAuth)
+                App.cicerone.router.newRootScreen(Storage.keyGoBackAfterAuth)
+//                App.cicerone.router.backTo(Storage.keyGoBackAfterAuth)
             }
             )
         }

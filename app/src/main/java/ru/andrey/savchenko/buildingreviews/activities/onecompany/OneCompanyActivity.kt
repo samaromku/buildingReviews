@@ -12,6 +12,7 @@ import ru.andrey.savchenko.buildingreviews.R
 import ru.andrey.savchenko.buildingreviews.activities.auth.AuthFragment
 import ru.andrey.savchenko.buildingreviews.activities.registry.RegisterFragment
 import ru.andrey.savchenko.buildingreviews.base.BaseActivity
+import ru.andrey.savchenko.buildingreviews.base.ViewState
 import ru.andrey.savchenko.buildingreviews.entities.network.ErrorRepeat
 import ru.andrey.savchenko.buildingreviews.fragments.ErrorFragment
 import ru.andrey.savchenko.buildingreviews.fragments.ProgressFragment
@@ -34,6 +35,7 @@ const val AUTH = "auth"
 const val ERROR = "error"
 const val PROGRESS = "progress"
 const val REGISTER = "register"
+const val CHOOSE_REGION = "choose_region"
 
 class OneCompanyActivity : BaseActivity(), OneCompanyView {
     lateinit var presenter: OneCompanyPresenter
@@ -48,13 +50,13 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
         presenter.state.observe(this, Observer { state ->
             println("state $state")
             when (state) {
-                OneCompanyPresenter.ViewState.Loading -> {
+                ViewState.Loading -> {
                     App.cicerone.router.navigateTo(PROGRESS)
                 }
-                OneCompanyPresenter.ViewState.Loaded -> {
+                ViewState.Loaded -> {
                     App.cicerone.router.backTo(presenter.key)
                 }
-                OneCompanyPresenter.ViewState.ErrorShown -> {
+                ViewState.ErrorShown -> {
                     val errorRepeat = presenter.errorRepeat
                     Storage.keyGoBackAfterAuth = ADD_REVIEW
                     App.cicerone.router.navigateTo(ERROR, errorRepeat)

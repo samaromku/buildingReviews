@@ -2,6 +2,7 @@ package ru.andrey.savchenko.buildingreviews.fragments.review
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -33,6 +34,7 @@ class ReviewsFragment : BaseFragment(), ReviewView, ShowHideProgress {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        println("reviews create")
         presenter = ViewModelProviders.of(this).get(ReviewPresenter::class.java)
         activity?.let {
             presenter.routerPresenter = ViewModelProviders.of(it).get(OneCompanyPresenter::class.java)
@@ -52,6 +54,21 @@ class ReviewsFragment : BaseFragment(), ReviewView, ShowHideProgress {
         activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let {
             presenter.getReviews(it)
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        println("reviews onViewCreated")
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        println("reviews attach")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        println("reviews activityCreated")
     }
 
     private fun checkListEmpty(list: List<Review>): Boolean = list.isEmpty()

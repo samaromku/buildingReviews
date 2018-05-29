@@ -24,7 +24,7 @@ class AuthPresenter : BaseMoxyPresenter<AuthView>() {
                     request = { NetworkHandler.getService().auth(login, password).execute() },
                     onResult = {
                         Storage.user = it
-                        App.cicerone.router.backTo(Storage.keyGoBackAfterAuth)
+                        App.cicerone.router.newRootScreen(Storage.keyGoBackAfterAuth)
 //                        App.cicerone.router.replaceScreen(Storage.keyGoBackAfterAuth)
                     }, afterRequest = {},
                     beforeRequest = {}

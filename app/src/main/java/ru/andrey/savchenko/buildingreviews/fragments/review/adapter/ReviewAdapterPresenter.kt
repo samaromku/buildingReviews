@@ -30,9 +30,9 @@ class ReviewAdapterPresenter(val view: ReviewAdapterView,
             list[position] = reviewResponse
             view.updateAdapter()
         }, beforeRequest = {
-//            App.cicerone.router.navigateTo(PROGRESS)
+            App.cicerone.router.navigateTo(PROGRESS)
         }, afterRequest = {
-//            App.cicerone.router.exit()
+            App.cicerone.router.backTo(REVIEWS)
         },
                 errorShow = {
                     val errorRepeat = ErrorRepeat(it, {
