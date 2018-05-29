@@ -3,6 +3,8 @@ package ru.andrey.savchenko.buildingreviews.fragments.info
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import ru.andrey.savchenko.App
+import ru.andrey.savchenko.buildingreviews.activities.moderate.ModeratePresenter
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyPresenter
 import ru.andrey.savchenko.buildingreviews.activities.onecompany.PROGRESS
 import ru.andrey.savchenko.buildingreviews.base.BasePresenterNoMvp
 import ru.andrey.savchenko.buildingreviews.entities.Company
@@ -14,19 +16,18 @@ import ru.andrey.savchenko.buildingreviews.network.NetworkHandler
  */
 class InfoPresenter : ViewModel(), BasePresenterNoMvp {
     val company = MutableLiveData<Company>()
+    lateinit var routerPresenter: OneCompanyPresenter
 
     override fun showDialog() {
-        println("showProgress")
-        App.cicerone.router.navigateTo(PROGRESS)
+        routerPresenter.state.value = OneCompanyPresenter.ViewState.Loading
     }
 
     override fun hideDialog() {
-        println("hideProgress")
-        App.cicerone.router.exit()
+        routerPresenter.state.value = OneCompanyPresenter.ViewState.Loaded
     }
 
     override fun showError(error: ErrorResponse, repeat: () -> Unit) {
-
+        routerPresenter.state.value = OneCompanyPresenter.ViewState.ErrorShown
     }
 
     fun getInfoCompany(companyId: Int) {

@@ -2,13 +2,17 @@ package ru.andrey.savchenko.buildingreviews.fragments.info
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_info.*
+import ru.andrey.savchenko.App
 import ru.andrey.savchenko.buildingreviews.R
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.OneCompanyPresenter
+import ru.andrey.savchenko.buildingreviews.activities.onecompany.PROGRESS
 import ru.andrey.savchenko.buildingreviews.base.BaseFragment
 import ru.andrey.savchenko.buildingreviews.storage.Const
 import ru.andrey.savchenko.buildingreviews.storage.Utils.Companion.getImageFullUrl
@@ -23,8 +27,8 @@ class InfoCompanyFragment : BaseFragment(), InfoView {
         return inflater.inflate(R.layout.fragment_info, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         presenter = ViewModelProviders.of(this).get(InfoPresenter::class.java)
         activity?.intent?.getIntExtra(Const.COMPANY_ID, 0)?.let {
             presenter.getInfoCompany(it)
@@ -39,6 +43,9 @@ class InfoCompanyFragment : BaseFragment(), InfoView {
                 setLogo(company.imageUrl)
             }
         })
+        activity?.let {
+            presenter.routerPresenter = ViewModelProviders.of(it).get(OneCompanyPresenter::class.java)
+        }
     }
 
     override fun setToolbarText(text: String) {

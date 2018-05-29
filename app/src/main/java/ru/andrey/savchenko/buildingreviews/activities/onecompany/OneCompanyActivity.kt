@@ -1,5 +1,7 @@
 package ru.andrey.savchenko.buildingreviews.activities.onecompany
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -38,8 +40,24 @@ class OneCompanyActivity : BaseActivity(), OneCompanyView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_one_company)
-        presenter = OneCompanyPresenter(App.cicerone.router)
+        presenter = ViewModelProviders.of(this).get(OneCompanyPresenter::class.java)
+        presenter.router = App.cicerone.router
         initBackButton()
+
+        presenter.state.observe(this, Observer { state ->
+            println("state $state")
+            when (state) {
+                OneCompanyPresenter.ViewState.Loading -> {
+                    App.cicerone.router.navigateTo(PROGRESS)
+                }
+                OneCompanyPresenter.ViewState.Loaded -> {
+                    App.cicerone.router.exit()
+                }
+                OneCompanyPresenter.ViewState.ErrorShown -> {
+
+                }
+            }
+        })
 
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
